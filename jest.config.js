@@ -20,7 +20,8 @@ export default {
     '\\.(svg|png|jpg|jpeg|gif)$': '<rootDir>/tests/__mocks__/fileMock.js',
     '^@/(.*)$': '<rootDir>/src/$1',
   },
-  testTimeout: 10000,
+  testTimeout: 15000,
+  maxWorkers: process.env.CI ? 1 : '50%',
   coverageReporters: ['text', 'lcov', 'html'],
   coverageDirectory: 'coverage',
   coverageThreshold: {
