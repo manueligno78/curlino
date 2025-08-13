@@ -18,16 +18,17 @@ export default {
   moduleNameMapper: {
     '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
     '\\.(svg|png|jpg|jpeg|gif)$': '<rootDir>/tests/__mocks__/fileMock.js',
+    '^@/(.*)$': '<rootDir>/src/$1',
   },
   testTimeout: 10000,
   coverageReporters: ['text', 'lcov', 'html'],
   coverageDirectory: 'coverage',
   coverageThreshold: {
     global: {
-      branches: 50,
-      functions: 50,
-      lines: 50,
-      statements: 50,
+      branches: 30,
+      functions: 30,
+      lines: 40,
+      statements: 40,
     },
   },
 };

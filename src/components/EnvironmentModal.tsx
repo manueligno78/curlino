@@ -6,6 +6,7 @@ interface EnvironmentModalProps {
   environment: Environment;
   onClose: () => void;
   onSave: (environment: Environment) => void;
+  isOpen?: boolean;
 }
 
 const EnvironmentModal: React.FC<EnvironmentModalProps> = ({ environment, onClose, onSave }) => {

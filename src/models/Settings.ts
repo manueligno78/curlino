@@ -2,6 +2,7 @@ export interface Theme {
   name: string;
   id: string;
   isDark: boolean;
+  mode?: string;
 }
 
 export interface RequestDefaults {
@@ -11,6 +12,25 @@ export interface RequestDefaults {
   defaultHeaders: Record<string, string>; // intestazioni predefinite
 }
 
+export interface AppearanceSettings {
+  fontSize: 'small' | 'medium' | 'large';
+}
+
+export interface RequestSettings {
+  timeout?: number;
+  followRedirects?: boolean;
+  validateSSL?: boolean;
+}
+
+export interface AdvancedSettings {
+  enableDevtools?: boolean;
+  verboseLogging?: boolean;
+}
+
+export interface PerformanceSettings {
+  historyLimit: number;
+}
+
 export interface AppSettings {
   theme: Theme;
   fontSize: number;
@@ -18,6 +38,10 @@ export interface AppSettings {
   autoSave: boolean;
   sendUsageData: boolean;
   maxHistoryItems: number;
+  appearance?: AppearanceSettings;
+  request?: RequestSettings;
+  advanced?: AdvancedSettings;
+  performance?: PerformanceSettings;
 }
 
 export const DEFAULT_THEMES: Theme[] = [

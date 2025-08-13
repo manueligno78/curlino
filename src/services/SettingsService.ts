@@ -30,6 +30,10 @@ export class SettingsService {
     return { ...this.settings };
   }
 
+  getDefaultSettings(): AppSettings {
+    return { ...DEFAULT_SETTINGS };
+  }
+
   updateSettings(newSettings: Partial<AppSettings>): void {
     this.settings = { ...this.settings, ...newSettings };
     this.saveSettings();
