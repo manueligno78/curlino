@@ -1,10 +1,8 @@
 name: CI
 
 on:
-  push:
-    branches: [main, develop, dependency-updates]
   pull_request:
-    branches: [main, develop]
+    branches: [main]
 
 jobs:
   test:
