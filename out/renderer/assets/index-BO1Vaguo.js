@@ -1021,13 +1021,13 @@ function requireReactDom_production_min() {
   function lb(a, b) {
     return null == a || "http://www.w3.org/1999/xhtml" === a ? kb(b) : "http://www.w3.org/2000/svg" === a && "foreignObject" === b ? "http://www.w3.org/1999/xhtml" : a;
   }
-  var mb, nb = function(a) {
+  var mb, nb = (function(a) {
     return "undefined" !== typeof MSApp && MSApp.execUnsafeLocalFunction ? function(b, c, d, e) {
       MSApp.execUnsafeLocalFunction(function() {
         return a(b, c, d, e);
       });
     } : a;
-  }(function(a, b) {
+  })(function(a, b) {
     if ("http://www.w3.org/2000/svg" !== a.namespaceURI || "innerHTML" in a) a.innerHTML = b;
     else {
       mb = mb || document.createElement("div");
