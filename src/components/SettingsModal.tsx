@@ -110,7 +110,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
   const handleDeleteEnvironment = (env: Environment) => {
     if (window.confirm(`Are you sure you want to delete "${env.name}"?`)) {
       onRemoveEnvironment(env.id);
-      _setEnvironmentToDelete(null);
+      // Environment deleted successfully
     }
   };
 

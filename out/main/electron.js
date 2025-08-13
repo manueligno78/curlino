@@ -1,31 +1,12 @@
-"use strict";
-var __create = Object.create;
-var __defProp = Object.defineProperty;
-var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
-var __getOwnPropNames = Object.getOwnPropertyNames;
-var __getProtoOf = Object.getPrototypeOf;
-var __hasOwnProp = Object.prototype.hasOwnProperty;
-var __copyProps = (to, from, except, desc) => {
-  if (from && typeof from === "object" || typeof from === "function") {
-    for (let key of __getOwnPropNames(from))
-      if (!__hasOwnProp.call(to, key) && key !== except)
-        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
-  }
-  return to;
-};
-var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
-  // If the importer is in node compatibility mode or this is not an ESM
-  // file that has been converted to a CommonJS file using a Babel-
-  // compatible transform (i.e. "__esModule" has not been set), then set
-  // "default" to the CommonJS "module.exports" for node compatibility.
-  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
-  mod
-));
-const electron = require("electron");
-const path = require("path");
-const url = require("url");
-const __filename$1 = url.fileURLToPath(require("url").pathToFileURL(__filename).href);
-const __dirname$1 = path.dirname(__filename$1);
+import { app, BrowserWindow, session } from "electron";
+import path from "path";
+import "url";
+import __cjs_url__ from "node:url";
+import __cjs_path__ from "node:path";
+import __cjs_mod__ from "node:module";
+const __filename = __cjs_url__.fileURLToPath(import.meta.url);
+const __dirname = __cjs_path__.dirname(__filename);
+const require2 = __cjs_mod__.createRequire(import.meta.url);
 let mainWindow = null;
 const isDevelopment = process.env.NODE_ENV !== "production";
 async function isDevServerRunning() {
@@ -69,10 +50,10 @@ async function startStaticServer() {
   try {
     const http = await import("http");
     const fs = await import("fs");
-    const url2 = await import("url");
+    const url = await import("url");
     const possiblePaths = [
-      path.join(__dirname$1, "../renderer"),
-      path.join(__dirname$1, "../../out/renderer"),
+      path.join(__dirname, "../renderer"),
+      path.join(__dirname, "../../out/renderer"),
       path.join(process.resourcesPath, "app/out/renderer"),
       path.join(process.resourcesPath, "app.asar/out/renderer")
     ];
@@ -87,7 +68,7 @@ async function startStaticServer() {
       }
     }
     staticServer = http.createServer((req, res) => {
-      const parsedUrl = url2.parse(req.url);
+      const parsedUrl = url.parse(req.url);
       let pathname = parsedUrl.pathname;
       if (pathname === "/" || !pathname.includes(".")) {
         pathname = "/index.html";
@@ -143,12 +124,12 @@ async function startStaticServer() {
   }
 }
 async function createWindow() {
-  mainWindow = new electron.BrowserWindow({
+  mainWindow = new BrowserWindow({
     width: 1200,
     height: 800,
     title: "cUrlino",
     webPreferences: {
-      preload: path.resolve(__dirname$1, "preload-simple.js"),
+      preload: path.resolve(__dirname, "preload-simple.js"),
       contextIsolation: true,
       enableRemoteModule: false,
       nodeIntegration: false,
@@ -163,7 +144,7 @@ async function createWindow() {
     mainWindow.show();
   });
   const csp = isDevelopment ? "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https: http: ws: wss: *; font-src 'self';" : "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https: http: ws: wss: *; font-src 'self';";
-  electron.session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
+  session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
     callback({
       responseHeaders: {
         ...details.responseHeaders,
@@ -180,15 +161,15 @@ async function createWindow() {
       mainWindow.loadURL(serverUrl);
     } else {
       const possiblePaths = [
-        path.join(__dirname$1, "../renderer/index.html"),
-        path.join(__dirname$1, "../../out/renderer/index.html"),
+        path.join(__dirname, "../renderer/index.html"),
+        path.join(__dirname, "../../out/renderer/index.html"),
         path.join(process.resourcesPath, "app/out/renderer/index.html"),
         path.join(process.resourcesPath, "app.asar/out/renderer/index.html")
       ];
       let htmlPath = possiblePaths[0];
       for (const testPath of possiblePaths) {
         try {
-          if (require("fs").existsSync(testPath)) {
+          if (require2("fs").existsSync(testPath)) {
             htmlPath = testPath;
             break;
           }
@@ -213,23 +194,23 @@ async function createWindow() {
     closeStaticServer();
   });
 }
-electron.app.on("ready", createWindow);
-electron.app.on("window-all-closed", () => {
+app.on("ready", createWindow);
+app.on("window-all-closed", () => {
   closeStaticServer();
   if (process.platform !== "darwin") {
-    electron.app.quit();
+    app.quit();
   }
 });
-electron.app.on("activate", () => {
+app.on("activate", () => {
   if (mainWindow === null) {
     createWindow();
   }
 });
-electron.app.on("before-quit", () => {
+app.on("before-quit", () => {
   console.log("App is quitting, closing static server...");
   closeStaticServer();
 });
-electron.app.on("will-quit", () => {
+app.on("will-quit", () => {
   closeStaticServer();
 });
 process.on("SIGINT", () => {

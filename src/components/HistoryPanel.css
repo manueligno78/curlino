@@ -233,27 +233,27 @@
 }
 
 /* Method filter colors */
-.method-filter[data-method="GET"].active {
+.method-filter[data-method='GET'].active {
   background-color: var(--color-method-get);
   border-color: var(--color-method-get);
 }
 
-.method-filter[data-method="POST"].active {
+.method-filter[data-method='POST'].active {
   background-color: var(--color-method-post);
   border-color: var(--color-method-post);
 }
 
-.method-filter[data-method="PUT"].active {
+.method-filter[data-method='PUT'].active {
   background-color: var(--color-method-put);
   border-color: var(--color-method-put);
 }
 
-.method-filter[data-method="DELETE"].active {
+.method-filter[data-method='DELETE'].active {
   background-color: var(--color-method-delete);
   border-color: var(--color-method-delete);
 }
 
-.method-filter[data-method="PATCH"].active {
+.method-filter[data-method='PATCH'].active {
   background-color: var(--color-method-patch);
   border-color: var(--color-method-patch);
 }

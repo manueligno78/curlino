@@ -318,12 +318,12 @@
 /* ===== DARK THEME OVERRIDES ===== */
 
 /* Dark theme - status badges remain the same with good contrast */
-[data-theme="dark"] .status-badge.status-1xx,
-[data-theme="dark"] .status-badge.status-2xx,
-[data-theme="dark"] .status-badge.status-3xx,
-[data-theme="dark"] .status-badge.status-4xx,
-[data-theme="dark"] .status-badge.status-5xx,
-[data-theme="dark"] .status-badge.status-error,
-[data-theme="dark"] .status-badge.status-unknown {
+[data-theme='dark'] .status-badge.status-1xx,
+[data-theme='dark'] .status-badge.status-2xx,
+[data-theme='dark'] .status-badge.status-3xx,
+[data-theme='dark'] .status-badge.status-4xx,
+[data-theme='dark'] .status-badge.status-5xx,
+[data-theme='dark'] .status-badge.status-error,
+[data-theme='dark'] .status-badge.status-unknown {
   /* Status badges use the same colors in dark theme for good contrast */
 }

@@ -94,11 +94,11 @@
   .sidebar {
     width: 280px;
   }
-  
+
   .sidebar.collapsed {
     width: 72px;
   }
-  
+
   .modal {
     max-width: 700px;
   }
@@ -109,18 +109,18 @@
   .panel-container {
     flex-direction: column;
   }
-  
+
   .request-panel,
   .response-panel {
     flex: none;
     height: 50vh;
   }
-  
-  .panel-resize-handle[data-direction="horizontal"] {
+
+  .panel-resize-handle[data-direction='horizontal'] {
     display: none;
   }
-  
-  .panel-resize-handle[data-direction="vertical"] {
+
+  .panel-resize-handle[data-direction='vertical'] {
     display: block;
   }
 }

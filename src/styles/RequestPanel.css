@@ -101,38 +101,38 @@
 }
 
 /* Method Colors for Select Dropdown */
-.method-select[value="GET"] {
+.method-select[value='GET'] {
   background-color: var(--color-method-get);
   color: white;
   border-color: var(--color-method-get);
 }
 
-.method-select[value="POST"] {
+.method-select[value='POST'] {
   background-color: var(--color-method-post);
   color: white;
   border-color: var(--color-method-post);
 }
 
-.method-select[value="PUT"] {
+.method-select[value='PUT'] {
   background-color: var(--color-method-put);
   color: white;
   border-color: var(--color-method-put);
 }
 
-.method-select[value="DELETE"] {
+.method-select[value='DELETE'] {
   background-color: var(--color-method-delete);
   color: white;
   border-color: var(--color-method-delete);
 }
 
-.method-select[value="PATCH"] {
+.method-select[value='PATCH'] {
   background-color: var(--color-method-patch);
   color: white;
   border-color: var(--color-method-patch);
 }
 
-.method-select[value="HEAD"], 
-.method-select[value="OPTIONS"] {
+.method-select[value='HEAD'],
+.method-select[value='OPTIONS'] {
   background-color: var(--color-gray-500);
   color: white;
   border-color: var(--color-gray-500);
@@ -176,8 +176,12 @@
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* ===== SAVE DROPDOWN ===== */
@@ -243,7 +247,7 @@ kbd {
   font-size: var(--font-size-xs);
   padding: var(--space-1) var(--space-2);
   margin: 0 var(--space-1);
-  box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
 }
 
 /* ===== WARNING BANNER ===== */
@@ -607,13 +611,13 @@ kbd {
 
 /* ===== DARK THEME OVERRIDES ===== */
 
-[data-theme="dark"] .warning-banner {
+[data-theme='dark'] .warning-banner {
   background-color: rgba(251, 188, 4, 0.1);
   border-color: var(--color-warning-500);
   color: var(--color-warning-500);
 }
 
-[data-theme="dark"] .error-banner {
+[data-theme='dark'] .error-banner {
   background-color: rgba(234, 67, 53, 0.1);
   border-color: var(--color-error-500);
   color: var(--color-error-500);
@@ -654,12 +658,12 @@ kbd {
   color: var(--color-info-600);
 }
 
-[data-theme="dark"] .info-message {
+[data-theme='dark'] .info-message {
   background-color: rgba(66, 133, 244, 0.1);
   border-color: var(--color-info-400);
   color: var(--color-info-300);
 }
 
-[data-theme="dark"] .info-text {
+[data-theme='dark'] .info-text {
   color: var(--color-info-400);
 }

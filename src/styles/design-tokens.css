@@ -6,7 +6,7 @@
 
 :root {
   /* ===== COLOR PALETTE - OPTION A: NEUTRAL MODERN ===== */
-  
+
   /* Base Colors - Light Theme (Default) */
   --color-white: #ffffff;
   --color-gray-50: #f8f9fa;
@@ -19,43 +19,43 @@
   --color-gray-700: #5f6368;
   --color-gray-800: #3c4043;
   --color-gray-900: #202124;
-  
+
   /* Accent Colors */
   --color-blue-50: #e8f0fe;
   --color-blue-100: #d2e3fc;
   --color-blue-500: #4285f4;
   --color-blue-600: #1a73e8;
   --color-blue-700: #1557b0;
-  
+
   /* Semantic Colors */
   --color-success-50: #e6f4ea;
   --color-success-500: #34a853;
   --color-success-600: #137333;
-  
+
   --color-warning-50: #fef7e0;
   --color-warning-500: #fbbc04;
   --color-warning-600: #ea8600;
-  
+
   --color-error-50: #fce8e6;
   --color-error-500: #ea4335;
   --color-error-600: #d93025;
-  
+
   /* Method Colors (HTTP) */
   --color-method-get: #61affe;
   --color-method-post: #49cc90;
   --color-method-put: #fca130;
   --color-method-delete: #f93e3e;
   --color-method-patch: #50e3c2;
-  
+
   /* Status Code Colors (HTTP) */
   --color-status-1xx: #6b7280; /* Gray for informational */
   --color-status-2xx: #10b981; /* Green for success */
   --color-status-3xx: #f59e0b; /* Yellow for redirection */
   --color-status-4xx: #f97316; /* Orange for client error */
   --color-status-5xx: #ef4444; /* Red for server error */
-  
+
   /* ===== THEME VARIABLES - LIGHT (DEFAULT) ===== */
-  
+
   /* Background */
   --bg-primary: var(--color-white);
   --bg-secondary: var(--color-gray-50);
@@ -63,104 +63,107 @@
   --bg-hover: var(--color-gray-100);
   --bg-selected: var(--color-blue-50);
   --bg-accent: var(--color-blue-500);
-  
+
   /* Text */
   --text-primary: var(--color-gray-900);
   --text-secondary: var(--color-gray-700);
   --text-tertiary: var(--color-gray-500);
   --text-inverse: var(--color-white);
   --text-accent: var(--color-blue-600);
-  
+
   /* Borders */
   --border-primary: var(--color-gray-300);
   --border-secondary: var(--color-gray-200);
   --border-accent: var(--color-blue-500);
   --border-focus: var(--color-blue-600);
-  
+
   /* Surfaces */
   --surface-primary: var(--color-white);
   --surface-secondary: var(--color-gray-50);
   --surface-elevated: var(--color-white);
   --surface-overlay: rgba(32, 33, 36, 0.6);
-  
+
   /* ===== TYPOGRAPHY TOKENS ===== */
-  
+
   /* Font Families */
-  --font-family-primary: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
-  --font-family-mono: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Source Code Pro', monospace;
-  
+  --font-family-primary:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell',
+    sans-serif;
+  --font-family-mono:
+    'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Source Code Pro', monospace;
+
   /* Font Sizes */
-  --font-size-xs: 0.75rem;    /* 12px */
-  --font-size-sm: 0.875rem;   /* 14px */
-  --font-size-base: 1rem;     /* 16px */
-  --font-size-lg: 1.125rem;   /* 18px */
-  --font-size-xl: 1.25rem;    /* 20px */
-  --font-size-2xl: 1.5rem;    /* 24px */
-  
+  --font-size-xs: 0.75rem; /* 12px */
+  --font-size-sm: 0.875rem; /* 14px */
+  --font-size-base: 1rem; /* 16px */
+  --font-size-lg: 1.125rem; /* 18px */
+  --font-size-xl: 1.25rem; /* 20px */
+  --font-size-2xl: 1.5rem; /* 24px */
+
   /* Font Weights */
   --font-weight-normal: 400;
   --font-weight-medium: 500;
   --font-weight-semibold: 600;
   --font-weight-bold: 700;
-  
+
   /* Line Heights */
   --line-height-tight: 1.25;
   --line-height-normal: 1.5;
   --line-height-relaxed: 1.625;
-  
+
   /* ===== SPACING TOKENS (8px grid) ===== */
-  
+
   --space-0: 0;
-  --space-1: 0.25rem;   /* 4px */
-  --space-2: 0.5rem;    /* 8px */
-  --space-3: 0.75rem;   /* 12px */
-  --space-4: 1rem;      /* 16px */
-  --space-5: 1.25rem;   /* 20px */
-  --space-6: 1.5rem;    /* 24px */
-  --space-8: 2rem;      /* 32px */
-  --space-10: 2.5rem;   /* 40px */
-  --space-12: 3rem;     /* 48px */
-  --space-16: 4rem;     /* 64px */
-  
+  --space-1: 0.25rem; /* 4px */
+  --space-2: 0.5rem; /* 8px */
+  --space-3: 0.75rem; /* 12px */
+  --space-4: 1rem; /* 16px */
+  --space-5: 1.25rem; /* 20px */
+  --space-6: 1.5rem; /* 24px */
+  --space-8: 2rem; /* 32px */
+  --space-10: 2.5rem; /* 40px */
+  --space-12: 3rem; /* 48px */
+  --space-16: 4rem; /* 64px */
+
   /* ===== BORDER RADIUS TOKENS ===== */
-  
+
   --radius-none: 0;
-  --radius-sm: 0.25rem;    /* 4px */
+  --radius-sm: 0.25rem; /* 4px */
   --radius-base: 0.375rem; /* 6px */
-  --radius-md: 0.5rem;     /* 8px */
-  --radius-lg: 0.75rem;    /* 12px */
+  --radius-md: 0.5rem; /* 8px */
+  --radius-lg: 0.75rem; /* 12px */
   --radius-full: 9999px;
-  
+
   /* ===== SHADOW TOKENS ===== */
-  
+
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   --shadow-base: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
   --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
   --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-  
+
   /* ===== LAYOUT TOKENS ===== */
-  
+
   /* Heights */
-  --height-header: 3.5rem;      /* 56px */
-  --height-input: 2.5rem;       /* 40px */
-  --height-button: 2.25rem;     /* 36px */
-  --height-button-sm: 2rem;     /* 32px */
-  --height-tab: 2.5rem;         /* 40px */
-  
+  --height-header: 3.5rem; /* 56px */
+  --height-input: 2.5rem; /* 40px */
+  --height-button: 2.25rem; /* 36px */
+  --height-button-sm: 2rem; /* 32px */
+  --height-tab: 2.5rem; /* 40px */
+
   /* Widths */
-  --width-sidebar: 16rem;        /* 256px */
+  --width-sidebar: 16rem; /* 256px */
   --width-sidebar-collapsed: 3rem; /* 48px */
-  
+
   /* Z-indexes */
   --z-dropdown: 1000;
   --z-sticky: 1010;
   --z-modal: 1020;
   --z-popover: 1030;
   --z-tooltip: 1040;
-  
+
   /* ===== TRANSITION TOKENS ===== */
-  
+
   --transition-fast: 150ms ease;
   --transition-base: 200ms ease;
   --transition-slow: 300ms ease;
@@ -168,23 +171,23 @@
 }
 
 /* ===== DARK THEME OVERRIDES ===== */
-[data-theme="dark"] {
+[data-theme='dark'] {
   /* Base Colors - Dark Theme */
   --bg-primary: var(--color-gray-900);
   --bg-secondary: var(--color-gray-800);
   --bg-tertiary: var(--color-gray-700);
   --bg-hover: var(--color-gray-700);
   --bg-selected: rgba(66, 133, 244, 0.15);
-  
+
   /* Text - Dark Theme */
   --text-primary: var(--color-gray-100);
   --text-secondary: var(--color-gray-300);
   --text-tertiary: var(--color-gray-400);
-  
+
   /* Borders - Dark Theme */
   --border-primary: var(--color-gray-600);
   --border-secondary: var(--color-gray-700);
-  
+
   /* Surfaces - Dark Theme */
   --surface-primary: var(--color-gray-800);
   --surface-secondary: var(--color-gray-700);

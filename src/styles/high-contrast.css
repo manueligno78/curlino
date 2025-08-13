@@ -14,7 +14,7 @@
   --hc-disabled: #666666;
 }
 
-[data-theme="dark"] {
+[data-theme='dark'] {
   --hc-text: #ffffff;
   --hc-background: #000000;
   --hc-accent: #66ccff;
@@ -25,12 +25,14 @@
 }
 
 /* Enhanced contrast for all text */
-body, .text-primary {
+body,
+.text-primary {
   color: var(--hc-text) !important;
   background: var(--hc-background) !important;
 }
 
-.text-secondary, .text-muted {
+.text-secondary,
+.text-muted {
   color: var(--hc-text) !important;
 }
 
@@ -58,13 +60,17 @@ body, .text-primary {
 }
 
 /* High contrast inputs */
-.input, .textarea, .select {
+.input,
+.textarea,
+.select {
   border: 2px solid var(--hc-border) !important;
   background: var(--hc-background) !important;
   color: var(--hc-text) !important;
 }
 
-.input:focus, .textarea:focus, .select:focus {
+.input:focus,
+.textarea:focus,
+.select:focus {
   outline: 3px solid var(--hc-focus) !important;
   outline-offset: 2px;
   border-color: var(--hc-focus) !important;
@@ -167,7 +173,8 @@ a:hover {
 }
 
 /* High contrast code blocks */
-pre, code {
+pre,
+code {
   background: var(--hc-hover) !important;
   color: var(--hc-text) !important;
   border: 2px solid var(--hc-border) !important;
@@ -178,7 +185,8 @@ table {
   border: 2px solid var(--hc-border) !important;
 }
 
-th, td {
+th,
+td {
   border: 1px solid var(--hc-border) !important;
   background: var(--hc-background) !important;
   color: var(--hc-text) !important;
@@ -218,14 +226,14 @@ th {
 }
 
 /* High contrast checkboxes and radios */
-input[type="checkbox"],
-input[type="radio"] {
+input[type='checkbox'],
+input[type='radio'] {
   border: 2px solid var(--hc-border) !important;
   background: var(--hc-background) !important;
 }
 
-input[type="checkbox"]:checked,
-input[type="radio"]:checked {
+input[type='checkbox']:checked,
+input[type='radio']:checked {
   background: var(--hc-accent) !important;
 }
 

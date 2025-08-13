@@ -397,7 +397,7 @@ body {
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
   transition: left var(--transition-slow);
 }
 
@@ -769,7 +769,7 @@ body {
   .main-nav {
     max-width: 300px;
   }
-  
+
   .nav-button {
     min-width: 70px;
     padding: var(--space-2) var(--space-3);
@@ -781,39 +781,39 @@ body {
     padding: 0 var(--space-3);
     height: calc(var(--height-header) - 8px);
   }
-  
+
   .logo-container {
     min-width: 100px;
   }
-  
+
   .logo-container h1 {
     font-size: var(--font-size-sm);
   }
-  
+
   .logo-container img {
     height: 20px;
     width: 20px;
   }
-  
+
   .main-nav {
     max-width: 250px;
   }
-  
+
   .main-nav ul {
     padding: 2px;
   }
-  
+
   .nav-button {
     padding: var(--space-1) var(--space-2);
     font-size: var(--font-size-xs);
     min-width: 60px;
   }
-  
+
   .user-section {
     min-width: 100px;
     gap: 2px;
   }
-  
+
   .theme-toggle,
   .help-button,
   .settings-button {
@@ -821,15 +821,15 @@ body {
     height: 28px;
     font-size: var(--font-size-xs);
   }
-  
+
   .sidebar-content {
     padding: 0 var(--space-2) var(--space-3);
   }
-  
+
   .tabs {
     margin: var(--space-2);
   }
-  
+
   .tab {
     min-width: 100px;
     max-width: 150px;
@@ -840,55 +840,55 @@ body {
   .app-header {
     padding: 0 var(--space-2);
   }
-  
+
   .logo-container {
     min-width: 80px;
   }
-  
+
   .version {
     display: none;
   }
-  
+
   .main-nav {
     max-width: 180px;
   }
-  
+
   .nav-button {
     padding: var(--space-1);
     font-size: var(--font-size-xs);
     min-width: 50px;
   }
-  
+
   .user-section {
     min-width: 80px;
   }
-  
+
   .help-button {
     display: none;
   }
-  
+
   .sidebar-wrapper {
     width: var(--width-sidebar-collapsed) !important;
   }
-  
+
   .sidebar-wrapper.collapsed {
     width: 0 !important;
   }
-  
+
   .builder-request-panel {
     min-height: 250px;
   }
-  
+
   .builder-response-panel {
     min-height: 150px;
   }
-  
+
   .tab {
     min-width: 80px;
     max-width: 120px;
     padding: var(--space-1) var(--space-2);
   }
-  
+
   .tab-title {
     font-size: var(--font-size-xs);
   }
@@ -907,25 +907,25 @@ body {
   .app-header {
     height: calc(var(--height-header) - 12px);
   }
-  
+
   /* Keep horizontal layout in landscape mode */
   .builder-vertical-panels {
     flex-direction: row !important;
   }
-  
+
   .builder-request-panel {
     flex: 0 1 50%;
     min-width: 300px;
     border-right: 1px solid var(--border-primary);
     border-bottom: none;
   }
-  
+
   .builder-response-panel {
     flex: 1 1 50%;
     min-width: 300px;
     border-top: none;
   }
-  
+
   .panel-resize-handle {
     position: absolute;
     top: 0;
@@ -935,12 +935,12 @@ body {
     height: auto;
     cursor: ew-resize;
   }
-  
+
   .panel-resize-handle::before {
     width: 4px;
     height: 40px;
   }
-  
+
   .panel-resize-handle:hover::before {
     width: 4px;
     height: 60px;
