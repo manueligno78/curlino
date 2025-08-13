@@ -67,7 +67,13 @@ export default [
         BufferEncoding: 'readonly',
         navigator: 'readonly',
         setTimeout: 'readonly',
+        clearTimeout: 'readonly',
         Blob: 'readonly',
+        NodeJS: 'readonly',
+        URLSearchParams: 'readonly',
+        KeyboardEvent: 'readonly',
+        MediaQueryList: 'readonly',
+        CustomEvent: 'readonly',
       },
     },
     plugins: {

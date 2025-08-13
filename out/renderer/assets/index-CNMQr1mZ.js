@@ -7095,7 +7095,7 @@ const Header = ({
   onThemeToggle,
   onSettingsToggle,
   activeView,
-  darkTheme = false
+  darkTheme: _darkTheme = false
 }) => {
   const [themeManager] = reactExports.useState(() => ThemeManager.getInstance());
   const [themeIcon, setThemeIcon] = reactExports.useState(themeManager.getThemeIcon());
@@ -10797,30 +10797,30 @@ const Sidebar = ({
         onChange: (e) => setNewCollectionName(e.target.value),
         placeholder: "Collection name"
       }
-    ), /* @__PURE__ */ React.createElement("div", { className: "form-buttons" }, /* @__PURE__ */ React.createElement("button", { onClick: handleAddCollection }, "Add"), /* @__PURE__ */ React.createElement("button", { onClick: () => setIsAddingCollection(false) }, "Cancel"))), /* @__PURE__ */ React.createElement("ul", { className: "collections" }, collections.map((_collection2) => /* @__PURE__ */ React.createElement("li", { key: _collection2.id, className: "_collection-item" }, /* @__PURE__ */ React.createElement(
+    ), /* @__PURE__ */ React.createElement("div", { className: "form-buttons" }, /* @__PURE__ */ React.createElement("button", { onClick: handleAddCollection }, "Add"), /* @__PURE__ */ React.createElement("button", { onClick: () => setIsAddingCollection(false) }, "Cancel"))), /* @__PURE__ */ React.createElement("ul", { className: "collections" }, collections.map((_collection) => /* @__PURE__ */ React.createElement("li", { key: _collection.id, className: "_collection-item" }, /* @__PURE__ */ React.createElement(
       "div",
       {
         className: "_collection-header",
-        onClick: () => toggleCollectionExpanded(_collection2.id),
+        onClick: () => toggleCollectionExpanded(_collection.id),
         onContextMenu: (e) => {
           e.preventDefault();
-          setContextMenu({ x: e.clientX, y: e.clientY, _collection: _collection2 });
+          setContextMenu({ x: e.clientX, y: e.clientY, _collection });
         },
         onMouseDown: (e) => {
           if (e.button === 0 && e.ctrlKey) {
             e.preventDefault();
-            setContextMenu({ x: e.clientX, y: e.clientY, _collection: _collection2 });
+            setContextMenu({ x: e.clientX, y: e.clientY, _collection });
           }
         }
       },
       /* @__PURE__ */ React.createElement(
         "span",
         {
-          className: `arrow ${expandedCollections[_collection2.id] ? "expanded" : ""}`
+          className: `arrow ${expandedCollections[_collection.id] ? "expanded" : ""}`
         },
         "▶"
       ),
-      editingCollectionId === _collection2.id ? /* @__PURE__ */ React.createElement(
+      editingCollectionId === _collection.id ? /* @__PURE__ */ React.createElement(
         "input",
         {
           className: "_collection-edit-input",
@@ -10829,8 +10829,8 @@ const Sidebar = ({
           autoFocus: true,
           onChange: (e) => setEditingCollectionName(e.target.value),
           onBlur: () => {
-            if (editingCollectionName.trim() && editingCollectionName !== _collection2.name) {
-              _collection2.name = editingCollectionName.trim();
+            if (editingCollectionName.trim() && editingCollectionName !== _collection.name) {
+              _collection.name = editingCollectionName.trim();
               if (typeof window !== "undefined")
                 window.dispatchEvent(new Event("_collectionNameChanged"));
             }
@@ -10850,11 +10850,11 @@ const Sidebar = ({
           className: "_collection-name",
           onDoubleClick: (e) => {
             e.stopPropagation();
-            setEditingCollectionId(_collection2.id);
-            setEditingCollectionName(_collection2.name);
+            setEditingCollectionId(_collection.id);
+            setEditingCollectionName(_collection.name);
           }
         },
-        _collection2.name
+        _collection.name
       ),
       /* @__PURE__ */ React.createElement(
         "button",
@@ -10863,12 +10863,12 @@ const Sidebar = ({
           title: "Remove _collection",
           onClick: (e) => {
             e.stopPropagation();
-            onRemoveCollection(_collection2.id);
+            onRemoveCollection(_collection.id);
           }
         },
         "✕"
       )
-    ), expandedCollections[_collection2.id] && /* @__PURE__ */ React.createElement("ul", { className: "requests-list" }, _collection2.requests.map((request) => /* @__PURE__ */ React.createElement("li", { key: request.id, className: "request-item" }, /* @__PURE__ */ React.createElement("span", { className: `method ${request.method.toLowerCase()}` }, request.method), /* @__PURE__ */ React.createElement(
+    ), expandedCollections[_collection.id] && /* @__PURE__ */ React.createElement("ul", { className: "requests-list" }, _collection.requests.map((request) => /* @__PURE__ */ React.createElement("li", { key: request.id, className: "request-item" }, /* @__PURE__ */ React.createElement("span", { className: `method ${request.method.toLowerCase()}` }, request.method), /* @__PURE__ */ React.createElement(
       "span",
       {
         className: "request-name",
@@ -10891,11 +10891,11 @@ const Sidebar = ({
         title: "Rimuovi dalla _collection",
         onClick: (e) => {
           e.stopPropagation();
-          onRemoveRequestFromCollection(_collection2.id, request.id);
+          onRemoveRequestFromCollection(_collection.id, request.id);
         }
       },
       "✕"
-    ))), _collection2.requests.length === 0 && /* @__PURE__ */ React.createElement("li", { className: "no-items" }, "No requests in this _collection")))), collections.length === 0 && /* @__PURE__ */ React.createElement("li", { className: "no-items" }, "No collections"))))),
+    ))), _collection.requests.length === 0 && /* @__PURE__ */ React.createElement("li", { className: "no-items" }, "No requests in this _collection")))), collections.length === 0 && /* @__PURE__ */ React.createElement("li", { className: "no-items" }, "No collections"))))),
     !isSidebarCollapsed && /* @__PURE__ */ React.createElement("div", { className: "sidebar-resize-handle", onMouseDown: handleMouseDown })
   );
 };
@@ -12006,7 +12006,6 @@ const SettingsModal = ({
   const handleDeleteEnvironment = (env) => {
     if (window.confirm(`Are you sure you want to delete "${env.name}"?`)) {
       onRemoveEnvironment(env.id);
-      _setEnvironmentToDelete(null);
     }
   };
   const settingsSections = [

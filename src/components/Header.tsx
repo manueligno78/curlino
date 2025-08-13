@@ -19,7 +19,7 @@ const Header: React.FC<HeaderProps> = ({
   onThemeToggle,
   onSettingsToggle,
   activeView,
-  darkTheme = false,
+  darkTheme: _darkTheme = false,
 }) => {
   const [themeManager] = useState(() => ThemeManager.getInstance());
   const [themeIcon, setThemeIcon] = useState(themeManager.getThemeIcon());

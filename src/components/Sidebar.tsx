@@ -97,12 +97,12 @@ const Sidebar: React.FC<SidebarProps> = ({
 
   // Funzione per esportare una _collection come JSON e scaricare il file
   const _handleExportCollection = (__collection: Collection) => {
-    const json = ApiService.exportCollectionsToJson([_collection]);
+    const json = ApiService.exportCollectionsToJson([__collection]);
     const blob = new Blob([json], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `${_collection.name || '_collection'}.json`;
+    a.download = `${__collection.name || 'collection'}.json`;
     document.body.appendChild(a);
     a.click();
     setTimeout(() => {
