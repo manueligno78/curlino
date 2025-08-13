@@ -6,7 +6,7 @@
 /* ===== SMOOTH TRANSITIONS ===== */
 
 * {
-  transition: 
+  transition:
     background-color var(--transition-fast),
     border-color var(--transition-fast),
     color var(--transition-fast),
@@ -30,7 +30,7 @@
 
 .btn:hover:not(:disabled) {
   transform: translateY(-1px);
-  box-shadow: 
+  box-shadow:
     var(--shadow-md),
     0 0 0 1px rgba(66, 133, 244, 0.1);
 }
@@ -51,7 +51,9 @@
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.2);
   transform: translate(-50%, -50%);
-  transition: width 0.6s, height 0.6s;
+  transition:
+    width 0.6s,
+    height 0.6s;
   z-index: 0;
 }
 
@@ -87,28 +89,36 @@
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* ===== INPUT INTERACTIONS ===== */
 
-.input, .textarea, .select {
-  transition: 
+.input,
+.textarea,
+.select {
+  transition:
     border-color var(--transition-fast),
     box-shadow var(--transition-fast),
     background-color var(--transition-fast);
 }
 
-.input:focus, .textarea:focus, .select:focus {
+.input:focus,
+.textarea:focus,
+.select:focus {
   outline: none;
   border-color: var(--border-accent);
-  box-shadow: 
+  box-shadow:
     0 0 0 3px rgba(66, 133, 244, 0.1),
     var(--shadow-sm);
   background-color: var(--surface-primary);
 }
 
-.input:hover:not(:focus), .textarea:hover:not(:focus), .select:hover:not(:focus) {
+.input:hover:not(:focus),
+.textarea:hover:not(:focus),
+.select:hover:not(:focus) {
   border-color: var(--border-primary);
 }
 
@@ -200,7 +210,7 @@
 .sidebar.collapsed .sidebar-content {
   opacity: 0;
   transform: translateX(-10px);
-  transition: 
+  transition:
     opacity var(--transition-fast),
     transform var(--transition-fast);
 }
@@ -208,7 +218,7 @@
 .sidebar:not(.collapsed) .sidebar-content {
   opacity: 1;
   transform: translateX(0);
-  transition: 
+  transition:
     opacity var(--transition-normal) var(--transition-fast),
     transform var(--transition-normal) var(--transition-fast);
 }
@@ -241,22 +251,22 @@
 }
 
 @keyframes modalFadeIn {
-  from { 
-    opacity: 0; 
+  from {
+    opacity: 0;
   }
-  to { 
-    opacity: 1; 
+  to {
+    opacity: 1;
   }
 }
 
 @keyframes modalSlideIn {
-  from { 
+  from {
     opacity: 0;
-    transform: translateY(20px) scale(0.95); 
+    transform: translateY(20px) scale(0.95);
   }
-  to { 
+  to {
     opacity: 1;
-    transform: translateY(0) scale(1); 
+    transform: translateY(0) scale(1);
   }
 }
 
@@ -270,13 +280,15 @@
 }
 
 @keyframes modalFadeOut {
-  to { opacity: 0; }
+  to {
+    opacity: 0;
+  }
 }
 
 @keyframes modalSlideOut {
-  to { 
+  to {
     opacity: 0;
-    transform: translateY(-10px) scale(0.98); 
+    transform: translateY(-10px) scale(0.98);
   }
 }
 
@@ -461,11 +473,15 @@
 }
 
 @keyframes loading {
-  0% { background-position: 200% 0; }
-  100% { background-position: -200% 0; }
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
 }
 
-[data-theme="dark"] .loading-skeleton {
+[data-theme='dark'] .loading-skeleton {
   background: linear-gradient(
     90deg,
     var(--color-gray-700) 25%,
@@ -482,12 +498,13 @@
 }
 
 @keyframes pulse {
-  0%, 100% { 
-    opacity: 1; 
+  0%,
+  100% {
+    opacity: 1;
     transform: scale(1);
   }
-  50% { 
-    opacity: 0.7; 
+  50% {
+    opacity: 0.7;
     transform: scale(1.05);
   }
 }
@@ -503,13 +520,21 @@
 }
 
 @keyframes successFlash {
-  0% { background-color: var(--color-success-100); }
-  100% { background-color: transparent; }
+  0% {
+    background-color: var(--color-success-100);
+  }
+  100% {
+    background-color: transparent;
+  }
 }
 
 @keyframes errorFlash {
-  0% { background-color: var(--color-danger-100); }
-  100% { background-color: transparent; }
+  0% {
+    background-color: var(--color-danger-100);
+  }
+  100% {
+    background-color: transparent;
+  }
 }
 
 /* ===== ACCESSIBILITY & REDUCED MOTION ===== */
@@ -522,13 +547,13 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
-  
+
   .loading-skeleton {
     animation: none;
     background: var(--color-gray-200);
   }
-  
-  [data-theme="dark"] .loading-skeleton {
+
+  [data-theme='dark'] .loading-skeleton {
     background: var(--color-gray-700);
   }
 }

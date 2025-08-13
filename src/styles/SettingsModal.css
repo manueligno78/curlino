@@ -235,7 +235,7 @@
   line-height: var(--line-height-normal);
 }
 
-.checkbox-label input[type="checkbox"] {
+.checkbox-label input[type='checkbox'] {
   margin-top: 2px;
   width: 16px;
   height: 16px;
@@ -405,8 +405,13 @@
 }
 
 @keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
 }
 
 .footer-actions {
@@ -523,10 +528,10 @@
 
 /* ===== DARK THEME OVERRIDES ===== */
 
-[data-theme="dark"] .unsaved-notice {
+[data-theme='dark'] .unsaved-notice {
   color: var(--color-warning-400);
 }
 
-[data-theme="dark"] .theme-option.active {
+[data-theme='dark'] .theme-option.active {
   background-color: rgba(66, 133, 244, 0.1);
 }

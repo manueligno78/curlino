@@ -16,7 +16,9 @@
 }
 
 /* Touch-friendly inputs */
-.input, .textarea, .select {
+.input,
+.textarea,
+.select {
   min-height: 44px;
   font-size: 16px; /* Prevents zoom on iOS */
   padding: var(--space-3);
@@ -109,7 +111,8 @@
 }
 
 /* Mobile request/response panels */
-.request-panel, .response-panel {
+.request-panel,
+.response-panel {
   padding: var(--space-3);
 }
 
@@ -195,11 +198,11 @@
   .header {
     padding-top: max(var(--space-2), env(safe-area-inset-top));
   }
-  
+
   .main-content {
     padding-bottom: max(0px, env(safe-area-inset-bottom));
   }
-  
+
   .sidebar {
     padding-bottom: max(var(--space-4), env(safe-area-inset-bottom));
   }
@@ -211,12 +214,12 @@
     height: 48px;
     padding: var(--space-1) var(--space-3);
   }
-  
+
   .modal {
     margin: var(--space-2);
     max-height: calc(100vh - 2 * var(--space-2));
   }
-  
+
   .sidebar {
     width: 240px;
   }

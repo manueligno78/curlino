@@ -71,7 +71,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: build-files
-          path: public/
+          path: out/
 
   electron-build:
     runs-on: ${{ matrix.os }}
@@ -98,7 +98,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: build-files
-          path: public/
+          path: out/
 
       - name: Build Electron app
         run: npm run dist

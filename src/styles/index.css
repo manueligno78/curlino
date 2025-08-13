@@ -38,12 +38,12 @@
   @media (max-width: 768px) {
     @import './responsive-mobile.css';
   }
-  
+
   /* Tablet optimizations */
   @media (min-width: 769px) and (max-width: 1024px) {
     @import './responsive-tablet.css';
   }
-  
+
   /* Desktop optimizations */
   @media (min-width: 1025px) {
     @import './responsive-desktop.css';
@@ -53,10 +53,12 @@
 /* High DPI screens */
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
   /* High DPI specific styles */
-  .btn, .input, .card {
+  .btn,
+  .input,
+  .card {
     border-width: 0.5px;
   }
-  
+
   .icon {
     image-rendering: -webkit-optimize-contrast;
     image-rendering: crisp-edges;
