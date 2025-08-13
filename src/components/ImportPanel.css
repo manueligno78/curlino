@@ -1,0 +1,146 @@
+.import-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.import-panel-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.import-panel-header h2 {
+  margin: 0;
+  font-size: 18px;
+  color: var(--text-color);
+}
+
+.import-panel-content {
+  padding: 20px;
+  flex-grow: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.import-instruction {
+  margin-bottom: 16px;
+}
+
+.import-instruction p {
+  font-size: 14px;
+  color: var(--text-color);
+}
+
+.curl-input-area {
+  margin-bottom: 24px;
+}
+
+.curl-textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background-color: var(--input-bg);
+  color: var(--text-color);
+  font-family: monospace;
+  font-size: 14px;
+  resize: vertical;
+}
+
+.import-error {
+  color: var(--danger-color);
+  margin-top: 8px;
+  font-size: 14px;
+}
+
+.import-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 12px;
+  gap: 8px;
+}
+
+.primary-button,
+.secondary-button {
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  border: none;
+  transition: background-color 0.2s;
+}
+
+.primary-button {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.primary-button:hover:not(:disabled) {
+  background-color: var(--primary-color-dark);
+}
+
+.secondary-button {
+  background-color: var(--button-secondary-bg);
+  color: var(--text-color);
+}
+
+.secondary-button:hover:not(:disabled) {
+  background-color: var(--button-secondary-hover);
+}
+
+.primary-button:disabled,
+.secondary-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.import-tips {
+  margin-bottom: 24px;
+}
+
+.import-tips h3 {
+  font-size: 16px;
+  margin-bottom: 12px;
+  color: var(--text-color);
+}
+
+.import-tips ul {
+  padding-left: 20px;
+}
+
+.import-tips li {
+  margin-bottom: 8px;
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+.import-tips kbd {
+  background-color: var(--input-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 3px;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+  color: var(--text-color);
+  display: inline-block;
+  font-size: 12px;
+  line-height: 1;
+  padding: 2px 4px;
+  margin: 0 2px;
+}
+
+.import-illustration {
+  display: flex;
+  justify-content: center;
+  margin-top: auto;
+  padding: 20px;
+}
+
+.import-illustration img {
+  max-width: 300px;
+  max-height: 200px;
+  opacity: 0.8;
+}

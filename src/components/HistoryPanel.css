@@ -1,0 +1,259 @@
+.history-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+.history-header {
+  display: flex;
+  flex-direction: column;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.history-header h2 {
+  margin: 0 0 12px 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.history-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.search-container {
+  display: flex;
+  flex: 1;
+  margin-right: 10px;
+}
+
+.search-container input {
+  flex: 1;
+  padding: 6px 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background-color: var(--input-bg);
+  color: var(--text-color);
+  font-size: 14px;
+}
+
+.search-container button {
+  margin-left: 8px;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  background-color: var(--button-bg);
+  color: var(--button-text);
+  cursor: pointer;
+}
+
+.clear-button {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  background-color: var(--danger-color);
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.history-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0;
+}
+
+.history-item {
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border-color);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.history-item:hover {
+  background-color: var(--hover-bg);
+}
+
+.history-item-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.history-item .method {
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-right: 8px;
+}
+
+.history-item .method.get {
+  background-color: var(--color-method-get);
+  color: white;
+}
+
+.history-item .method.post {
+  background-color: var(--color-method-post);
+  color: white;
+}
+
+.history-item .method.put {
+  background-color: var(--color-method-put);
+  color: white;
+}
+
+.history-item .method.delete {
+  background-color: var(--color-method-delete);
+  color: white;
+}
+
+.history-item .method.patch {
+  background-color: var(--color-method-patch);
+  color: white;
+}
+
+.history-item .method.head,
+.history-item .method.options {
+  background-color: var(--color-gray-500);
+  color: white;
+}
+
+.history-item .url {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 14px;
+}
+
+.history-item .status {
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 12px;
+  margin-left: 8px;
+}
+
+.history-item .status-1xx {
+  background-color: var(--color-status-1xx);
+  color: white;
+}
+
+.history-item .status-2xx {
+  background-color: var(--color-status-2xx);
+  color: white;
+}
+
+.history-item .status-3xx {
+  background-color: var(--color-status-3xx);
+  color: white;
+}
+
+.history-item .status-4xx {
+  background-color: var(--color-status-4xx);
+  color: white;
+}
+
+.history-item .status-5xx {
+  background-color: var(--color-status-5xx);
+  color: white;
+}
+
+.history-item .status-unknown {
+  background-color: var(--color-gray-500);
+  color: white;
+}
+
+.history-item-details {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.empty-history {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  font-size: 16px;
+  color: var(--text-secondary);
+  padding: 20px;
+  text-align: center;
+}
+
+.delete-button {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 16px;
+  cursor: pointer;
+  padding: 0 4px;
+  margin-left: 8px;
+  line-height: 1;
+}
+
+.delete-button:hover {
+  color: var(--text-color);
+}
+
+/* Stili per i filtri per metodo HTTP */
+.method-filters {
+  display: flex;
+  margin-top: 12px;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.method-filter {
+  border: 1px solid var(--border-color);
+  background: var(--button-bg);
+  color: var(--text-color);
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.method-filter.active {
+  background-color: var(--accent-color);
+  color: white;
+  border-color: var(--accent-color);
+}
+
+.method-filter:hover {
+  border-color: var(--accent-color);
+}
+
+/* Method filter colors */
+.method-filter[data-method="GET"].active {
+  background-color: var(--color-method-get);
+  border-color: var(--color-method-get);
+}
+
+.method-filter[data-method="POST"].active {
+  background-color: var(--color-method-post);
+  border-color: var(--color-method-post);
+}
+
+.method-filter[data-method="PUT"].active {
+  background-color: var(--color-method-put);
+  border-color: var(--color-method-put);
+}
+
+.method-filter[data-method="DELETE"].active {
+  background-color: var(--color-method-delete);
+  border-color: var(--color-method-delete);
+}
+
+.method-filter[data-method="PATCH"].active {
+  background-color: var(--color-method-patch);
+  border-color: var(--color-method-patch);
+}

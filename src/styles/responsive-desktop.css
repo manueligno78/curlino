@@ -1,0 +1,251 @@
+/*
+ * Desktop Responsive Styles
+ * Optimized for screens >= 1025px
+ */
+
+/* Desktop button sizing */
+.btn {
+  min-height: 36px;
+  padding: var(--space-2) var(--space-4);
+}
+
+.btn-lg {
+  min-height: 44px;
+  padding: var(--space-3) var(--space-6);
+}
+
+/* Desktop sidebar */
+.sidebar {
+  width: 280px;
+  flex-shrink: 0;
+}
+
+.sidebar.collapsed {
+  width: 60px;
+}
+
+/* Desktop header */
+.header {
+  padding: var(--space-2) var(--space-6);
+  height: 48px;
+}
+
+/* Desktop tab system */
+.tab-item {
+  min-width: 80px;
+  padding: var(--space-2) var(--space-4);
+}
+
+/* Desktop modal sizing */
+.modal {
+  margin: var(--space-8);
+  max-height: calc(100vh - 2 * var(--space-8));
+  max-width: 800px;
+}
+
+.modal-lg {
+  max-width: 1000px;
+}
+
+.modal-xl {
+  max-width: 1200px;
+}
+
+/* Desktop panels side-by-side */
+.panel-container {
+  flex-direction: row;
+}
+
+.request-panel {
+  flex: 1;
+  min-width: 400px;
+}
+
+.response-panel {
+  flex: 1;
+  min-width: 400px;
+}
+
+/* Desktop resize handles */
+.panel-resize-handle {
+  display: block;
+}
+
+/* Desktop form layout */
+.form-row {
+  flex-direction: row;
+  gap: var(--space-4);
+}
+
+.form-row .form-group {
+  flex: 1;
+}
+
+.form-inline {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.form-inline .form-group {
+  margin-bottom: 0;
+}
+
+/* Desktop context menu */
+.context-menu {
+  min-width: 220px;
+  max-width: 350px;
+}
+
+/* Desktop spacing */
+.container {
+  padding-left: var(--space-6);
+  padding-right: var(--space-6);
+}
+
+.container-lg {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.container-xl {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Desktop-specific hover effects */
+@media (hover: hover) {
+  .btn:hover {
+    transform: translateY(-1px);
+  }
+  
+  .card:hover {
+    transform: translateY(-2px);
+  }
+  
+  .sidebar-item:hover {
+    padding-left: calc(var(--space-4) + 4px);
+  }
+  
+  .tab-item:hover:not(.active) {
+    background: var(--bg-hover);
+  }
+}
+
+/* Large desktop optimizations */
+@media (min-width: 1440px) {
+  .sidebar {
+    width: 320px;
+  }
+  
+  .header {
+    padding: var(--space-2) var(--space-8);
+  }
+  
+  .container {
+    padding-left: var(--space-8);
+    padding-right: var(--space-8);
+  }
+  
+  .modal {
+    max-width: 900px;
+  }
+  
+  .modal-lg {
+    max-width: 1100px;
+  }
+  
+  .modal-xl {
+    max-width: 1300px;
+  }
+}
+
+/* Ultra-wide desktop */
+@media (min-width: 1920px) {
+  .container-xl {
+    max-width: 1600px;
+  }
+  
+  .modal-xl {
+    max-width: 1400px;
+  }
+  
+  /* Three-column layout for ultra-wide */
+  .panel-container.ultra-wide {
+    display: grid;
+    grid-template-columns: 1fr 8px 1fr 8px 1fr;
+    gap: 0;
+  }
+  
+  .request-panel {
+    grid-column: 1;
+  }
+  
+  .panel-resize-handle:nth-of-type(1) {
+    grid-column: 2;
+  }
+  
+  .response-panel {
+    grid-column: 3;
+  }
+  
+  .panel-resize-handle:nth-of-type(2) {
+    grid-column: 4;
+  }
+  
+  .history-panel {
+    grid-column: 5;
+    min-width: 300px;
+  }
+}
+
+/* Desktop keyboard shortcuts */
+.keyboard-hint {
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+}
+
+.btn:hover .keyboard-hint,
+.tab-item:hover .keyboard-hint {
+  opacity: 1;
+}
+
+/* Desktop drag and drop enhancements */
+.draggable {
+  cursor: grab;
+}
+
+.draggable:active {
+  cursor: grabbing;
+}
+
+.drop-zone {
+  border: 2px dashed transparent;
+  transition: border-color var(--transition-fast);
+}
+
+.drop-zone.drag-over {
+  border-color: var(--color-accent-400);
+  background: rgba(66, 133, 244, 0.05);
+}
+
+/* Desktop tooltip positioning */
+.tooltip {
+  pointer-events: none;
+}
+
+.tooltip[data-position="top"] {
+  margin-bottom: var(--space-2);
+}
+
+.tooltip[data-position="bottom"] {
+  margin-top: var(--space-2);
+}
+
+.tooltip[data-position="left"] {
+  margin-right: var(--space-2);
+}
+
+.tooltip[data-position="right"] {
+  margin-left: var(--space-2);
+}

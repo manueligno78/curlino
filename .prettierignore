@@ -1,0 +1,9 @@
+node_modules/
+dist/
+build/
+public/bundle.js
+public/bundle.js.map
+*.min.js
+coverage/
+.git/
+.DS_Store

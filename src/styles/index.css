@@ -1,0 +1,143 @@
+/*
+ * Curlino Styles - Optimized Import System
+ * Modular CSS with tree shaking and performance optimization
+ */
+
+/* 
+ * CORE IMPORTS - Always loaded
+ * Essential styles for base functionality
+ */
+@import './design-tokens.css';
+
+/*
+ * COMPONENT IMPORTS - Conditionally loaded
+ * Can be tree-shaken by build tools based on usage
+ */
+
+/* Base interactive elements */
+@import './interactions.css';
+
+/* Visual polish and refinements */
+@import './visual-polish.css';
+
+/* Legacy component styles for compatibility */
+@import './components.css';
+@import './RequestPanel.css';
+@import './ResponsePanel.css';
+@import './SettingsModal.css';
+@import '../renderer/App-new.css';
+
+/*
+ * FEATURE-SPECIFIC IMPORTS
+ * Load only when specific features are used
+ */
+
+/* Responsive breakpoints - only load if responsive features used */
+@media screen {
+  /* Mobile optimizations */
+  @media (max-width: 768px) {
+    @import './responsive-mobile.css';
+  }
+  
+  /* Tablet optimizations */
+  @media (min-width: 769px) and (max-width: 1024px) {
+    @import './responsive-tablet.css';
+  }
+  
+  /* Desktop optimizations */
+  @media (min-width: 1025px) {
+    @import './responsive-desktop.css';
+  }
+}
+
+/* High DPI screens */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  /* High DPI specific styles */
+  .btn, .input, .card {
+    border-width: 0.5px;
+  }
+  
+  .icon {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
+}
+
+/* Print styles - only when printing */
+@media print {
+  @import './print.css';
+}
+
+/* Accessibility enhancements - only when needed */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media (prefers-contrast: high) {
+  @import './high-contrast.css';
+}
+
+/*
+ * CRITICAL CSS INLINING
+ * Above-the-fold styles that should be inlined
+ */
+:root {
+  /* Critical design tokens for initial render */
+  --color-primary: #4285f4;
+  --color-text: #202124;
+  --color-background: #ffffff;
+  --font-primary: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Critical layout styles */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  font-family: var(--font-primary);
+  color: var(--color-text);
+  background: var(--color-background);
+}
+
+.main-content {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/*
+ * PERFORMANCE OPTIMIZATIONS
+ */
+
+/* Optimize font loading */
+.font-display-swap {
+  font-display: swap;
+}
+
+/* GPU acceleration for critical elements */
+.gpu-accelerated {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Content containment for performance */
+.layout-contained {
+  contain: layout;
+}
+
+.style-contained {
+  contain: style;
+}
+
+.paint-contained {
+  contain: paint;
+}
+
+.strict-contained {
+  contain: strict;
+}

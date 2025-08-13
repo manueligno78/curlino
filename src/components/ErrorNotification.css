@@ -1,0 +1,141 @@
+.error-notifications {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 10000;
+  max-width: 400px;
+}
+
+.error-notification {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: #f8d7da;
+  border: 1px solid #f5c6cb;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.error-notification.hidden {
+  transform: translateX(100%);
+  opacity: 0;
+}
+
+.error-notification.visible {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.error-notification.error-network_error {
+  background: #fff3cd;
+  border-color: #ffeaa7;
+}
+
+.error-notification.error-validation_error {
+  background: #f8d7da;
+  border-color: #f5c6cb;
+}
+
+.error-notification.error-api_error {
+  background: #d1ecf1;
+  border-color: #bee5eb;
+}
+
+.error-notification.error-storage_error {
+  background: #e2e3e5;
+  border-color: #d6d8db;
+}
+
+.error-content {
+  flex: 1;
+}
+
+.error-message {
+  font-weight: 500;
+  color: #721c24;
+  margin-bottom: 4px;
+}
+
+.error-details {
+  font-size: 12px;
+  color: #721c24;
+  opacity: 0.8;
+  font-family: monospace;
+}
+
+.error-notification.error-network_error .error-message,
+.error-notification.error-network_error .error-details {
+  color: #856404;
+}
+
+.error-notification.error-api_error .error-message,
+.error-notification.error-api_error .error-details {
+  color: #0c5460;
+}
+
+.error-notification.error-storage_error .error-message,
+.error-notification.error-storage_error .error-details {
+  color: #383d41;
+}
+
+.error-dismiss {
+  background: none;
+  border: none;
+  font-size: 20px;
+  font-weight: bold;
+  color: #721c24;
+  cursor: pointer;
+  padding: 0;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background-color 0.2s ease;
+}
+
+.error-dismiss:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.error-boundary {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  text-align: center;
+  border: 2px dashed #ccc;
+  border-radius: 8px;
+  margin: 20px;
+}
+
+.error-boundary h2 {
+  color: #d73527;
+  margin-bottom: 16px;
+}
+
+.error-boundary p {
+  color: #666;
+  margin-bottom: 24px;
+}
+
+.error-retry-button {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.error-retry-button:hover {
+  background: #0056b3;
+}

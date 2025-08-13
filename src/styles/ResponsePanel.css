@@ -1,0 +1,329 @@
+/* 
+ * ResponsePanel - Modern Styles
+ * Vertical layout matching RequestPanel design
+ */
+
+.response-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: var(--space-4);
+  gap: var(--space-4);
+  background-color: var(--bg-primary);
+}
+
+.response-panel.empty-response {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.response-panel.empty-response h2 {
+  margin-bottom: var(--space-3);
+  color: var(--text-primary);
+}
+
+.no-response {
+  color: var(--text-secondary);
+  font-size: var(--font-size-base);
+}
+
+/* ===== RESPONSE HEADER ===== */
+
+.response-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: var(--space-3);
+  border-bottom: 1px solid var(--border-primary);
+}
+
+.response-header h2 {
+  margin: 0;
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+}
+
+.response-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* ===== STATUS BADGES ===== */
+
+.status-badge {
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-base);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  white-space: nowrap;
+}
+
+/* HTTP Status Code Colors */
+.status-badge.status-1xx {
+  background-color: var(--color-status-1xx);
+  color: white;
+  border: 1px solid var(--color-status-1xx);
+}
+
+.status-badge.status-2xx {
+  background-color: var(--color-status-2xx);
+  color: white;
+  border: 1px solid var(--color-status-2xx);
+}
+
+.status-badge.status-3xx {
+  background-color: var(--color-status-3xx);
+  color: white;
+  border: 1px solid var(--color-status-3xx);
+}
+
+.status-badge.status-4xx {
+  background-color: var(--color-status-4xx);
+  color: white;
+  border: 1px solid var(--color-status-4xx);
+}
+
+.status-badge.status-5xx {
+  background-color: var(--color-status-5xx);
+  color: white;
+  border: 1px solid var(--color-status-5xx);
+}
+
+.status-badge.status-error {
+  background-color: var(--color-error-500);
+  color: white;
+  border: 1px solid var(--color-error-500);
+}
+
+.status-badge.status-unknown {
+  background-color: var(--color-gray-500);
+  color: white;
+  border: 1px solid var(--color-gray-500);
+}
+
+.time-badge {
+  background-color: var(--bg-tertiary);
+  color: var(--text-secondary);
+  font-size: var(--font-size-xs);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-base);
+  font-weight: var(--font-weight-medium);
+  border: 1px solid var(--border-secondary);
+}
+
+/* ===== PANEL SECTIONS ===== */
+
+.panel-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+/* Body panel section should expand to fill available space */
+.panel-section:last-child {
+  flex: 1;
+  min-height: 0;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-2);
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+}
+
+.section-title.clickable {
+  cursor: pointer;
+  user-select: none;
+  transition: color var(--transition-fast);
+}
+
+.section-title.clickable:hover {
+  color: var(--text-accent);
+}
+
+.section-title .badge {
+  background: var(--bg-accent);
+  color: var(--text-inverse);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-base);
+  line-height: 1;
+}
+
+.copy-btn {
+  font-size: var(--font-size-xs);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+  opacity: 0.7;
+}
+
+.copy-btn:hover {
+  opacity: 1;
+  background-color: var(--bg-hover);
+}
+
+/* ===== COLLAPSE ICON ===== */
+
+.collapse-icon {
+  font-size: var(--font-size-xs);
+  transition: transform var(--transition-fast);
+  color: var(--text-secondary);
+}
+
+.collapse-icon.collapsed {
+  transform: rotate(0deg);
+}
+
+.collapse-icon.expanded {
+  transform: rotate(90deg);
+}
+
+/* ===== HEADERS SECTION ===== */
+
+.headers-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.response-headers {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.header-row {
+  display: grid;
+  gap: var(--space-3);
+  align-items: center;
+  padding: var(--space-2);
+  border: 1px solid var(--border-secondary);
+  border-radius: var(--radius-base);
+  background-color: var(--bg-secondary);
+  transition: border-color var(--transition-fast);
+}
+
+/* ResponsePanel header rows - read-only */
+.response-headers .header-row {
+  grid-template-columns: 1fr 2fr;
+}
+
+.header-row:hover {
+  border-color: var(--border-primary);
+}
+
+.header-key {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+  word-break: break-word;
+}
+
+.header-value {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  word-break: break-word;
+}
+
+.empty-headers {
+  color: var(--text-tertiary);
+  font-style: italic;
+  padding: var(--space-3);
+  text-align: center;
+  background-color: var(--bg-secondary);
+  border-radius: var(--radius-base);
+  border: 1px solid var(--border-secondary);
+}
+
+/* ===== BODY SECTION ===== */
+
+.body-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  flex: 1;
+  min-height: 0; /* Allow flexbox to shrink below content size */
+}
+
+.response-body {
+  font-family: var(--font-family-mono);
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-relaxed);
+  padding: var(--space-4);
+  margin: 0;
+  background-color: var(--surface-primary);
+  border: 1px solid var(--border-primary);
+  border-radius: var(--radius-base);
+  overflow-x: auto;
+  overflow-y: auto;
+  flex: 1;
+  min-height: 200px; /* Minimum height for usability */
+  color: var(--text-primary);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+
+@media (max-width: 768px) {
+  .response-panel {
+    padding: var(--space-3);
+    gap: var(--space-3);
+  }
+
+  .response-header {
+    flex-direction: column;
+    gap: var(--space-2);
+    align-items: flex-start;
+  }
+
+  .response-meta {
+    flex-wrap: wrap;
+  }
+
+  .header-row {
+    grid-template-columns: 1fr;
+    gap: var(--space-2);
+  }
+
+  .header-key {
+    font-weight: var(--font-weight-semibold);
+    border-bottom: 1px solid var(--border-secondary);
+    padding-bottom: var(--space-1);
+  }
+
+  .response-body {
+    font-size: var(--font-size-xs);
+    padding: var(--space-3);
+    min-height: 150px; /* Smaller minimum height on mobile */
+  }
+}
+
+/* ===== DARK THEME OVERRIDES ===== */
+
+/* Dark theme - status badges remain the same with good contrast */
+[data-theme="dark"] .status-badge.status-1xx,
+[data-theme="dark"] .status-badge.status-2xx,
+[data-theme="dark"] .status-badge.status-3xx,
+[data-theme="dark"] .status-badge.status-4xx,
+[data-theme="dark"] .status-badge.status-5xx,
+[data-theme="dark"] .status-badge.status-error,
+[data-theme="dark"] .status-badge.status-unknown {
+  /* Status badges use the same colors in dark theme for good contrast */
+}

@@ -1,0 +1,553 @@
+/* 
+ * Interactions & Microinteractions
+ * Subtle animations and enhanced visual feedback
+ */
+
+/* ===== SMOOTH TRANSITIONS ===== */
+
+* {
+  transition: 
+    background-color var(--transition-fast),
+    border-color var(--transition-fast),
+    color var(--transition-fast),
+    opacity var(--transition-fast),
+    transform var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+/* Prevent transitions during theme changes */
+.no-transition * {
+  transition: none !important;
+}
+
+/* ===== BUTTON INTERACTIONS ===== */
+
+.btn {
+  position: relative;
+  overflow: hidden;
+  transform: translateZ(0); /* Force hardware acceleration */
+}
+
+.btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 
+    var(--shadow-md),
+    0 0 0 1px rgba(66, 133, 244, 0.1);
+}
+
+.btn:active:not(:disabled) {
+  transform: translateY(0);
+  transition-duration: var(--transition-faster);
+}
+
+/* Ripple effect for primary buttons */
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+  z-index: 0;
+}
+
+.btn-primary:active::before {
+  width: 300px;
+  height: 300px;
+}
+
+.btn-primary > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Loading state animation */
+.btn.loading {
+  pointer-events: none;
+  position: relative;
+}
+
+.btn.loading::after {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  top: 50%;
+  left: 50%;
+  margin-left: -8px;
+  margin-top: -8px;
+  border: 2px solid transparent;
+  border-top-color: currentColor;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ===== INPUT INTERACTIONS ===== */
+
+.input, .textarea, .select {
+  transition: 
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast),
+    background-color var(--transition-fast);
+}
+
+.input:focus, .textarea:focus, .select:focus {
+  outline: none;
+  border-color: var(--border-accent);
+  box-shadow: 
+    0 0 0 3px rgba(66, 133, 244, 0.1),
+    var(--shadow-sm);
+  background-color: var(--surface-primary);
+}
+
+.input:hover:not(:focus), .textarea:hover:not(:focus), .select:hover:not(:focus) {
+  border-color: var(--border-primary);
+}
+
+/* Floating label animation */
+.form-group.floating-label {
+  position: relative;
+}
+
+.form-group.floating-label .input {
+  padding-top: 1.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.form-group.floating-label .floating-label-text {
+  position: absolute;
+  left: var(--space-3);
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: var(--font-size-base);
+  color: var(--text-secondary);
+  pointer-events: none;
+  transition: all var(--transition-fast);
+  background: var(--surface-primary);
+  padding: 0 var(--space-1);
+}
+
+.form-group.floating-label .input:focus + .floating-label-text,
+.form-group.floating-label .input:not(:placeholder-shown) + .floating-label-text {
+  top: 0;
+  font-size: var(--font-size-sm);
+  color: var(--text-accent);
+  transform: translateY(-50%);
+}
+
+/* ===== TAB SYSTEM INTERACTIONS ===== */
+
+.tabs-nav .tab-item {
+  position: relative;
+}
+
+.tabs-nav .tab-item::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--color-accent-500);
+  transform: scaleX(0);
+  transition: transform var(--transition-fast);
+}
+
+.tabs-nav .tab-item.active::before {
+  transform: scaleX(1);
+}
+
+.tabs-nav .tab-item:hover:not(.active) {
+  background: var(--bg-hover);
+}
+
+/* Tab close button animation */
+.tab-close {
+  opacity: 0;
+  transform: scale(0.8);
+  transition: all var(--transition-fast);
+}
+
+.tab-item:hover .tab-close {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.tab-close:hover {
+  background: var(--color-danger-100);
+  color: var(--color-danger-600);
+  transform: scale(1.1);
+}
+
+/* ===== SIDEBAR INTERACTIONS ===== */
+
+.sidebar {
+  transition: width var(--transition-normal);
+}
+
+.sidebar.collapsed {
+  width: 60px;
+}
+
+.sidebar.collapsed .sidebar-content {
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: 
+    opacity var(--transition-fast),
+    transform var(--transition-fast);
+}
+
+.sidebar:not(.collapsed) .sidebar-content {
+  opacity: 1;
+  transform: translateX(0);
+  transition: 
+    opacity var(--transition-normal) var(--transition-fast),
+    transform var(--transition-normal) var(--transition-fast);
+}
+
+/* Collection/Environment item hover */
+.sidebar-item {
+  transition: all var(--transition-fast);
+}
+
+.sidebar-item:hover {
+  background: var(--bg-hover);
+  padding-left: calc(var(--space-4) + 4px);
+  border-left: 3px solid var(--color-accent-400);
+}
+
+.sidebar-item.active {
+  background: var(--bg-selected);
+  border-left: 3px solid var(--color-accent-500);
+  font-weight: var(--font-weight-semibold);
+}
+
+/* ===== MODAL INTERACTIONS ===== */
+
+.modal-overlay {
+  animation: modalFadeIn var(--transition-normal) ease-out;
+}
+
+.modal {
+  animation: modalSlideIn var(--transition-normal) ease-out;
+}
+
+@keyframes modalFadeIn {
+  from { 
+    opacity: 0; 
+  }
+  to { 
+    opacity: 1; 
+  }
+}
+
+@keyframes modalSlideIn {
+  from { 
+    opacity: 0;
+    transform: translateY(20px) scale(0.95); 
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0) scale(1); 
+  }
+}
+
+/* Modal close animation */
+.modal-overlay.closing {
+  animation: modalFadeOut var(--transition-fast) ease-in;
+}
+
+.modal-overlay.closing .modal {
+  animation: modalSlideOut var(--transition-fast) ease-in;
+}
+
+@keyframes modalFadeOut {
+  to { opacity: 0; }
+}
+
+@keyframes modalSlideOut {
+  to { 
+    opacity: 0;
+    transform: translateY(-10px) scale(0.98); 
+  }
+}
+
+/* ===== RESIZE HANDLE INTERACTIONS ===== */
+
+.panel-resize-handle {
+  position: relative;
+  transition: all var(--transition-fast);
+}
+
+.panel-resize-handle::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 4px;
+  height: 40px;
+  background: var(--border-secondary);
+  border-radius: 2px;
+  transform: translate(-50%, -50%);
+  transition: all var(--transition-fast);
+}
+
+.panel-resize-handle:hover::before {
+  background: var(--color-accent-400);
+  height: 60px;
+  width: 6px;
+}
+
+.panel-resize-handle:active::before {
+  background: var(--color-accent-500);
+  height: 80px;
+}
+
+/* ===== DRAG & DROP INTERACTIONS ===== */
+
+.draggable {
+  cursor: grab;
+}
+
+.draggable:active {
+  cursor: grabbing;
+}
+
+.drag-over {
+  background: var(--color-accent-50);
+  border: 2px dashed var(--color-accent-300);
+  border-radius: var(--radius-base);
+}
+
+.drag-placeholder {
+  opacity: 0.5;
+  transform: rotate(2deg);
+  transition: all var(--transition-fast);
+}
+
+/* ===== NOTIFICATION INTERACTIONS ===== */
+
+.notification {
+  animation: notificationSlideIn var(--transition-normal) ease-out;
+}
+
+.notification.removing {
+  animation: notificationSlideOut var(--transition-fast) ease-in;
+}
+
+@keyframes notificationSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes notificationSlideOut {
+  to {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+}
+
+/* ===== TOOLTIP INTERACTIONS ===== */
+
+.tooltip {
+  position: relative;
+}
+
+.tooltip::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--color-gray-900);
+  color: var(--color-gray-50);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-sm);
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: all var(--transition-fast);
+  z-index: 1000;
+  margin-bottom: var(--space-2);
+}
+
+.tooltip::before {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: var(--color-gray-900);
+  opacity: 0;
+  pointer-events: none;
+  transition: all var(--transition-fast);
+  z-index: 1000;
+  margin-bottom: 2px;
+}
+
+.tooltip:hover::after,
+.tooltip:hover::before {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-2px);
+}
+
+/* ===== CONTEXT MENU INTERACTIONS ===== */
+
+.context-menu {
+  animation: contextMenuAppear var(--transition-fast) ease-out;
+  transform-origin: top left;
+}
+
+@keyframes contextMenuAppear {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.context-menu-item:hover {
+  background: var(--bg-hover);
+  padding-left: calc(var(--space-3) + 4px);
+}
+
+/* ===== KEYBOARD FOCUS INDICATORS ===== */
+
+.keyboard-focus {
+  outline: 2px solid var(--color-accent-400);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* Enhanced focus for interactive elements */
+.btn:focus-visible,
+.tab-item:focus-visible,
+.sidebar-item:focus-visible {
+  outline: 2px solid var(--color-accent-400);
+  outline-offset: 2px;
+}
+
+/* ===== LOADING STATES ===== */
+
+.loading-skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--color-gray-200) 25%,
+    var(--color-gray-100) 50%,
+    var(--color-gray-200) 75%
+  );
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+  border-radius: var(--radius-sm);
+}
+
+@keyframes loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+[data-theme="dark"] .loading-skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--color-gray-700) 25%,
+    var(--color-gray-600) 50%,
+    var(--color-gray-700) 75%
+  );
+  background-size: 200% 100%;
+}
+
+/* ===== PULSE ANIMATIONS ===== */
+
+.pulse {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { 
+    opacity: 1; 
+    transform: scale(1);
+  }
+  50% { 
+    opacity: 0.7; 
+    transform: scale(1.05);
+  }
+}
+
+/* ===== SUCCESS/ERROR STATE ANIMATIONS ===== */
+
+.success-flash {
+  animation: successFlash 0.6s ease-out;
+}
+
+.error-flash {
+  animation: errorFlash 0.6s ease-out;
+}
+
+@keyframes successFlash {
+  0% { background-color: var(--color-success-100); }
+  100% { background-color: transparent; }
+}
+
+@keyframes errorFlash {
+  0% { background-color: var(--color-danger-100); }
+  100% { background-color: transparent; }
+}
+
+/* ===== ACCESSIBILITY & REDUCED MOTION ===== */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .loading-skeleton {
+    animation: none;
+    background: var(--color-gray-200);
+  }
+  
+  [data-theme="dark"] .loading-skeleton {
+    background: var(--color-gray-700);
+  }
+}
+
+/* ===== SMOOTH SCROLLING ===== */
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar interactions */
+*::-webkit-scrollbar-thumb {
+  transition: background-color var(--transition-fast);
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: var(--border-primary);
+}
+
+*::-webkit-scrollbar-thumb:active {
+  background-color: var(--color-accent-400);
+}

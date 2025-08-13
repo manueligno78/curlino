@@ -1,0 +1,126 @@
+/*
+ * Tablet Responsive Styles
+ * Optimized for screens 769px - 1024px
+ */
+
+/* Tablet button sizing */
+.btn {
+  min-height: 40px;
+  padding: var(--space-2) var(--space-4);
+}
+
+/* Tablet sidebar behavior */
+.sidebar {
+  width: 240px;
+  flex-shrink: 0;
+}
+
+.sidebar.collapsed {
+  width: 64px;
+}
+
+/* Tablet main content */
+.main-content {
+  padding: 0;
+}
+
+/* Tablet header */
+.header {
+  padding: var(--space-2) var(--space-4);
+  height: 52px;
+}
+
+/* Tablet tab system */
+.tabs-nav {
+  padding: 0 var(--space-2);
+}
+
+.tab-item {
+  min-width: 100px;
+  padding: var(--space-2) var(--space-3);
+}
+
+/* Tablet modal sizing */
+.modal {
+  margin: var(--space-6);
+  max-height: calc(100vh - 2 * var(--space-6));
+  max-width: 600px;
+}
+
+/* Tablet panels can be side-by-side */
+.panel-container {
+  flex-direction: row;
+}
+
+.request-panel {
+  flex: 1;
+  min-width: 300px;
+}
+
+.response-panel {
+  flex: 1;
+  min-width: 300px;
+}
+
+/* Show resize handles on tablet */
+.panel-resize-handle {
+  display: block;
+}
+
+/* Tablet form layout */
+.form-row {
+  flex-direction: row;
+  gap: var(--space-4);
+}
+
+.form-row .form-group {
+  flex: 1;
+}
+
+/* Tablet context menu */
+.context-menu {
+  min-width: 200px;
+  max-width: 300px;
+}
+
+/* Tablet-optimized spacing */
+.container {
+  padding-left: var(--space-4);
+  padding-right: var(--space-4);
+}
+
+/* Tablet landscape optimizations */
+@media (orientation: landscape) {
+  .sidebar {
+    width: 280px;
+  }
+  
+  .sidebar.collapsed {
+    width: 72px;
+  }
+  
+  .modal {
+    max-width: 700px;
+  }
+}
+
+/* Tablet portrait optimizations */
+@media (orientation: portrait) {
+  .panel-container {
+    flex-direction: column;
+  }
+  
+  .request-panel,
+  .response-panel {
+    flex: none;
+    height: 50vh;
+  }
+  
+  .panel-resize-handle[data-direction="horizontal"] {
+    display: none;
+  }
+  
+  .panel-resize-handle[data-direction="vertical"] {
+    display: block;
+  }
+}

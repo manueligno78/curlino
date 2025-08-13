@@ -1,0 +1,240 @@
+/*
+ * Print Styles
+ * Optimized for printing and PDF generation
+ */
+
+/* Remove interactive elements */
+.sidebar,
+.modal-overlay,
+.tooltip,
+.context-menu,
+.keyboard-help-overlay,
+.notification,
+.btn,
+.resize-handle {
+  display: none !important;
+}
+
+/* Layout adjustments */
+.app-container {
+  height: auto !important;
+  overflow: visible !important;
+}
+
+.main-content {
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: visible !important;
+}
+
+.content-area {
+  overflow: visible !important;
+}
+
+/* Typography for print */
+body {
+  font-size: 12pt !important;
+  line-height: 1.4 !important;
+  color: #000 !important;
+  background: #fff !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #000 !important;
+  page-break-after: avoid;
+}
+
+/* Remove shadows and effects */
+* {
+  box-shadow: none !important;
+  text-shadow: none !important;
+  background-image: none !important;
+  border-radius: 0 !important;
+}
+
+/* Simplify borders */
+.card,
+.input,
+.textarea,
+.select {
+  border: 1px solid #ccc !important;
+}
+
+/* Request/Response content */
+.request-panel,
+.response-panel {
+  page-break-inside: avoid;
+  margin-bottom: 20pt;
+  border: 1px solid #ccc;
+  padding: 10pt;
+}
+
+.request-panel h3,
+.response-panel h3 {
+  margin-top: 0;
+  font-size: 14pt;
+  font-weight: bold;
+}
+
+/* Code blocks */
+pre, code {
+  font-family: 'Courier New', monospace;
+  font-size: 10pt;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  border: 1px solid #ddd;
+  padding: 5pt;
+  background: #f5f5f5 !important;
+}
+
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 10pt;
+}
+
+th, td {
+  border: 1px solid #ccc;
+  padding: 5pt;
+  text-align: left;
+}
+
+th {
+  background: #f0f0f0 !important;
+  font-weight: bold;
+}
+
+/* URL and endpoint info */
+.url-display {
+  font-family: 'Courier New', monospace;
+  font-size: 11pt;
+  word-break: break-all;
+  margin-bottom: 10pt;
+  padding: 5pt;
+  border: 1px solid #ddd;
+  background: #f9f9f9 !important;
+}
+
+/* Status codes */
+.status-badge {
+  display: inline-block;
+  padding: 2pt 5pt;
+  border: 1px solid #ccc;
+  font-weight: bold;
+  margin-right: 5pt;
+}
+
+/* Headers section */
+.headers-section {
+  margin-bottom: 15pt;
+}
+
+.headers-section h4 {
+  margin-bottom: 5pt;
+  font-size: 12pt;
+}
+
+/* JSON response formatting */
+.json-viewer {
+  font-family: 'Courier New', monospace;
+  font-size: 9pt;
+  white-space: pre;
+  overflow: visible;
+  border: 1px solid #ddd;
+  padding: 5pt;
+  background: #f9f9f9 !important;
+}
+
+/* Page breaks */
+.page-break {
+  page-break-before: always;
+}
+
+.page-break-avoid {
+  page-break-inside: avoid;
+}
+
+/* Print URLs for links */
+a[href]:after {
+  content: " (" attr(href) ")";
+  font-size: 9pt;
+  color: #666;
+}
+
+/* Print-specific utilities */
+.print-only {
+  display: block !important;
+}
+
+.no-print {
+  display: none !important;
+}
+
+/* Header for printed pages */
+@page {
+  margin: 1in;
+  
+  @top-center {
+    content: "Curlino API Request Documentation";
+    font-size: 10pt;
+    color: #666;
+  }
+  
+  @bottom-right {
+    content: "Page " counter(page) " of " counter(pages);
+    font-size: 9pt;
+    color: #666;
+  }
+}
+
+/* First page margin */
+@page :first {
+  @top-center {
+    content: "";
+  }
+}
+
+/* Print title */
+.print-title {
+  font-size: 18pt;
+  font-weight: bold;
+  margin-bottom: 20pt;
+  text-align: center;
+  border-bottom: 2pt solid #ccc;
+  padding-bottom: 10pt;
+}
+
+/* Print metadata */
+.print-meta {
+  font-size: 10pt;
+  color: #666;
+  margin-bottom: 15pt;
+  text-align: center;
+}
+
+.print-meta::before {
+  content: "Generated on " attr(data-date) " at " attr(data-time);
+}
+
+/* Landscape orientation for wide content */
+@media print and (orientation: landscape) {
+  .wide-content {
+    max-width: none;
+  }
+}
+
+/* Color adjustments for print */
+@media print {
+  .text-primary { color: #000 !important; }
+  .text-secondary { color: #666 !important; }
+  .text-muted { color: #999 !important; }
+  
+  .bg-primary { background: #f0f0f0 !important; }
+  .bg-secondary { background: #f5f5f5 !important; }
+  .bg-success { background: #e8f5e8 !important; }
+  .bg-warning { background: #fff3cd !important; }
+  .bg-danger { background: #f8d7da !important; }
+}

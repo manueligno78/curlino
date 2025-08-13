@@ -1,0 +1,307 @@
+/*
+ * High Contrast Styles
+ * Enhanced accessibility for users with visual impairments
+ */
+
+/* High contrast color overrides */
+:root {
+  --hc-text: #000000;
+  --hc-background: #ffffff;
+  --hc-accent: #0066cc;
+  --hc-border: #000000;
+  --hc-focus: #ff6600;
+  --hc-hover: #f0f0f0;
+  --hc-disabled: #666666;
+}
+
+[data-theme="dark"] {
+  --hc-text: #ffffff;
+  --hc-background: #000000;
+  --hc-accent: #66ccff;
+  --hc-border: #ffffff;
+  --hc-focus: #ffcc00;
+  --hc-hover: #333333;
+  --hc-disabled: #999999;
+}
+
+/* Enhanced contrast for all text */
+body, .text-primary {
+  color: var(--hc-text) !important;
+  background: var(--hc-background) !important;
+}
+
+.text-secondary, .text-muted {
+  color: var(--hc-text) !important;
+}
+
+/* High contrast buttons */
+.btn {
+  border: 2px solid var(--hc-border) !important;
+  background: var(--hc-background) !important;
+  color: var(--hc-text) !important;
+}
+
+.btn-primary {
+  background: var(--hc-accent) !important;
+  color: var(--hc-background) !important;
+  border-color: var(--hc-accent) !important;
+}
+
+.btn:hover {
+  background: var(--hc-hover) !important;
+  border-color: var(--hc-border) !important;
+}
+
+.btn:disabled {
+  color: var(--hc-disabled) !important;
+  border-color: var(--hc-disabled) !important;
+}
+
+/* High contrast inputs */
+.input, .textarea, .select {
+  border: 2px solid var(--hc-border) !important;
+  background: var(--hc-background) !important;
+  color: var(--hc-text) !important;
+}
+
+.input:focus, .textarea:focus, .select:focus {
+  outline: 3px solid var(--hc-focus) !important;
+  outline-offset: 2px;
+  border-color: var(--hc-focus) !important;
+}
+
+/* High contrast cards */
+.card {
+  border: 2px solid var(--hc-border) !important;
+  background: var(--hc-background) !important;
+  color: var(--hc-text) !important;
+}
+
+/* High contrast navigation */
+.tab-item {
+  border: 2px solid var(--hc-border) !important;
+  background: var(--hc-background) !important;
+  color: var(--hc-text) !important;
+}
+
+.tab-item.active {
+  background: var(--hc-accent) !important;
+  color: var(--hc-background) !important;
+}
+
+.tab-item:hover {
+  background: var(--hc-hover) !important;
+}
+
+/* High contrast sidebar */
+.sidebar {
+  border: 2px solid var(--hc-border) !important;
+  background: var(--hc-background) !important;
+}
+
+.sidebar-item {
+  color: var(--hc-text) !important;
+  border-bottom: 1px solid var(--hc-border) !important;
+}
+
+.sidebar-item:hover {
+  background: var(--hc-hover) !important;
+}
+
+.sidebar-item.active {
+  background: var(--hc-accent) !important;
+  color: var(--hc-background) !important;
+}
+
+/* High contrast modals */
+.modal {
+  border: 3px solid var(--hc-border) !important;
+  background: var(--hc-background) !important;
+}
+
+.modal-overlay {
+  background: rgba(0, 0, 0, 0.8) !important;
+}
+
+/* High contrast status indicators */
+.status-success {
+  background: var(--hc-accent) !important;
+  color: var(--hc-background) !important;
+  border: 2px solid var(--hc-border) !important;
+}
+
+.status-warning {
+  background: #ffcc00 !important;
+  color: #000000 !important;
+  border: 2px solid #000000 !important;
+}
+
+.status-error {
+  background: #ff0000 !important;
+  color: #ffffff !important;
+  border: 2px solid #ffffff !important;
+}
+
+/* High contrast links */
+a {
+  color: var(--hc-accent) !important;
+  text-decoration: underline !important;
+}
+
+a:hover {
+  text-decoration: none !important;
+  background: var(--hc-hover) !important;
+}
+
+/* High contrast focus indicators */
+*:focus {
+  outline: 3px solid var(--hc-focus) !important;
+  outline-offset: 2px !important;
+}
+
+/* Remove background images and shadows */
+* {
+  background-image: none !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+
+/* High contrast code blocks */
+pre, code {
+  background: var(--hc-hover) !important;
+  color: var(--hc-text) !important;
+  border: 2px solid var(--hc-border) !important;
+}
+
+/* High contrast tables */
+table {
+  border: 2px solid var(--hc-border) !important;
+}
+
+th, td {
+  border: 1px solid var(--hc-border) !important;
+  background: var(--hc-background) !important;
+  color: var(--hc-text) !important;
+}
+
+th {
+  background: var(--hc-hover) !important;
+  font-weight: bold !important;
+}
+
+/* High contrast tooltips */
+.tooltip-popup {
+  background: var(--hc-accent) !important;
+  color: var(--hc-background) !important;
+  border: 2px solid var(--hc-border) !important;
+}
+
+/* High contrast context menus */
+.context-menu {
+  background: var(--hc-background) !important;
+  border: 2px solid var(--hc-border) !important;
+}
+
+.context-menu-item {
+  color: var(--hc-text) !important;
+  border-bottom: 1px solid var(--hc-border) !important;
+}
+
+.context-menu-item:hover {
+  background: var(--hc-hover) !important;
+}
+
+/* High contrast form labels */
+.form-label {
+  color: var(--hc-text) !important;
+  font-weight: bold !important;
+}
+
+/* High contrast checkboxes and radios */
+input[type="checkbox"],
+input[type="radio"] {
+  border: 2px solid var(--hc-border) !important;
+  background: var(--hc-background) !important;
+}
+
+input[type="checkbox"]:checked,
+input[type="radio"]:checked {
+  background: var(--hc-accent) !important;
+}
+
+/* High contrast loading states */
+.spinner {
+  border: 3px solid var(--hc-border) !important;
+  border-top: 3px solid var(--hc-accent) !important;
+}
+
+.skeleton {
+  background: var(--hc-hover) !important;
+}
+
+/* High contrast drag and drop */
+.drag-over {
+  border: 3px solid var(--hc-focus) !important;
+  background: var(--hc-hover) !important;
+}
+
+.drop-indicator {
+  background: var(--hc-focus) !important;
+  height: 4px !important;
+}
+
+/* High contrast scrollbars */
+::-webkit-scrollbar {
+  width: 16px !important;
+  height: 16px !important;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--hc-background) !important;
+  border: 1px solid var(--hc-border) !important;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--hc-accent) !important;
+  border: 2px solid var(--hc-border) !important;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--hc-hover) !important;
+}
+
+/* High contrast selection */
+::selection {
+  background: var(--hc-focus) !important;
+  color: var(--hc-background) !important;
+}
+
+::-moz-selection {
+  background: var(--hc-focus) !important;
+  color: var(--hc-background) !important;
+}
+
+/* Disable transitions in high contrast mode */
+* {
+  transition: none !important;
+  animation: none !important;
+}
+
+/* High contrast error states */
+.error {
+  border: 3px solid #ff0000 !important;
+  background: #ffcccc !important;
+  color: #000000 !important;
+}
+
+.success {
+  border: 3px solid #00aa00 !important;
+  background: #ccffcc !important;
+  color: #000000 !important;
+}
+
+.warning {
+  border: 3px solid #ffaa00 !important;
+  background: #ffffcc !important;
+  color: #000000 !important;
+}
