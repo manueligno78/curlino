@@ -2,7 +2,7 @@
   "name": "curlino",
   "version": "1.0.0",
   "description": "A modern REST API client built with Electron and React",
-  "main": "out/main/electron.cjs",
+  "main": "out/main/electron.js",
   "type": "module",
   "scripts": {
     "start": "npm run build && electron .",
