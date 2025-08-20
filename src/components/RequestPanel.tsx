@@ -52,14 +52,36 @@ const RequestPanel: React.FC<RequestPanelProps> = ({
   const [isUpdatingFromParams, setIsUpdatingFromParams] = useState(false);
   const urlDebounceTimer = useRef<NodeJS.Timeout | null>(null);
   const [curlCopySuccess, setCurlCopySuccess] = useState<string>('');
+  const [isUrlMultiline, setIsUrlMultiline] = useState(false);
 
   // Helper function to check if method supports body
   const methodSupportsBody = (method: string): boolean => {
     return ['POST', 'PUT', 'PATCH', 'DELETE'].includes(method.toUpperCase());
   };
 
+  // Helper function to check if URL is too long for single line
+  const isUrlTooLong = (urlText: string): boolean => {
+    // Consider URL too long if it's more than 80 characters or contains long segments
+    return urlText.length > 80 || urlText.split('/').some(segment => segment.length > 30);
+  };
+
+  // Handle URL input click to toggle multiline mode
+  const handleUrlInputClick = () => {
+    if (isUrlTooLong(url)) {
+      setIsUrlMultiline(true);
+    }
+  };
+
+  // Handle blur to switch back to single line
+  const handleUrlInputBlur = () => {
+    if (isUrlMultiline) {
+      setIsUrlMultiline(false);
+    }
+  };
+
   // Refs
   const urlInputRef = useRef<HTMLInputElement>(null);
+  const urlTextareaRef = useRef<HTMLTextAreaElement>(null);
   const savePopupRef = useRef<HTMLDivElement>(null);
 
   // Update local state when the request prop changes
@@ -172,6 +194,17 @@ const RequestPanel: React.FC<RequestPanelProps> = ({
       }
     };
   }, [url, method, isUpdatingFromParams, queryParams]);
+
+  // Focus management for multiline URL input
+  useEffect(() => {
+    if (isUrlMultiline && urlTextareaRef.current) {
+      // Focus the textarea when switching to multiline mode
+      urlTextareaRef.current.focus();
+      // Set cursor at the end
+      const length = url.length;
+      urlTextareaRef.current.setSelectionRange(length, length);
+    }
+  }, [isUrlMultiline, url]);
 
   // Header management
   const updateHeader = (
@@ -356,7 +389,11 @@ const RequestPanel: React.FC<RequestPanelProps> = ({
   const handleSendRequest = async () => {
     if (!url.trim()) {
       setError('URL is required');
-      urlInputRef.current?.focus();
+      if (isUrlMultiline) {
+        urlTextareaRef.current?.focus();
+      } else {
+        urlInputRef.current?.focus();
+      }
       return;
     }
 
@@ -486,14 +523,35 @@ const RequestPanel: React.FC<RequestPanelProps> = ({
             <option value="OPTIONS">OPTIONS</option>
           </select>
 
-          <input
-            ref={urlInputRef}
-            type="text"
-            value={url}
-            onChange={e => setUrl(e.target.value)}
-            placeholder="https://api.example.com/endpoint or paste cURL command"
-            className={`input url-input ${hasUnresolvedVars ? 'input-warning' : ''}`}
-          />
+          {isUrlMultiline ? (
+            <textarea
+              ref={urlTextareaRef}
+              value={url}
+              onChange={e => setUrl(e.target.value)}
+              onBlur={handleUrlInputBlur}
+              placeholder="https://api.example.com/endpoint or paste cURL command"
+              className={`textarea url-textarea ${hasUnresolvedVars ? 'input-warning' : ''}`}
+              rows={3}
+              style={{ resize: 'vertical' }}
+            />
+          ) : (
+            <input
+              ref={urlInputRef}
+              type="text"
+              value={url}
+              onChange={e => setUrl(e.target.value)}
+              onClick={handleUrlInputClick}
+              placeholder="https://api.example.com/endpoint or paste cURL command"
+              className={`input url-input ${hasUnresolvedVars ? 'input-warning' : ''} ${isUrlTooLong(url) ? 'url-overflow' : ''}`}
+            />
+          )}
+        </div>
+
+        {/* Keyboard shortcut hint and actions on same row */}
+        <div className="hint-actions-row">
+          <div className="hint">
+            💡 Press <kbd>⌘</kbd> + <kbd>Enter</kbd> to send
+          </div>
 
           <div className="url-actions">
             <button
@@ -570,11 +628,6 @@ const RequestPanel: React.FC<RequestPanelProps> = ({
               </div>
             )}
           </div>
-        </div>
-
-        {/* Keyboard shortcut hint */}
-        <div className="hint">
-          💡 Press <kbd>⌘</kbd> + <kbd>Enter</kbd> to send
         </div>
       </div>
 
