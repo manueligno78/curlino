@@ -137,6 +137,60 @@ const RequestPanel: React.FC<RequestPanelProps> = ({
     });
   }, [request]);
 
+  // Update URL when query parameters change
+  const updateUrlWithQueryParams = useCallback(
+    (params: typeof queryParams) => {
+      const enabledParams = params.filter(q => q.key.trim() && q.enabled);
+
+      try {
+        // Parse the current URL to get the base URL without query parameters
+        const currentUrl = url.trim();
+        const urlWithoutQuery = currentUrl.split('?')[0];
+
+        if (enabledParams.length === 0) {
+          // No query parameters, just set the base URL
+          setUrl(urlWithoutQuery);
+        } else {
+          // Build query string
+          const searchParams = new URLSearchParams();
+          enabledParams.forEach(q => {
+            searchParams.append(q.key.trim(), q.value);
+          });
+          const newUrl = `${urlWithoutQuery}?${searchParams.toString()}`;
+          setUrl(newUrl);
+        }
+      } catch (error) {
+        // If URL parsing fails, don't update the URL
+        logger.debug('Failed to update URL with query parameters', {
+          component: 'RequestPanel',
+          action: 'updateUrlWithQueryParams',
+          error: error instanceof Error ? error.message : String(error),
+        });
+      }
+    },
+    [url]
+  );
+
+  // Parse query parameters from URL
+  const parseQueryParamsFromUrl = useCallback((urlString: string) => {
+    try {
+      // Handle relative URLs by adding a dummy base
+      const fullUrl = urlString.startsWith('http')
+        ? urlString
+        : `http://localhost${urlString.startsWith('/') ? '' : '/'}${urlString}`;
+      const urlObj = new URL(fullUrl);
+      const queryEntries = Array.from(urlObj.searchParams.entries()).map(([key, value]) => ({
+        key,
+        value,
+        enabled: true,
+      }));
+      return queryEntries.length > 0 ? queryEntries : [{ key: '', value: '', enabled: true }];
+    } catch {
+      // If URL parsing fails, return empty query params
+      return [{ key: '', value: '', enabled: true }];
+    }
+  }, []);
+
   // Sync query parameters to URL when they change
   useEffect(() => {
     // Only update URL for methods that don't support body and avoid circular updates
@@ -146,7 +200,7 @@ const RequestPanel: React.FC<RequestPanelProps> = ({
       // Reset flag after a short delay to allow for URL state update
       setTimeout(() => setIsUpdatingFromParams(false), 50);
     }
-  }, [queryParams, method, isUpdatingFromUrl]);
+  }, [queryParams, method, isUpdatingFromUrl, updateUrlWithQueryParams]);
 
   // Parse query parameters from URL when URL changes manually (with debouncing)
   useEffect(() => {
@@ -193,7 +247,7 @@ const RequestPanel: React.FC<RequestPanelProps> = ({
         clearTimeout(urlDebounceTimer.current);
       }
     };
-  }, [url, method, isUpdatingFromParams, queryParams]);
+  }, [url, method, isUpdatingFromParams, queryParams, parseQueryParamsFromUrl]);
 
   // Focus management for multiline URL input
   useEffect(() => {
@@ -248,60 +302,6 @@ const RequestPanel: React.FC<RequestPanelProps> = ({
 
   const removeQueryParam = (index: number) => {
     setQueryParams(prev => prev.filter((_, i) => i !== index));
-  };
-
-  // Update URL when query parameters change
-  const updateUrlWithQueryParams = useCallback(
-    (params: typeof queryParams) => {
-      const enabledParams = params.filter(q => q.key.trim() && q.enabled);
-
-      try {
-        // Parse the current URL to get the base URL without query parameters
-        const currentUrl = url.trim();
-        const urlWithoutQuery = currentUrl.split('?')[0];
-
-        if (enabledParams.length === 0) {
-          // No query parameters, just set the base URL
-          setUrl(urlWithoutQuery);
-        } else {
-          // Build query string
-          const searchParams = new URLSearchParams();
-          enabledParams.forEach(q => {
-            searchParams.append(q.key.trim(), q.value);
-          });
-          const newUrl = `${urlWithoutQuery}?${searchParams.toString()}`;
-          setUrl(newUrl);
-        }
-      } catch (error) {
-        // If URL parsing fails, don't update the URL
-        logger.debug('Failed to update URL with query parameters', {
-          component: 'RequestPanel',
-          action: 'updateUrlWithQueryParams',
-          error: error instanceof Error ? error.message : String(error),
-        });
-      }
-    },
-    [url]
-  );
-
-  // Parse query parameters from URL
-  const parseQueryParamsFromUrl = (urlString: string) => {
-    try {
-      // Handle relative URLs by adding a dummy base
-      const fullUrl = urlString.startsWith('http')
-        ? urlString
-        : `http://localhost${urlString.startsWith('/') ? '' : '/'}${urlString}`;
-      const urlObj = new URL(fullUrl);
-      const queryEntries = Array.from(urlObj.searchParams.entries()).map(([key, value]) => ({
-        key,
-        value,
-        enabled: true,
-      }));
-      return queryEntries.length > 0 ? queryEntries : [{ key: '', value: '', enabled: true }];
-    } catch {
-      // If URL parsing fails, return empty query params
-      return [{ key: '', value: '', enabled: true }];
-    }
   };
 
   const getQueryString = () => {
