@@ -2,7 +2,8 @@ export default {
   preset: 'ts-jest',
   testEnvironment: 'jsdom',
   roots: ['<rootDir>/src', '<rootDir>/tests'],
-  testMatch: ['**/tests/**/*.{test,spec}.{js,ts,tsx}', '**/*.(test|spec).{js,ts,tsx}'],
+  testMatch: ['**/tests/**/*.test.{js,ts,tsx}', '**/*.test.{js,ts,tsx}'],
+  testPathIgnorePatterns: ['<rootDir>/tests/e2e/'],
   transform: {
     '^.+\\.(ts|tsx)$': 'ts-jest',
   },
