@@ -50,6 +50,16 @@ temp/
 
 # Electron specific
 dist_electron/
+out/
+
+# Playwright
+test-results/
+playwright-report/
+playwright/.cache/
+
+# Test screenshots and videos
+tests/screenshots/
+tests/videos/
 
 # Husky
 .husky/_

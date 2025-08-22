@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Request } from '../models/Request';
 import { importCurlCommand } from '../utils/curlImporter';
 import { generateCurlCommand } from '../utils/curlGenerator';
@@ -251,35 +251,38 @@ const RequestPanel: React.FC<RequestPanelProps> = ({
   };
 
   // Update URL when query parameters change
-  const updateUrlWithQueryParams = (params: typeof queryParams) => {
-    const enabledParams = params.filter(q => q.key.trim() && q.enabled);
+  const updateUrlWithQueryParams = useCallback(
+    (params: typeof queryParams) => {
+      const enabledParams = params.filter(q => q.key.trim() && q.enabled);
 
-    try {
-      // Parse the current URL to get the base URL without query parameters
-      const currentUrl = url.trim();
-      const urlWithoutQuery = currentUrl.split('?')[0];
+      try {
+        // Parse the current URL to get the base URL without query parameters
+        const currentUrl = url.trim();
+        const urlWithoutQuery = currentUrl.split('?')[0];
 
-      if (enabledParams.length === 0) {
-        // No query parameters, just set the base URL
-        setUrl(urlWithoutQuery);
-      } else {
-        // Build query string
-        const searchParams = new URLSearchParams();
-        enabledParams.forEach(q => {
-          searchParams.append(q.key.trim(), q.value);
+        if (enabledParams.length === 0) {
+          // No query parameters, just set the base URL
+          setUrl(urlWithoutQuery);
+        } else {
+          // Build query string
+          const searchParams = new URLSearchParams();
+          enabledParams.forEach(q => {
+            searchParams.append(q.key.trim(), q.value);
+          });
+          const newUrl = `${urlWithoutQuery}?${searchParams.toString()}`;
+          setUrl(newUrl);
+        }
+      } catch (error) {
+        // If URL parsing fails, don't update the URL
+        logger.debug('Failed to update URL with query parameters', {
+          component: 'RequestPanel',
+          action: 'updateUrlWithQueryParams',
+          error: error instanceof Error ? error.message : String(error),
         });
-        const newUrl = `${urlWithoutQuery}?${searchParams.toString()}`;
-        setUrl(newUrl);
       }
-    } catch (error) {
-      // If URL parsing fails, don't update the URL
-      logger.debug('Failed to update URL with query parameters', {
-        component: 'RequestPanel',
-        action: 'updateUrlWithQueryParams',
-        error: error instanceof Error ? error.message : String(error),
-      });
-    }
-  };
+    },
+    [url]
+  );
 
   // Parse query parameters from URL
   const parseQueryParamsFromUrl = (urlString: string) => {
@@ -386,7 +389,7 @@ const RequestPanel: React.FC<RequestPanelProps> = ({
   };
 
   // Send request handler
-  const handleSendRequest = async () => {
+  const handleSendRequest = useCallback(async () => {
     if (!url.trim()) {
       setError('URL is required');
       if (isUrlMultiline) {
@@ -435,7 +438,8 @@ const RequestPanel: React.FC<RequestPanelProps> = ({
     } finally {
       setIsLoading(false);
     }
-  };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [url, method, headers, body, onSendRequest, isUrlMultiline]);
 
   // Environment variable validation
   const findUnresolvedPlaceholders = (text: string): string[] => {
@@ -472,7 +476,7 @@ const RequestPanel: React.FC<RequestPanelProps> = ({
 
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [url, method, headers, body]);
+  }, [url, method, headers, body, handleSendRequest]);
 
   // Close save popup when clicking outside
   useEffect(() => {
