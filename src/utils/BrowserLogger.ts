@@ -162,5 +162,5 @@ export default logger;
 
 // Make logger available globally for runtime log level changes
 if (typeof window !== 'undefined') {
-  (window as any).logger = logger;
+  (window as typeof window & { logger: BrowserLogger }).logger = logger;
 }

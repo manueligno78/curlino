@@ -5,7 +5,7 @@ interface Tab {
   id: string;
   title: string;
   request: Request;
-  response?: any;
+  response?: unknown;
 }
 
 interface TabSystemProps {

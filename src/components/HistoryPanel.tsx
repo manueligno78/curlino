@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { HistoryEntry } from '../models/History';
 import { HistoryService } from '../services/HistoryService';
 import { Request } from '../models/Request';
@@ -14,14 +14,14 @@ const HistoryPanel: React.FC<HistoryPanelProps> = ({ onSelectRequest }) => {
   const [historyService] = useState<HistoryService>(new HistoryService());
   const [methodFilter, setMethodFilter] = useState<string>('ALL');
 
-  useEffect(() => {
-    loadHistory();
-  }, []);
-
-  const loadHistory = () => {
+  const loadHistory = useCallback(() => {
     const entries = historyService.getHistory();
     setHistoryEntries(entries);
-  };
+  }, [historyService]);
+
+  useEffect(() => {
+    loadHistory();
+  }, [loadHistory]);
 
   const handleSearch = () => {
     if (searchQuery.trim() === '') {

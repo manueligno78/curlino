@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { AppSettings } from '../models/Settings';
 import { SettingsService } from '../services/SettingsService';
 import { Environment } from '../models/Environment';
@@ -37,6 +37,14 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
   // Environment management
   const [newEnvironmentName, setNewEnvironmentName] = useState('');
   const [isAddingEnvironment, setIsAddingEnvironment] = useState(false);
+
+  const handleClose = useCallback(() => {
+    if (isDirty) {
+      const confirmed = window.confirm('You have unsaved changes. Are you sure you want to close?');
+      if (!confirmed) return;
+    }
+    onClose();
+  }, [isDirty, onClose]);
   const [editingEnvironment, setEditingEnvironment] = useState<Environment | null>(null);
   const [_environmentToDelete, __setEnvironmentToDelete] = useState<Environment | null>(null);
 
@@ -60,17 +68,10 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
       document.addEventListener('keydown', handleKeyDown);
       return () => document.removeEventListener('keydown', handleKeyDown);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen]);
 
   if (!isOpen) return null;
-
-  const handleClose = () => {
-    if (isDirty) {
-      const confirmed = window.confirm('You have unsaved changes. Are you sure you want to close?');
-      if (!confirmed) return;
-    }
-    onClose();
-  };
 
   const handleSave = () => {
     try {
@@ -163,7 +164,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
             {settingsSections.map(section => (
               <button
                 key={section.key}
-                onClick={() => setActiveTab(section.key as any)}
+                onClick={() => setActiveTab(section.key as 'general' | 'environments' | 'advanced')}
                 className={`nav-item ${activeTab === section.key ? 'active' : ''}`}
               >
                 <span className="nav-icon">{section.icon}</span>
@@ -196,7 +197,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                     ].map(theme => (
                       <button
                         key={theme.key}
-                        onClick={() => handleThemeChange(theme.key as any)}
+                        onClick={() => handleThemeChange(theme.key as 'light' | 'dark' | 'auto')}
                         className={`theme-option ${themeManager.getCurrentTheme() === theme.key ? 'active' : ''}`}
                       >
                         <span className="theme-icon">{theme.icon}</span>
@@ -218,7 +219,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                     onChange={e =>
                       updateSetting('appearance', {
                         ...settings.appearance,
-                        fontSize: e.target.value as any,
+                        fontSize: e.target.value as 'small' | 'medium' | 'large',
                       })
                     }
                     className="select"
