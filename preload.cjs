@@ -3,6 +3,17 @@
 // ma con accesso alle API di Electron
 
 const { contextBridge, ipcRenderer } = require('electron');
+const path = require('path');
+const fs = require('fs');
+const { shell } = require('electron');
+
+// Otteniamo i moduli all'inizio per evitare problemi di bundling
+let remoteApp;
+try {
+  remoteApp = require('electron').remote?.app || require('@electron/remote')?.app;
+} catch (e) {
+  remoteApp = null;
+}
 
 // Log to verify that the preload script is executed
 // Preload script started - logging will be handled by main app
@@ -22,23 +33,25 @@ contextBridge.exposeInMainWorld('electron', {
   },
   // Forniamo funzioni specifiche per i moduli comuni invece di esporre require
   path: {
-    join: (...args) => require('path').join(...args),
-    resolve: (...args) => require('path').resolve(...args),
+    join: (...args) => path.join(...args),
+    resolve: (...args) => path.resolve(...args),
   },
   fs: {
-    readFileSync: (path, options) => require('fs').readFileSync(path, options),
-    writeFileSync: (path, data, options) => require('fs').writeFileSync(path, data, options),
+    readFileSync: (filePath, options) => fs.readFileSync(filePath, options),
+    writeFileSync: (filePath, data, options) => fs.writeFileSync(filePath, data, options),
   },
   // Aggiungi funzioni per aprire cartelle nel filesystem
-  openFolder: path => {
-    const { shell } = require('electron');
-    shell.openPath(path);
+  openFolder: (folderPath) => {
+    shell.openPath(folderPath);
   },
   getAppDataPath: () => {
-    const { app } = require('electron').remote || require('@electron/remote');
-    return app.getPath('userData');
+    return remoteApp ? remoteApp.getPath('userData') : null;
   },
   getPlatform: () => process.platform,
+  // HTTP request API to bypass CORS
+  httpRequest: (requestData) => {
+    return ipcRenderer.invoke('app:http-request', requestData);
+  },
 });
 
 // Esponiamo un'API che ci permette di interagire con lo storage in modo sicuro
