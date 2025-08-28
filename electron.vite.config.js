@@ -11,8 +11,10 @@ export default defineConfig({
         writeBundle() {
           try {
             copyFileSync('preload-simple.js', 'out/main/preload-simple.js')
+
+            console.log('✓ Copied preload-simple.js to out/main/')
           } catch (e) {
-            console.warn('Failed to copy preload-simple.js:', e.message)
+            console.warn('⚠ Failed to copy preload-simple.js:', e.message)
           }
         }
       }
