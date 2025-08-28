@@ -9,6 +9,33 @@ declare module '*.svg' {
   export default content;
 }
 
+interface HttpRequestData {
+  url: string;
+  method?: string;
+  headers?: Record<string, string>;
+  body?: string;
+  timeout?: number;
+  rejectUnauthorized?: boolean;
+}
+
+interface HttpResponse {
+  status: string;
+  statusCode: number;
+  headers: Record<string, string>;
+  body: unknown;
+  responseTime: number;
+}
+
+interface HttpResult {
+  success: boolean;
+  data?: HttpResponse;
+  error?: {
+    error: string;
+    code?: string;
+    responseTime?: number;
+  };
+}
+
 declare global {
   interface Window {
     electron?: {
@@ -25,6 +52,7 @@ declare global {
       openFolder: (path: string) => void;
       getAppDataPath: () => string;
       getPlatform: () => string;
+      httpRequest: (requestData: HttpRequestData) => Promise<HttpResult>;
     };
     electronStorage?: {
       getItem: (key: string) => string | null;

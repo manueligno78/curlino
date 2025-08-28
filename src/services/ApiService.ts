@@ -114,6 +114,69 @@ export class ApiService {
     const processedConfig = this.processConfig(config);
 
     try {
+      // Check if we're in Electron environment and use IPC for HTTP requests
+      if (window.electron?.httpRequest) {
+        const requestData = {
+          url: processedConfig.url,
+          method: processedConfig.method?.toUpperCase() || 'GET',
+          headers: processedConfig.headers || {},
+          body:
+            typeof processedConfig.data === 'string'
+              ? processedConfig.data
+              : processedConfig.data
+                ? JSON.stringify(processedConfig.data)
+                : undefined,
+          timeout: processedConfig.timeout || 30000,
+          rejectUnauthorized: true, // Default to secure
+        };
+
+        // Apply SSL settings from app settings
+        const settings = this.settingsService.getSettings();
+        if (!settings.requestDefaults.sslVerification) {
+          requestData.rejectUnauthorized = false;
+        }
+
+        const result = await window.electron.httpRequest(requestData);
+
+        if (!result.success) {
+          throw new Error(result.error?.error || 'Network request failed');
+        }
+
+        const response = result.data;
+
+        // Log request and response to history
+        const requestObj = new Request(
+          generateUUID(),
+          `${processedConfig.method || 'GET'} ${processedConfig.url || ''}`,
+          processedConfig.url || '',
+          (processedConfig.method as string) || 'GET',
+          (processedConfig.headers as Record<string, string>) || {},
+          typeof processedConfig.data === 'string'
+            ? processedConfig.data
+            : processedConfig.data
+              ? JSON.stringify(processedConfig.data)
+              : '',
+          ''
+        );
+
+        this.historyService.addToHistory(requestObj, {
+          status: response.statusCode,
+          statusText: response.status,
+          headers: response.headers as Record<string, string>,
+          data: response.body,
+          time: response.responseTime,
+        });
+
+        return {
+          status: response.status,
+          statusCode: response.statusCode,
+          headers: response.headers as Record<string, string>,
+          body: response.body,
+          responseTime: response.responseTime,
+        };
+      }
+
+      // Fallback to axios for web environments
       const response = await axios(processedConfig);
       const endTime = Date.now();
 

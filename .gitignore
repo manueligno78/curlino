@@ -70,3 +70,6 @@ jest-coverage/
 # Local test files
 test-*.js
 test-*.html
+
+# Claude Code settings
+.claude/

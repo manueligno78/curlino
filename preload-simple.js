@@ -11,6 +11,10 @@ contextBridge.exposeInMainWorld('electron', {
       ipcRenderer.on(channel, (event, ...args) => func(...args));
     }
   },
+  // HTTP request API to bypass CORS
+  httpRequest: (requestData) => {
+    return ipcRenderer.invoke('app:http-request', requestData);
+  },
   path: {
     join: (...args) => {
       const path = require('path');
