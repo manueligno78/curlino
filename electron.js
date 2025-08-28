@@ -1,10 +1,158 @@
-import { app, BrowserWindow, session } from 'electron';
+import { app, BrowserWindow, session, ipcMain } from 'electron';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import https from 'https';
+import http from 'http';
+import zlib from 'zlib';
 
 let mainWindow = null;
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
+
+// HTTP request handler to bypass CORS
+function makeHttpRequest(url, options = {}) {
+  return new Promise((resolve, reject) => {
+    const isHttps = url.startsWith('https://');
+    const httpModule = isHttps ? https : http;
+    
+    // Parse URL
+    const urlObj = new URL(url);
+    
+    // Setup standard HTTP headers like Postman
+    const standardHeaders = {
+      'Host': urlObj.host,
+      'User-Agent': 'Curlino/1.0.0 (compatible; HTTP client)',
+      'Accept': '*/*',
+      'Accept-Encoding': 'gzip, deflate, br',
+      'Connection': 'keep-alive',
+      // Add standard content headers if body is present
+      ...(options.body && {
+        'Content-Length': Buffer.byteLength(options.body, 'utf8').toString()
+      })
+    };
+
+    // Merge user headers with standard headers (user headers override standard ones)
+    const finalHeaders = {
+      ...standardHeaders,
+      ...options.headers
+    };
+
+    // Setup request options
+    const requestOptions = {
+      hostname: urlObj.hostname,
+      port: urlObj.port || (isHttps ? 443 : 80),
+      path: urlObj.pathname + urlObj.search,
+      method: options.method || 'GET',
+      headers: finalHeaders,
+      timeout: options.timeout || 30000,
+    };
+
+    // Handle SSL verification setting
+    if (isHttps && options.rejectUnauthorized === false) {
+      requestOptions.rejectUnauthorized = false;
+    }
+
+    const startTime = Date.now();
+    
+    const req = httpModule.request(requestOptions, (res) => {
+      let responseStream = res;
+      
+      // Handle compressed responses
+      const encoding = res.headers['content-encoding'];
+      if (encoding === 'gzip') {
+        responseStream = res.pipe(zlib.createGunzip());
+      } else if (encoding === 'deflate') {
+        responseStream = res.pipe(zlib.createInflate());
+      } else if (encoding === 'br') {
+        responseStream = res.pipe(zlib.createBrotliDecompress());
+      }
+      
+      let data = '';
+      
+      responseStream.on('data', (chunk) => {
+        data += chunk;
+      });
+      
+      responseStream.on('end', () => {
+        const endTime = Date.now();
+        
+        // Parse response body based on content-type
+        let body = data;
+        const contentType = res.headers['content-type'] || '';
+        
+        if (contentType.includes('application/json')) {
+          try {
+            body = JSON.parse(data);
+          } catch (e) {
+            // Keep as string if parsing fails
+          }
+        }
+        
+        resolve({
+          status: res.statusMessage || 'OK',
+          statusCode: res.statusCode,
+          headers: res.headers,
+          body: body,
+          responseTime: endTime - startTime,
+        });
+      });
+      
+      responseStream.on('error', (error) => {
+        const endTime = Date.now();
+        reject({
+          error: `Decompression error: ${error.message}`,
+          code: 'DECOMPRESSION_ERROR',
+          responseTime: endTime - startTime,
+        });
+      });
+    });
+    
+    req.on('error', (error) => {
+      const endTime = Date.now();
+      reject({
+        error: error.message,
+        code: error.code,
+        responseTime: endTime - startTime,
+      });
+    });
+    
+    req.on('timeout', () => {
+      req.destroy();
+      const endTime = Date.now();
+      reject({
+        error: 'Request timeout',
+        code: 'ETIMEDOUT',
+        responseTime: endTime - startTime,
+      });
+    });
+    
+    // Send body if provided
+    if (options.body) {
+      req.write(options.body);
+    }
+    
+    req.end();
+  });
+}
+
+// Setup IPC handlers
+ipcMain.handle('app:http-request', async (event, requestData) => {
+  try {
+    const { url, method, headers, body, timeout, rejectUnauthorized } = requestData;
+    
+    const result = await makeHttpRequest(url, {
+      method,
+      headers,
+      body,
+      timeout,
+      rejectUnauthorized,
+    });
+    
+    return { success: true, data: result };
+  } catch (error) {
+    return { success: false, error };
+  }
+});
 
 // Function to check if dev server is running
 async function isDevServerRunning() {

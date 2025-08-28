@@ -1,9 +1,22 @@
 import { defineConfig, externalizeDepsPlugin } from 'electron-vite'
 import { resolve } from 'path'
+import { copyFileSync } from 'fs'
 
 export default defineConfig({
   main: {
-    plugins: [externalizeDepsPlugin()],
+    plugins: [
+      externalizeDepsPlugin(),
+      {
+        name: 'copy-preload',
+        writeBundle() {
+          try {
+            copyFileSync('preload-simple.js', 'out/main/preload-simple.js')
+          } catch (e) {
+            console.warn('Failed to copy preload-simple.js:', e.message)
+          }
+        }
+      }
+    ],
     build: {
       rollupOptions: {
         input: resolve(__dirname, 'electron.js')
