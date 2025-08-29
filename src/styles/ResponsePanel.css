@@ -327,3 +327,31 @@
 [data-theme='dark'] .status-badge.status-unknown {
   /* Status badges use the same colors in dark theme for good contrast */
 }
+
+/* ===== STATUS MESSAGE CONTAINER ===== */
+
+.status-message-container {
+  padding: var(--space-3);
+  margin-bottom: var(--space-2);
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-secondary);
+  border-radius: var(--radius-base);
+  border-left: 4px solid var(--color-accent-500);
+}
+
+.status-message-text {
+  color: var(--text-secondary);
+  font-size: var(--font-size-sm);
+  font-style: italic;
+  line-height: 1.4;
+}
+
+/* Dark theme support */
+[data-theme='dark'] .status-message-container {
+  background-color: var(--bg-tertiary);
+  border-color: var(--border-tertiary);
+}
+
+[data-theme='dark'] .status-message-text {
+  color: var(--text-tertiary);
+}

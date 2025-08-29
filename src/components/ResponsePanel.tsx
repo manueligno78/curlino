@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { ApiResponseData } from '../services/ApiService';
 import { logger } from '../utils/BrowserLogger';
+import { SettingsService } from '../services/SettingsService';
+import { getStatusInfo, UIMessageTone } from '../utils/statusMessages';
 import HeadersSection from './shared/HeadersSection';
 import '../styles/ResponsePanel.css';
 
@@ -11,6 +13,48 @@ interface ResponsePanelProps {
 const ResponsePanel: React.FC<ResponsePanelProps> = ({ response }) => {
   const [headersCollapsed, setHeadersCollapsed] = useState<boolean>(true);
   const [copySuccess, setCopySuccess] = useState<string>('');
+  const [settingsService] = useState(() => new SettingsService());
+
+  // Helper function to render status badge (compact version for header)
+  const renderStatusBadge = (statusCode: number, status: string) => {
+    try {
+      const settings = settingsService.getSettings();
+      const messageTone = settings.appearance?.statusMessageTone || 'friendly';
+      const statusInfo = getStatusInfo(statusCode, messageTone as UIMessageTone);
+
+      return (
+        <div className={`status-badge ${getStatusClass(statusCode, status)}`}>
+          <span className="status-emoji">{statusInfo.emoji}</span>
+          <span className="status-code">{statusCode}</span>
+        </div>
+      );
+    } catch (error) {
+      // Fallback to simple status display if there's any error
+      return (
+        <div className={`status-badge ${getStatusClass(statusCode, status)}`}>
+          {statusCode} {status}
+        </div>
+      );
+    }
+  };
+
+  // Helper function to render status message separately
+  const renderStatusMessage = (statusCode: number) => {
+    try {
+      const settings = settingsService.getSettings();
+      const messageTone = settings.appearance?.statusMessageTone || 'friendly';
+      const statusInfo = getStatusInfo(statusCode, messageTone as UIMessageTone);
+
+      return (
+        <div className="status-message-container">
+          <span className="status-message-text">{statusInfo.message}</span>
+        </div>
+      );
+    } catch (error) {
+      // Return null if there's any error - no message shown
+      return null;
+    }
+  };
 
   // If there is no response, show an empty message
   if (!response) {
@@ -74,9 +118,7 @@ const ResponsePanel: React.FC<ResponsePanelProps> = ({ response }) => {
         <h2>Response</h2>
         <div className="response-meta">
           {response.statusCode > 0 ? (
-            <div className={`status-badge ${getStatusClass(response.statusCode, response.status)}`}>
-              {response.statusCode} {response.status}
-            </div>
+            renderStatusBadge(response.statusCode, response.status)
           ) : (
             <div className="status-badge status-error">Error</div>
           )}
@@ -85,6 +127,9 @@ const ResponsePanel: React.FC<ResponsePanelProps> = ({ response }) => {
           )}
         </div>
       </div>
+
+      {/* Status Message */}
+      {response.statusCode > 0 && renderStatusMessage(response.statusCode)}
 
       {/* Headers Section */}
       <HeadersSection

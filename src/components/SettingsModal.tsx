@@ -230,6 +230,30 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                   </select>
                 </div>
 
+                <div className="setting-group">
+                  <label className="setting-label">
+                    <span className="label-text">Status Message Tone</span>
+                    <span className="label-description">
+                      Choose how status messages are displayed
+                    </span>
+                  </label>
+
+                  <select
+                    value={settings.appearance?.statusMessageTone || 'friendly'}
+                    onChange={e =>
+                      updateSetting('appearance', {
+                        ...settings.appearance,
+                        statusMessageTone: e.target.value as 'friendly' | 'formal' | 'technical',
+                      })
+                    }
+                    className="select"
+                  >
+                    <option value="friendly">Friendly (😊 &ldquo;Great success!&rdquo;)</option>
+                    <option value="formal">Formal (✅ &ldquo;Request successful&rdquo;)</option>
+                    <option value="technical">Technical (200 &ldquo;OK&rdquo;)</option>
+                  </select>
+                </div>
+
                 <h3>Behavior</h3>
 
                 <div className="setting-group">
