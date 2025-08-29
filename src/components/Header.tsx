@@ -53,7 +53,6 @@ const Header: React.FC<HeaderProps> = ({
               onClick={() => {
                 if (onImportRequest) onImportRequest('__VIEW_CHANGE__');
               }}
-              disabled={activeView === 'import'}
             >
               Import
             </button>
@@ -62,7 +61,6 @@ const Header: React.FC<HeaderProps> = ({
             <button
               className={`nav-button ${activeView === 'builder' ? 'active' : ''}`}
               onClick={onActivateBuilder}
-              disabled={activeView === 'builder'}
             >
               Builder
             </button>
@@ -71,7 +69,6 @@ const Header: React.FC<HeaderProps> = ({
             <button
               className={`nav-button ${activeView === 'history' ? 'active' : ''}`}
               onClick={onToggleHistory}
-              disabled={activeView === 'history'}
             >
               History
             </button>

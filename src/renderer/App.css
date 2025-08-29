@@ -150,6 +150,7 @@ body {
   font-weight: var(--font-weight-semibold);
   box-shadow: var(--shadow-sm);
   border: 1px solid var(--border-primary);
+  cursor: pointer;
 }
 
 .nav-button:disabled {
