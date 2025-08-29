@@ -5,6 +5,7 @@ import { generateCurlCommand } from '../utils/curlGenerator';
 import { Collection } from '../models/Collection';
 import { Environment } from '../models/Environment';
 import { logger } from '../utils/BrowserLogger';
+import { validateAndCorrectUrl } from '../utils/urlValidation';
 import HeadersSection from './shared/HeadersSection';
 import QueryParamsSection from './shared/QueryParamsSection';
 import '../styles/RequestPanel.css';
@@ -53,6 +54,7 @@ const RequestPanel: React.FC<RequestPanelProps> = ({
   const urlDebounceTimer = useRef<NodeJS.Timeout | null>(null);
   const [curlCopySuccess, setCurlCopySuccess] = useState<string>('');
   const [isUrlMultiline, setIsUrlMultiline] = useState(false);
+  const [urlValidationError, setUrlValidationError] = useState<string | null>(null);
 
   // Helper function to check if method supports body
   const methodSupportsBody = (method: string): boolean => {
@@ -72,11 +74,49 @@ const RequestPanel: React.FC<RequestPanelProps> = ({
     }
   };
 
-  // Handle blur to switch back to single line
+  // Handle blur to switch back to single line and validate URL
   const handleUrlInputBlur = () => {
     if (isUrlMultiline) {
       setIsUrlMultiline(false);
     }
+    validateUrl();
+  };
+
+  // Validate and correct URL
+  const validateUrl = () => {
+    setUrlValidationError(null);
+
+    if (!url.trim()) {
+      return;
+    }
+
+    const validation = validateAndCorrectUrl(url);
+
+    if (!validation.isValid) {
+      setUrlValidationError(validation.error || 'Invalid URL');
+    } else if (validation.correctedUrl && validation.correctedUrl !== url) {
+      // Auto-correct the URL with protocol if needed
+      setUrl(validation.correctedUrl);
+      logger.debug('URL auto-corrected', {
+        component: 'RequestPanel',
+        action: 'validateUrl',
+        originalUrl: url,
+        correctedUrl: validation.correctedUrl,
+      });
+    }
+  };
+
+  // Handle URL input focus - prefill with https:// if empty
+  const handleUrlInputFocus = () => {
+    if (!url.trim()) {
+      setUrl('https://');
+    }
+  };
+
+  // Handle URL change
+  const handleUrlChange = (newUrl: string) => {
+    setUrl(newUrl);
+    setUrlValidationError(null); // Clear validation error when typing
   };
 
   // Refs
@@ -400,6 +440,23 @@ const RequestPanel: React.FC<RequestPanelProps> = ({
       return;
     }
 
+    // Validate URL before sending
+    const validation = validateAndCorrectUrl(url);
+    if (!validation.isValid) {
+      setUrlValidationError(validation.error || 'Invalid URL format');
+      if (isUrlMultiline) {
+        urlTextareaRef.current?.focus();
+      } else {
+        urlInputRef.current?.focus();
+      }
+      return;
+    }
+
+    // Auto-correct URL if needed
+    if (validation.correctedUrl && validation.correctedUrl !== url) {
+      setUrl(validation.correctedUrl);
+    }
+
     setIsLoading(true);
     setError(null);
 
@@ -531,10 +588,11 @@ const RequestPanel: React.FC<RequestPanelProps> = ({
             <textarea
               ref={urlTextareaRef}
               value={url}
-              onChange={e => setUrl(e.target.value)}
+              onChange={e => handleUrlChange(e.target.value)}
               onBlur={handleUrlInputBlur}
+              onFocus={handleUrlInputFocus}
               placeholder="https://api.example.com/endpoint or paste cURL command"
-              className={`textarea url-textarea ${hasUnresolvedVars ? 'input-warning' : ''}`}
+              className={`textarea url-textarea ${hasUnresolvedVars || urlValidationError ? 'input-warning' : ''}`}
               rows={3}
               style={{ resize: 'vertical' }}
             />
@@ -543,10 +601,12 @@ const RequestPanel: React.FC<RequestPanelProps> = ({
               ref={urlInputRef}
               type="text"
               value={url}
-              onChange={e => setUrl(e.target.value)}
+              onChange={e => handleUrlChange(e.target.value)}
+              onBlur={handleUrlInputBlur}
+              onFocus={handleUrlInputFocus}
               onClick={handleUrlInputClick}
               placeholder="https://api.example.com/endpoint or paste cURL command"
-              className={`input url-input ${hasUnresolvedVars ? 'input-warning' : ''} ${isUrlTooLong(url) ? 'url-overflow' : ''}`}
+              className={`input url-input ${hasUnresolvedVars || urlValidationError ? 'input-warning' : ''} ${isUrlTooLong(url) ? 'url-overflow' : ''}`}
             />
           )}
         </div>
@@ -634,6 +694,19 @@ const RequestPanel: React.FC<RequestPanelProps> = ({
           </div>
         </div>
       </div>
+
+      {/* URL Validation Error */}
+      {urlValidationError && (
+        <div className="panel-section">
+          <div className="error-banner">
+            <span className="error-icon">❌</span>
+            <div className="error-message">{urlValidationError}</div>
+            <button onClick={() => setUrlValidationError(null)} className="btn btn-ghost btn-sm">
+              ✕
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Environment Variables Warning */}
       {hasUnresolvedVars && (

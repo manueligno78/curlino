@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { validateAndCorrectUrl } from '../utils/urlValidation';
 import './ImportPanel.css';
 
 interface ImportPanelProps {
@@ -19,6 +20,19 @@ const ImportPanel: React.FC<ImportPanelProps> = ({ onImport }) => {
     if (!curlCommand.toLowerCase().startsWith('curl')) {
       setError('The command must start with "curl"');
       return;
+    }
+
+    // Basic URL validation for cURL commands
+    // Extract URL from cURL command for validation
+    const urlMatch = curlCommand.match(/curl\s+(?:[^'"\s]+|'[^']*'|"[^"]*")/);
+    if (urlMatch) {
+      const extractedUrl = urlMatch[0].replace(/^curl\s+/, '').replace(/^['"]|['"]$/g, '');
+      const validation = validateAndCorrectUrl(extractedUrl);
+
+      if (!validation.isValid) {
+        setError(`Invalid URL in cURL command: ${validation.error}`);
+        return;
+      }
     }
 
     setError(null);
