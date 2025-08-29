@@ -14,7 +14,15 @@ export interface RequestDefaults {
 
 export interface AppearanceSettings {
   fontSize: 'small' | 'medium' | 'large';
-  statusMessageTone?: 'friendly' | 'formal' | 'technical';
+  statusMessageTone?:
+    | 'friendly'
+    | 'formal'
+    | 'technical'
+    | 'straightforward'
+    | 'funny'
+    | 'empathetic'
+    | 'educational'
+    | 'short';
 }
 
 export interface RequestSettings {

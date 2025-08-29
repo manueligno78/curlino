@@ -7,12 +7,25 @@ export interface StatusDisplayInfo {
 }
 
 // Map our UI tone options to the library's MessageTone
-export type UIMessageTone = 'friendly' | 'formal' | 'technical';
+export type UIMessageTone =
+  | 'friendly'
+  | 'formal'
+  | 'technical'
+  | 'straightforward'
+  | 'funny'
+  | 'empathetic'
+  | 'educational'
+  | 'short';
 
 const toneMappings: Record<UIMessageTone, MessageTone> = {
   friendly: 'informal',
   formal: 'formal',
   technical: 'technical',
+  straightforward: 'straightforward',
+  funny: 'funny',
+  empathetic: 'empathetic',
+  educational: 'educational',
+  short: 'short',
 };
 
 /**

@@ -243,14 +243,41 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                     onChange={e =>
                       updateSetting('appearance', {
                         ...settings.appearance,
-                        statusMessageTone: e.target.value as 'friendly' | 'formal' | 'technical',
+                        statusMessageTone: e.target.value as
+                          | 'friendly'
+                          | 'formal'
+                          | 'technical'
+                          | 'straightforward'
+                          | 'funny'
+                          | 'empathetic'
+                          | 'educational'
+                          | 'short',
                       })
                     }
                     className="select"
                   >
-                    <option value="friendly">Friendly (😊 &ldquo;Great success!&rdquo;)</option>
-                    <option value="formal">Formal (✅ &ldquo;Request successful&rdquo;)</option>
-                    <option value="technical">Technical (200 &ldquo;OK&rdquo;)</option>
+                    <option value="friendly">
+                      😊 Friendly - &ldquo;Everything&rsquo;s good!&rdquo;
+                    </option>
+                    <option value="formal">
+                      ✅ Formal - &ldquo;The request has succeeded&rdquo;
+                    </option>
+                    <option value="technical">
+                      🔧 Technical - &ldquo;200 OK: Request succeeded&rdquo;
+                    </option>
+                    <option value="straightforward">
+                      ⚡ Straightforward - &ldquo;Success&rdquo;
+                    </option>
+                    <option value="funny">
+                      😄 Funny - &ldquo;Hooray! It&rsquo;s all good!&rdquo;
+                    </option>
+                    <option value="empathetic">
+                      🤗 Empathetic - &ldquo;We&rsquo;re pleased to confirm success&rdquo;
+                    </option>
+                    <option value="educational">
+                      🎓 Educational - &ldquo;Status 200 indicates success&rdquo;
+                    </option>
+                    <option value="short">⚡ Short - &ldquo;OK&rdquo;</option>
                   </select>
                 </div>
 
