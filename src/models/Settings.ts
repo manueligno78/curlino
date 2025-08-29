@@ -14,6 +14,7 @@ export interface RequestDefaults {
 
 export interface AppearanceSettings {
   fontSize: 'small' | 'medium' | 'large';
+  statusMessageTone?: 'friendly' | 'formal' | 'technical';
 }
 
 export interface RequestSettings {

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import './ImportPanel.css';
-import importIllustration from '@/assets/images/import-illustration.svg';
 
 interface ImportPanelProps {
   onImport: (url: string) => void;
@@ -67,21 +66,6 @@ const ImportPanel: React.FC<ImportPanelProps> = ({ onImport }) => {
               Import
             </button>
           </div>
-        </div>
-
-        <div className="import-tips">
-          <h3>Tips</h3>
-          <ul>
-            <li>You can get a cURL command from Chrome or Firefox using the Network Inspector</li>
-            <li>We support main parameters like -H (header), -d (data), -X (method)</li>
-            <li>
-              Press <kbd>Ctrl</kbd>+<kbd>Enter</kbd> to import quickly
-            </li>
-          </ul>
-        </div>
-
-        <div className="import-illustration">
-          <img src={importIllustration} alt="Import illustration" className="illustration" />
         </div>
       </div>
     </div>

@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { HistoryEntry } from '../models/History';
 import { HistoryService } from '../services/HistoryService';
+import { SettingsService } from '../services/SettingsService';
+import { getStatusInfo, UIMessageTone } from '../utils/statusMessages';
 import { Request } from '../models/Request';
 import './HistoryPanel.css';
 
@@ -12,7 +14,27 @@ const HistoryPanel: React.FC<HistoryPanelProps> = ({ onSelectRequest }) => {
   const [historyEntries, setHistoryEntries] = useState<HistoryEntry[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [historyService] = useState<HistoryService>(new HistoryService());
+  const [settingsService] = useState(() => new SettingsService());
   const [methodFilter, setMethodFilter] = useState<string>('ALL');
+
+  // Helper function to render status with message
+  const renderStatusWithMessage = (status: number) => {
+    try {
+      const settings = settingsService.getSettings();
+      const messageTone = settings.appearance?.statusMessageTone || 'friendly';
+      const statusInfo = getStatusInfo(status, messageTone as UIMessageTone);
+
+      return (
+        <span className={`status ${getStatusCodeClass(status)}`}>
+          <span className="status-emoji">{statusInfo.emoji}</span>
+          <span className="status-code">{status}</span>
+        </span>
+      );
+    } catch (error) {
+      // Fallback to simple status display if there's any error
+      return <span className={`status ${getStatusCodeClass(status)}`}>{status}</span>;
+    }
+  };
 
   const loadHistory = useCallback(() => {
     const entries = historyService.getHistory();
@@ -164,11 +186,7 @@ const HistoryPanel: React.FC<HistoryPanelProps> = ({ onSelectRequest }) => {
                   {entry.request.method}
                 </span>
                 <span className="url">{entry.request.url}</span>
-                {entry.response && (
-                  <span className={`status ${getStatusCodeClass(entry.response.status)}`}>
-                    {entry.response.status}
-                  </span>
-                )}
+                {entry.response && renderStatusWithMessage(entry.response.status)}
                 <button
                   className="delete-button"
                   onClick={e => handleDeleteEntry(entry.id, e)}

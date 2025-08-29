@@ -37,11 +37,14 @@
 }
 
 .curl-input-area {
-  margin-bottom: 24px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .curl-textarea {
   width: 100%;
+  flex-grow: 1;
   padding: 12px;
   border: 1px solid var(--border-color);
   border-radius: 4px;
@@ -49,7 +52,8 @@
   color: var(--text-color);
   font-family: monospace;
   font-size: 14px;
-  resize: vertical;
+  resize: none;
+  min-height: 200px;
 }
 
 .import-error {
@@ -61,7 +65,9 @@
 .import-actions {
   display: flex;
   justify-content: flex-end;
-  margin-top: 12px;
+  align-items: flex-end;
+  margin-top: auto;
+  padding-top: 16px;
   gap: 8px;
 }
 
@@ -97,50 +103,4 @@
 .secondary-button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
-}
-
-.import-tips {
-  margin-bottom: 24px;
-}
-
-.import-tips h3 {
-  font-size: 16px;
-  margin-bottom: 12px;
-  color: var(--text-color);
-}
-
-.import-tips ul {
-  padding-left: 20px;
-}
-
-.import-tips li {
-  margin-bottom: 8px;
-  color: var(--text-secondary);
-  font-size: 14px;
-}
-
-.import-tips kbd {
-  background-color: var(--input-bg);
-  border: 1px solid var(--border-color);
-  border-radius: 3px;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
-  color: var(--text-color);
-  display: inline-block;
-  font-size: 12px;
-  line-height: 1;
-  padding: 2px 4px;
-  margin: 0 2px;
-}
-
-.import-illustration {
-  display: flex;
-  justify-content: center;
-  margin-top: auto;
-  padding: 20px;
-}
-
-.import-illustration img {
-  max-width: 300px;
-  max-height: 200px;
-  opacity: 0.8;
 }
