@@ -220,40 +220,45 @@
   font-size: 12px;
   cursor: pointer;
   transition: all 0.2s ease;
-}
-
-.method-filter.active {
-  background-color: var(--accent-color);
-  color: white;
-  border-color: var(--accent-color);
+  font-weight: normal;
 }
 
 .method-filter:hover {
   border-color: var(--accent-color);
 }
 
-/* Method filter colors */
-.method-filter[data-method='GET'].active {
+/* Method filter colors - always colored */
+.method-filter[data-method='GET'] {
   background-color: var(--color-method-get);
   border-color: var(--color-method-get);
+  color: white;
 }
 
-.method-filter[data-method='POST'].active {
+.method-filter[data-method='POST'] {
   background-color: var(--color-method-post);
   border-color: var(--color-method-post);
+  color: white;
 }
 
-.method-filter[data-method='PUT'].active {
+.method-filter[data-method='PUT'] {
   background-color: var(--color-method-put);
   border-color: var(--color-method-put);
+  color: white;
 }
 
-.method-filter[data-method='DELETE'].active {
+.method-filter[data-method='DELETE'] {
   background-color: var(--color-method-delete);
   border-color: var(--color-method-delete);
+  color: white;
 }
 
-.method-filter[data-method='PATCH'].active {
+.method-filter[data-method='PATCH'] {
   background-color: var(--color-method-patch);
   border-color: var(--color-method-patch);
+  color: white;
+}
+
+/* Active state - just bold font */
+.method-filter.active {
+  font-weight: bold;
 }
