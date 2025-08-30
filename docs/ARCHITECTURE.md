@@ -50,7 +50,7 @@ Core business logic is organized into dedicated services:
 #### StorageService
 
 - Manages persistent data storage
-- Handles collections, environments, and settings
+- Handles groups, environments, and settings
 - Provides data synchronization
 
 #### AuthService
@@ -59,11 +59,11 @@ Core business logic is organized into dedicated services:
 - Supports multiple auth types (Basic, Bearer, API Key)
 - Handles token refresh and validation
 
-#### CollectionService
+#### GroupService
 
-- Manages collection operations
+- Manages group operations
 - Handles import/export functionality
-- Provides collection organization features
+- Provides group organization features
 
 ### Component Architecture
 
@@ -72,7 +72,7 @@ React components are organized by feature and responsibility:
 #### Layout Components
 
 - `Header`: Application navigation and branding
-- `Sidebar`: Collection and environment navigation
+- `Sidebar`: Group and environment navigation
 - `TabSystem`: Multi-request tab management
 
 #### Feature Components
@@ -80,7 +80,7 @@ React components are organized by feature and responsibility:
 - `RequestPanel`: API request configuration
 - `ResponsePanel`: API response display
 - `SettingsModal`: Application configuration
-- `ImportModal`: Collection import functionality
+- `ImportModal`: Group import functionality
 
 #### Utility Components
 
@@ -97,12 +97,12 @@ React components are organized by feature and responsibility:
 4. **Response**: Response processed and displayed in ResponsePanel
 5. **Storage**: Request/response optionally saved to history
 
-### Collection Management
+### Group Management
 
-1. **Creation**: Collections created via CollectionService
+1. **Creation**: Groups created via GroupService
 2. **Storage**: Data persisted via StorageService
 3. **Synchronization**: UI updated via React state management
-4. **Export**: Collections exported in standard formats
+4. **Export**: Groups exported in standard formats
 
 ## State Management
 
@@ -120,7 +120,7 @@ React components are organized by feature and responsibility:
 
 ### Data Persistence
 
-- Collections and environments stored in local files
+- Groups and environments stored in local files
 - Settings persisted in application data directory
 - History and cache managed automatically
 
@@ -181,7 +181,7 @@ React components are organized by feature and responsibility:
 ### Memory Management
 
 - Proper cleanup of event listeners
-- Request/response data garbage collection
+- Request/response data garbage group
 - Limited history retention
 
 ## Testing Strategy
@@ -247,7 +247,7 @@ New authentication methods can be added by:
 Additional export formats supported through:
 
 - Implementing ExportProvider interface
-- Registering with CollectionService
+- Registering with GroupService
 - Adding format-specific transformations
 
 ## Deployment
@@ -280,7 +280,7 @@ Additional export formats supported through:
 
 ### Performance
 
-- Virtual scrolling for large collections
+- Virtual scrolling for large groups
 - Background request processing
 - Response caching strategies
 

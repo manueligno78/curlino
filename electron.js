@@ -18,7 +18,7 @@ function makeHttpRequest(url, options = {}) {
     // Parse URL
     const urlObj = new URL(url);
     
-    // Setup standard HTTP headers like Postman
+    // Setup standard HTTP headers
     const standardHeaders = {
       'Host': urlObj.host,
       'User-Agent': 'Curlino/1.0.0 (compatible; HTTP client)',

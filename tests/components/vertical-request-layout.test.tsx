@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import RequestPanel from '../../src/components/RequestPanel';
 import { Request } from '../../src/models/Request';
-import { Collection } from '../../src/models/Collection';
+import { Group } from '../../src/models/Group';
 
 // Mock the logger
 jest.mock('../../src/utils/BrowserLogger', () => ({
@@ -14,7 +14,7 @@ jest.mock('../../src/utils/BrowserLogger', () => ({
 
 describe('Vertical Request Layout', () => {
   const mockOnSendRequest = jest.fn();
-  const mockOnSaveToCollection = jest.fn();
+  const mockOnSaveToGroup = jest.fn();
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -23,14 +23,14 @@ describe('Vertical Request Layout', () => {
   it('should render headers and body sections vertically without tabs', () => {
     const request = new Request('1', 'Test Request', 'https://api.example.com/test');
     request.method = 'POST'; // Method that supports body
-    const collection = new Collection('col1', 'Test Collection');
+    const group = new Group('col1', 'Test Group');
 
     render(
       <RequestPanel
         request={request}
         onSendRequest={mockOnSendRequest}
-        onSaveToCollection={mockOnSaveToCollection}
-        collections={[collection]}
+        onSaveToGroup={mockOnSaveToGroup}
+        groups={[group]}
       />
     );
 
@@ -51,14 +51,14 @@ describe('Vertical Request Layout', () => {
     methodsWithBody.forEach(method => {
       const request = new Request('1', 'Test Request', 'https://api.example.com/test');
       request.method = method;
-      const collection = new Collection('col1', 'Test Collection');
+      const group = new Group('col1', 'Test Group');
 
       const { rerender } = render(
         <RequestPanel
           request={request}
           onSendRequest={mockOnSendRequest}
-          onSaveToCollection={mockOnSaveToCollection}
-          collections={[collection]}
+          onSaveToGroup={mockOnSaveToGroup}
+          groups={[group]}
         />
       );
 
@@ -79,14 +79,14 @@ describe('Vertical Request Layout', () => {
     methodsWithoutBody.forEach(method => {
       const request = new Request('1', 'Test Request', 'https://api.example.com/test');
       request.method = method;
-      const collection = new Collection('col1', 'Test Collection');
+      const group = new Group('col1', 'Test Group');
 
       const { rerender } = render(
         <RequestPanel
           request={request}
           onSendRequest={mockOnSendRequest}
-          onSaveToCollection={mockOnSaveToCollection}
-          collections={[collection]}
+          onSaveToGroup={mockOnSaveToGroup}
+          groups={[group]}
         />
       );
 
@@ -109,14 +109,14 @@ describe('Vertical Request Layout', () => {
       'Content-Type': 'application/json',
       Authorization: 'Bearer token123',
     };
-    const collection = new Collection('col1', 'Test Collection');
+    const group = new Group('col1', 'Test Group');
 
     render(
       <RequestPanel
         request={request}
         onSendRequest={mockOnSendRequest}
-        onSaveToCollection={mockOnSaveToCollection}
-        collections={[collection]}
+        onSaveToGroup={mockOnSaveToGroup}
+        groups={[group]}
       />
     );
 
@@ -127,14 +127,14 @@ describe('Vertical Request Layout', () => {
   it('should change between query parameters and body section when method changes via dropdown', () => {
     const request = new Request('1', 'Test Request', 'https://api.example.com/test');
     request.method = 'GET'; // Start with GET (no body support)
-    const collection = new Collection('col1', 'Test Collection');
+    const group = new Group('col1', 'Test Group');
 
     render(
       <RequestPanel
         request={request}
         onSendRequest={mockOnSendRequest}
-        onSaveToCollection={mockOnSaveToCollection}
-        collections={[collection]}
+        onSaveToGroup={mockOnSaveToGroup}
+        groups={[group]}
       />
     );
 

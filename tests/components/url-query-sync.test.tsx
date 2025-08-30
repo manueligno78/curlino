@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
 import RequestPanel from '../../src/components/RequestPanel';
 import { Request } from '../../src/models/Request';
-import { Collection } from '../../src/models/Collection';
+import { Group } from '../../src/models/Group';
 
 // Mock the logger
 jest.mock('../../src/utils/BrowserLogger', () => ({
@@ -14,7 +14,7 @@ jest.mock('../../src/utils/BrowserLogger', () => ({
 
 describe('URL and Query Parameters Synchronization', () => {
   const mockOnSendRequest = jest.fn();
-  const mockOnSaveToCollection = jest.fn();
+  const mockOnSaveToGroup = jest.fn();
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -23,14 +23,14 @@ describe('URL and Query Parameters Synchronization', () => {
   it('should update URL when query parameters are added', async () => {
     const request = new Request('1', 'Test Request', 'https://api.example.com/test');
     request.method = 'GET';
-    const collection = new Collection('col1', 'Test Collection');
+    const group = new Group('col1', 'Test Group');
     
     render(
       <RequestPanel
         request={request}
         onSendRequest={mockOnSendRequest}
-        onSaveToCollection={mockOnSaveToCollection}
-        collections={[collection]}
+        onSaveToGroup={mockOnSaveToGroup}
+        groups={[group]}
       />
     );
 
@@ -55,14 +55,14 @@ describe('URL and Query Parameters Synchronization', () => {
   it.skip('should update query parameters when URL is modified', async () => {
     const request = new Request('1', 'Test Request', 'https://api.example.com/test');
     request.method = 'GET';
-    const collection = new Collection('col1', 'Test Collection');
+    const group = new Group('col1', 'Test Group');
     
     render(
       <RequestPanel
         request={request}
         onSendRequest={mockOnSendRequest}
-        onSaveToCollection={mockOnSaveToCollection}
-        collections={[collection]}
+        onSaveToGroup={mockOnSaveToGroup}
+        groups={[group]}
       />
     );
 
@@ -100,14 +100,14 @@ describe('URL and Query Parameters Synchronization', () => {
   it('should remove query parameters from URL when they are disabled', async () => {
     const request = new Request('1', 'Test Request', 'https://api.example.com/test?page=1');
     request.method = 'GET';
-    const collection = new Collection('col1', 'Test Collection');
+    const group = new Group('col1', 'Test Group');
     
     render(
       <RequestPanel
         request={request}
         onSendRequest={mockOnSendRequest}
-        onSaveToCollection={mockOnSaveToCollection}
-        collections={[collection]}
+        onSaveToGroup={mockOnSaveToGroup}
+        groups={[group]}
       />
     );
 
@@ -129,14 +129,14 @@ describe('URL and Query Parameters Synchronization', () => {
   it('should handle multiple query parameters correctly', async () => {
     const request = new Request('1', 'Test Request', 'https://api.example.com/test');
     request.method = 'GET';
-    const collection = new Collection('col1', 'Test Collection');
+    const group = new Group('col1', 'Test Group');
     
     render(
       <RequestPanel
         request={request}
-        onSendRequest={mockOnSaveToCollection}
-        onSaveToCollection={mockOnSaveToCollection}
-        collections={[collection]}
+        onSendRequest={mockOnSaveToGroup}
+        onSaveToGroup={mockOnSaveToGroup}
+        groups={[group]}
       />
     );
 
@@ -171,14 +171,14 @@ describe('URL and Query Parameters Synchronization', () => {
   it('should not sync query parameters for POST method', async () => {
     const request = new Request('1', 'Test Request', 'https://api.example.com/test');
     request.method = 'POST';
-    const collection = new Collection('col1', 'Test Collection');
+    const group = new Group('col1', 'Test Group');
     
     render(
       <RequestPanel
         request={request}
         onSendRequest={mockOnSendRequest}
-        onSaveToCollection={mockOnSaveToCollection}
-        collections={[collection]}
+        onSaveToGroup={mockOnSaveToGroup}
+        groups={[group]}
       />
     );
 
@@ -201,14 +201,14 @@ describe('URL and Query Parameters Synchronization', () => {
   it.skip('should debounce URL parsing to avoid interfering with typing', async () => {
     const request = new Request('1', 'Test Request', 'https://api.example.com/test');
     request.method = 'GET';
-    const collection = new Collection('col1', 'Test Collection');
+    const group = new Group('col1', 'Test Group');
     
     render(
       <RequestPanel
         request={request}
         onSendRequest={mockOnSendRequest}
-        onSaveToCollection={mockOnSaveToCollection}
-        collections={[collection]}
+        onSaveToGroup={mockOnSaveToGroup}
+        groups={[group]}
       />
     );
 

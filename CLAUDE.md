@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Curlino is a modern desktop REST API client built with Electron, React, and TypeScript. It provides a cross-platform solution for creating, managing, and testing API requests with features like collections, environments, and response handling.
+Curlino is a modern desktop REST API client built with Electron, React, and TypeScript. It provides a cross-platform solution for creating, managing, and testing API requests with features like groups, environments, and response handling.
 
 ## Development Commands
 
@@ -42,7 +42,7 @@ Curlino is a modern desktop REST API client built with Electron, React, and Type
 
 ### Key Services
 - **ApiService** - HTTP request handling and processing
-- **StorageService** - Data persistence for collections/environments
+- **StorageService** - Data persistence for groups/environments
 - **SettingsService** - Application configuration management
 - **HistoryService** - Request history tracking
 
@@ -148,7 +148,7 @@ TypeScript compilation happens during webpack build. Run `npm run build` to chec
 - **Border Radius**: Consistent radius scale for modern aesthetics
 
 ### Interactive Systems
-- **Drag & Drop**: Universal system for collections, requests, file imports
+- **Drag & Drop**: Universal system for groups, requests, file imports
 - **Keyboard Shortcuts**: Context-aware shortcuts with visual feedback
 - **Resize Panels**: Advanced resize with persistence and constraints
 - **Context Menus**: Smart positioning with submenu support

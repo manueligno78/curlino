@@ -64,15 +64,15 @@ describe('cURL Import Integration', () => {
     expect(importedRequest).toBeTruthy();
 
     const mockOnSendRequest = jest.fn();
-    const mockOnSaveToCollection = jest.fn();
+    const mockOnSaveToGroup = jest.fn();
 
     // Render RequestPanel with imported request
     render(
       <RequestPanel
         request={importedRequest!}
         onSendRequest={mockOnSendRequest}
-        onSaveToCollection={mockOnSaveToCollection}
-        collections={[]}
+        onSaveToGroup={mockOnSaveToGroup}
+        groups={[]}
       />
     );
 
@@ -129,7 +129,7 @@ describe('cURL Import Integration', () => {
 
   it('should update URL field when request prop changes', async () => {
     const mockOnSendRequest = jest.fn();
-    const mockOnSaveToCollection = jest.fn();
+    const mockOnSaveToGroup = jest.fn();
 
     const initialRequest = new Request('1', 'Test', 'https://initial.com');
 
@@ -137,8 +137,8 @@ describe('cURL Import Integration', () => {
       <RequestPanel
         request={initialRequest}
         onSendRequest={mockOnSendRequest}
-        onSaveToCollection={mockOnSaveToCollection}
-        collections={[]}
+        onSaveToGroup={mockOnSaveToGroup}
+        groups={[]}
       />
     );
 
@@ -154,8 +154,8 @@ describe('cURL Import Integration', () => {
       <RequestPanel
         request={importedRequest!}
         onSendRequest={mockOnSendRequest}
-        onSaveToCollection={mockOnSaveToCollection}
-        collections={[]}
+        onSaveToGroup={mockOnSaveToGroup}
+        groups={[]}
       />
     );
 

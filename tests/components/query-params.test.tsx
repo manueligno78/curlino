@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import RequestPanel from '../../src/components/RequestPanel';
 import { Request } from '../../src/models/Request';
-import { Collection } from '../../src/models/Collection';
+import { Group } from '../../src/models/Group';
 
 // Mock the logger
 jest.mock('../../src/utils/BrowserLogger', () => ({
@@ -14,7 +14,7 @@ jest.mock('../../src/utils/BrowserLogger', () => ({
 
 describe('Query Parameters Feature', () => {
   const mockOnSendRequest = jest.fn();
-  const mockOnSaveToCollection = jest.fn();
+  const mockOnSaveToGroup = jest.fn();
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -23,14 +23,14 @@ describe('Query Parameters Feature', () => {
   it('should show query parameters section for GET requests', () => {
     const request = new Request('1', 'Test Request', 'https://api.example.com/test');
     request.method = 'GET';
-    const collection = new Collection('col1', 'Test Collection');
+    const group = new Group('col1', 'Test Group');
 
     render(
       <RequestPanel
         request={request}
         onSendRequest={mockOnSendRequest}
-        onSaveToCollection={mockOnSaveToCollection}
-        collections={[collection]}
+        onSaveToGroup={mockOnSaveToGroup}
+        groups={[group]}
       />
     );
 
@@ -44,14 +44,14 @@ describe('Query Parameters Feature', () => {
   it('should not show query parameters section for POST requests', () => {
     const request = new Request('1', 'Test Request', 'https://api.example.com/test');
     request.method = 'POST';
-    const collection = new Collection('col1', 'Test Collection');
+    const group = new Group('col1', 'Test Group');
 
     render(
       <RequestPanel
         request={request}
         onSendRequest={mockOnSendRequest}
-        onSaveToCollection={mockOnSaveToCollection}
-        collections={[collection]}
+        onSaveToGroup={mockOnSaveToGroup}
+        groups={[group]}
       />
     );
 
@@ -65,14 +65,14 @@ describe('Query Parameters Feature', () => {
   it('should allow adding and managing query parameters', () => {
     const request = new Request('1', 'Test Request', 'https://api.example.com/test');
     request.method = 'GET';
-    const collection = new Collection('col1', 'Test Collection');
+    const group = new Group('col1', 'Test Group');
 
     render(
       <RequestPanel
         request={request}
         onSendRequest={mockOnSendRequest}
-        onSaveToCollection={mockOnSaveToCollection}
-        collections={[collection]}
+        onSaveToGroup={mockOnSaveToGroup}
+        groups={[group]}
       />
     );
 
@@ -95,14 +95,14 @@ describe('Query Parameters Feature', () => {
       'https://api.example.com/test?page=1&limit=10'
     );
     request.method = 'GET';
-    const collection = new Collection('col1', 'Test Collection');
+    const group = new Group('col1', 'Test Group');
 
     render(
       <RequestPanel
         request={request}
         onSendRequest={mockOnSendRequest}
-        onSaveToCollection={mockOnSaveToCollection}
-        collections={[collection]}
+        onSaveToGroup={mockOnSaveToGroup}
+        groups={[group]}
       />
     );
 
@@ -123,14 +123,14 @@ describe('Query Parameters Feature', () => {
   it('should switch between query params and body sections based on method', () => {
     const request = new Request('1', 'Test Request', 'https://api.example.com/test');
     request.method = 'GET'; // Start with GET
-    const collection = new Collection('col1', 'Test Collection');
+    const group = new Group('col1', 'Test Group');
 
     render(
       <RequestPanel
         request={request}
         onSendRequest={mockOnSendRequest}
-        onSaveToCollection={mockOnSaveToCollection}
-        collections={[collection]}
+        onSaveToGroup={mockOnSaveToGroup}
+        groups={[group]}
       />
     );
 
@@ -155,14 +155,14 @@ describe('Query Parameters Feature', () => {
     methodsWithQueryParams.forEach(method => {
       const request = new Request('1', 'Test Request', 'https://api.example.com/test');
       request.method = method;
-      const collection = new Collection('col1', 'Test Collection');
+      const group = new Group('col1', 'Test Group');
 
       const { rerender } = render(
         <RequestPanel
           request={request}
           onSendRequest={mockOnSendRequest}
-          onSaveToCollection={mockOnSaveToCollection}
-          collections={[collection]}
+          onSaveToGroup={mockOnSaveToGroup}
+          groups={[group]}
         />
       );
 
@@ -177,14 +177,14 @@ describe('Query Parameters Feature', () => {
     methodsWithBody.forEach(method => {
       const request = new Request('1', 'Test Request', 'https://api.example.com/test');
       request.method = method;
-      const collection = new Collection('col1', 'Test Collection');
+      const group = new Group('col1', 'Test Group');
 
       const { rerender } = render(
         <RequestPanel
           request={request}
           onSendRequest={mockOnSendRequest}
-          onSaveToCollection={mockOnSaveToCollection}
-          collections={[collection]}
+          onSaveToGroup={mockOnSaveToGroup}
+          groups={[group]}
         />
       );
 

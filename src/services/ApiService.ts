@@ -4,7 +4,7 @@ import { Request } from '../models/Request';
 import { HistoryService } from './HistoryService';
 import { SettingsService } from './SettingsService';
 import { generateUUID } from '../utils/formatters';
-import { Collection } from '../models/Collection';
+import { Group } from '../models/Group';
 import { ErrorType, errorHandler } from '../utils/ErrorHandler';
 import { logger } from '../utils/BrowserLogger';
 
@@ -350,13 +350,13 @@ export class ApiService {
   }
 
   /**
-   * Esporta le collection in formato JSON compatibile Postman-like
-   * @param collections Array di Collection
+   * Esporta le group in formato JSON
+   * @param groups Array di Group
    * @returns stringa JSON
    */
-  static exportCollectionsToJson(collections: Collection[]): string {
-    // Serializza ogni collection e le sue richieste
-    const data = collections.map(col => ({
+  static exportGroupsToJson(groups: Group[]): string {
+    // Serializza ogni group e le sue richieste
+    const data = groups.map(col => ({
       id: col.id,
       name: col.name,
       description: col.description || '',
@@ -370,35 +370,35 @@ export class ApiService {
         description: req.description || '',
       })),
     }));
-    return JSON.stringify({ collections: data }, null, 2);
+    return JSON.stringify({ groups: data }, null, 2);
   }
 
   /**
-   * Importa una o più collection da un file JSON esportato
+   * Importa una o più group da un file JSON esportato
    * @param json stringa JSON
-   * @param existingCollections array di Collection già presenti
-   * @returns array di nuove Collection importate (esclude quelle già presenti)
+   * @param existingGroups array di Group già presenti
+   * @returns array di nuove Group importate (esclude quelle già presenti)
    * @throws Error se il formato non è valido
    */
-  static importCollectionsFromJson(json: string, existingCollections: Collection[]): Collection[] {
+  static importGroupsFromJson(json: string, existingGroups: Group[]): Group[] {
     let parsed: unknown;
     try {
       parsed = JSON.parse(json);
     } catch {
       throw new Error('Il file non è un JSON valido.');
     }
-    const parsedData = parsed as { collections?: unknown };
-    if (!parsedData.collections || !Array.isArray(parsedData.collections)) {
-      throw new Error('Formato non valido: manca la chiave "collections".');
+    const parsedData = parsed as { groups?: unknown };
+    if (!parsedData.groups || !Array.isArray(parsedData.groups)) {
+      throw new Error('Formato non valido: manca la chiave "groups".');
     }
-    const existingIds = new Set(existingCollections.map(c => c.id));
-    const imported: Collection[] = [];
-    for (const col of parsedData.collections) {
+    const existingIds = new Set(existingGroups.map(c => c.id));
+    const imported: Group[] = [];
+    for (const col of parsedData.groups) {
       if (existingIds.has(col.id)) continue; // Salta se già presente
-      const collection = new Collection(col.id, col.name, col.description || '');
+      const group = new Group(col.id, col.name, col.description || '');
       if (Array.isArray(col.requests)) {
         for (const req of col.requests) {
-          collection.addRequest(
+          group.addRequest(
             new Request(
               req.id,
               req.name,
@@ -411,7 +411,7 @@ export class ApiService {
           );
         }
       }
-      imported.push(collection);
+      imported.push(group);
     }
     return imported;
   }

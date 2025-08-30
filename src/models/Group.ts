@@ -1,13 +1,13 @@
 import { Request, RequestInterface } from './Request';
 
-export interface CollectionInterface {
+export interface GroupInterface {
   id: string;
   name: string;
   description?: string;
   requests: Request[];
 }
 
-export class Collection implements CollectionInterface {
+export class Group implements GroupInterface {
   id: string;
   name: string;
   description?: string;
@@ -36,7 +36,7 @@ export class Collection implements CollectionInterface {
     return this.requests.find(request => request.id === requestId);
   }
 
-  toJSON(): Omit<CollectionInterface, 'requests'> & { requests: RequestInterface[] } {
+  toJSON(): Omit<GroupInterface, 'requests'> & { requests: RequestInterface[] } {
     return {
       id: this.id,
       name: this.name,

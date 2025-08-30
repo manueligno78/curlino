@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import RequestPanel from '../../src/components/RequestPanel';
 import { Request } from '../../src/models/Request';
-import { Collection } from '../../src/models/Collection';
+import { Group } from '../../src/models/Group';
 
 // Mock the logger
 jest.mock('../../src/utils/BrowserLogger', () => ({
@@ -14,7 +14,7 @@ jest.mock('../../src/utils/BrowserLogger', () => ({
 
 describe('Auth Tab Removal', () => {
   const mockOnSendRequest = jest.fn();
-  const mockOnSaveToCollection = jest.fn();
+  const mockOnSaveToGroup = jest.fn();
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -23,14 +23,14 @@ describe('Auth Tab Removal', () => {
   it('should not render Auth section', () => {
     const request = new Request('1', 'Test Request', 'https://api.example.com/test');
     request.method = 'POST'; // Use POST method to see Body section
-    const collection = new Collection('col1', 'Test Collection');
+    const group = new Group('col1', 'Test Group');
 
     render(
       <RequestPanel
         request={request}
         onSendRequest={mockOnSendRequest}
-        onSaveToCollection={mockOnSaveToCollection}
-        collections={[collection]}
+        onSaveToGroup={mockOnSaveToGroup}
+        groups={[group]}
       />
     );
 
@@ -45,14 +45,14 @@ describe('Auth Tab Removal', () => {
   it('should only have two sections (Headers and Body)', () => {
     const request = new Request('1', 'Test Request', 'https://api.example.com/test');
     request.method = 'POST'; // Method that supports body
-    const collection = new Collection('col1', 'Test Collection');
+    const group = new Group('col1', 'Test Group');
 
     render(
       <RequestPanel
         request={request}
         onSendRequest={mockOnSendRequest}
-        onSaveToCollection={mockOnSaveToCollection}
-        collections={[collection]}
+        onSaveToGroup={mockOnSaveToGroup}
+        groups={[group]}
       />
     );
 
@@ -68,14 +68,14 @@ describe('Auth Tab Removal', () => {
   it('should not render auth section content', () => {
     const request = new Request('1', 'Test Request', 'https://api.example.com/test');
     request.method = 'GET'; // Use GET method to see Query Parameters instead of Body
-    const collection = new Collection('col1', 'Test Collection');
+    const group = new Group('col1', 'Test Group');
 
     render(
       <RequestPanel
         request={request}
         onSendRequest={mockOnSendRequest}
-        onSaveToCollection={mockOnSaveToCollection}
-        collections={[collection]}
+        onSaveToGroup={mockOnSaveToGroup}
+        groups={[group]}
       />
     );
 
