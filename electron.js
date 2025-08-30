@@ -230,9 +230,6 @@ async function createWindow() {
     mainWindow.loadURL('http://localhost:5173');
   } else {
     // Load files directly - much faster and more reliable
-    const __filename = fileURLToPath(import.meta.url);
-    const __dirname = path.dirname(__filename);
-    
     const possiblePaths = [
       path.join(__dirname, '../renderer/index.html'),
       path.join(__dirname, '../../out/renderer/index.html'),
