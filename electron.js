@@ -1,7 +1,5 @@
 import { app, BrowserWindow, session, ipcMain } from 'electron';
 import path from 'path';
-import { fileURLToPath } from 'url';
-import { readFileSync } from 'fs';
 import https from 'https';
 import http from 'http';
 import zlib from 'zlib';
@@ -10,11 +8,8 @@ let mainWindow = null;
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
-// Get app version from package.json
-const currentFilename = fileURLToPath(import.meta.url);
-const currentDirname = path.dirname(currentFilename);
-const packageJson = JSON.parse(readFileSync(path.join(currentDirname, 'package.json'), 'utf8'));
-const APP_VERSION = packageJson.version;
+// Get app version from Electron's built-in method
+const APP_VERSION = app.getVersion();
 
 // HTTP request handler to bypass CORS
 function makeHttpRequest(url, options = {}) {
@@ -192,7 +187,7 @@ async function createWindow() {
     height: 800,
     title: `Curlino v${APP_VERSION}`,
     webPreferences: {
-      preload: path.resolve(currentDirname, 'preload-simple.js'),
+      preload: path.resolve(__dirname, 'preload-simple.js'),
       contextIsolation: true,
       enableRemoteModule: false,
       nodeIntegration: false,
@@ -231,8 +226,8 @@ async function createWindow() {
   } else {
     // Load files directly - much faster and more reliable
     const possiblePaths = [
-      path.join(currentDirname, '../renderer/index.html'),
-      path.join(currentDirname, '../../out/renderer/index.html'),
+      path.join(__dirname, '../renderer/index.html'),
+      path.join(__dirname, '../../out/renderer/index.html'),
       path.join(process.resourcesPath, 'app/out/renderer/index.html'),
       path.join(process.resourcesPath, 'app.asar/out/renderer/index.html')
     ];
