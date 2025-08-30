@@ -1,67 +1,67 @@
 import React, { useState } from 'react';
-import { Collection } from '../models/Collection';
+import { Group } from '../models/Group';
 import { Environment } from '../models/Environment';
 import { Request } from '../models/Request';
 import { ApiService } from '../services/ApiService';
 
 interface SidebarProps {
-  collections: Collection[];
+  groups: Group[];
   environments: Environment[];
   activeEnvironment?: Environment;
   onEnvironmentChange: (environmentId: string | null) => void;
   onRequestSelect: (request: Request) => void;
-  onNewCollection: (name: string) => void;
+  onNewGroup: (name: string) => void;
   onNewEnvironment: (name: string) => void;
-  onRemoveCollection: (_collectionId: string) => void;
-  onRemoveRequestFromCollection: (_collectionId: string, requestId: string) => void;
+  onRemoveGroup: (_groupId: string) => void;
+  onRemoveRequestFromGroup: (_groupId: string, requestId: string) => void;
   onRemoveEnvironment: (environmentId: string) => void;
-  onImportCollections: (collections: Collection[]) => void;
+  onImportGroups: (groups: Group[]) => void;
   onUpdateEnvironment?: (environment: Environment) => void;
 }
 
 const Sidebar: React.FC<SidebarProps> = ({
-  collections,
+  groups,
   environments: _environments,
   activeEnvironment: _activeEnvironment,
   onEnvironmentChange: _onEnvironmentChange,
   onRequestSelect,
-  onNewCollection,
+  onNewGroup,
   onNewEnvironment: _onNewEnvironment,
-  onRemoveCollection,
-  onRemoveRequestFromCollection,
+  onRemoveGroup,
+  onRemoveRequestFromGroup,
   onRemoveEnvironment: _onRemoveEnvironment,
-  onImportCollections,
+  onImportGroups,
   onUpdateEnvironment: _onUpdateEnvironment,
 }) => {
-  const [_activeTab, _setActiveTab] = useState<'collections'>('collections');
-  const [expandedCollections, setExpandedCollections] = useState<Record<string, boolean>>({});
-  const [newCollectionName, setNewCollectionName] = useState<string>('');
-  const [isAddingCollection, setIsAddingCollection] = useState<boolean>(false);
-  const [editingCollectionId, setEditingCollectionId] = useState<string | null>(null);
-  const [editingCollectionName, setEditingCollectionName] = useState<string>('');
+  const [_activeTab, _setActiveTab] = useState<'groups'>('groups');
+  const [expandedGroups, setExpandedGroups] = useState<Record<string, boolean>>({});
+  const [newGroupName, setNewGroupName] = useState<string>('');
+  const [isAddingGroup, setIsAddingGroup] = useState<boolean>(false);
+  const [editingGroupId, setEditingGroupId] = useState<string | null>(null);
+  const [editingGroupName, setEditingGroupName] = useState<string>('');
   const [sidebarWidth, setSidebarWidth] = useState<number>(260); // larghezza iniziale px
   const [isResizing, setIsResizing] = useState<boolean>(false);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState<boolean>(true);
   const [contextMenu, setContextMenu] = useState<{
     x: number;
     y: number;
-    _collection: Collection | null;
+    _group: Group | null;
   } | null>(null);
   const [addMenuOpen, setAddMenuOpen] = useState(false);
   const addMenuRef = React.useRef<HTMLDivElement>(null);
 
-  const toggleCollectionExpanded = (_collectionId: string) => {
-    setExpandedCollections(prev => ({
+  const toggleGroupExpanded = (_groupId: string) => {
+    setExpandedGroups(prev => ({
       ...prev,
-      [_collectionId]: !prev[_collectionId],
+      [_groupId]: !prev[_groupId],
     }));
   };
 
-  const handleAddCollection = () => {
-    if (newCollectionName.trim()) {
-      onNewCollection(newCollectionName.trim());
-      setNewCollectionName('');
-      setIsAddingCollection(false);
+  const handleAddGroup = () => {
+    if (newGroupName.trim()) {
+      onNewGroup(newGroupName.trim());
+      setNewGroupName('');
+      setIsAddingGroup(false);
     }
   };
 
@@ -95,14 +95,14 @@ const Sidebar: React.FC<SidebarProps> = ({
     ? { width: 36, minWidth: 36, maxWidth: 36 }
     : { width: sidebarWidth, minWidth: 180, maxWidth: 500 };
 
-  // Funzione per esportare una _collection come JSON e scaricare il file
-  const _handleExportCollection = (__collection: Collection) => {
-    const json = ApiService.exportCollectionsToJson([__collection]);
+  // Funzione per esportare una _group come JSON e scaricare il file
+  const _handleExportGroup = (__group: Group) => {
+    const json = ApiService.exportGroupsToJson([__group]);
     const blob = new Blob([json], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `${__collection.name || 'collection'}.json`;
+    a.download = `${__group.name || 'group'}.json`;
     document.body.appendChild(a);
     a.click();
     setTimeout(() => {
@@ -131,8 +131,8 @@ const Sidebar: React.FC<SidebarProps> = ({
     return () => window.removeEventListener('mousedown', close);
   }, [addMenuOpen]);
 
-  // Funzione per importare _collection da file JSON
-  const handleImportCollectionJson = async () => {
+  // Funzione per importare _group da file JSON
+  const handleImportGroupJson = async () => {
     setAddMenuOpen(false);
     const input = document.createElement('input');
     input.type = 'file';
@@ -143,14 +143,14 @@ const Sidebar: React.FC<SidebarProps> = ({
       if (!file) return;
       const text = await file.text();
       try {
-        const imported = ApiService.importCollectionsFromJson(text, collections);
+        const imported = ApiService.importGroupsFromJson(text, groups);
         if (imported.length === 0) {
-          alert('Nessuna nuova _collection importata: già presente nel workspace.');
+          alert('Nessuna nuova _group importata: già presente nel workspace.');
           return;
         }
-        onImportCollections(imported); // AGGIUNTO: aggiunge direttamente le _collection importate
-        window.dispatchEvent(new Event('_collectionNameChanged'));
-        alert('Collection importata con successo!');
+        onImportGroups(imported); // AGGIUNTO: aggiunge direttamente le _group importate
+        window.dispatchEvent(new Event('_groupNameChanged'));
+        alert('Group importata con successo!');
       } catch (err: unknown) {
         const errorMessage = err instanceof Error ? err.message : 'Errore sconosciuto';
         alert('Errore importazione: ' + errorMessage);
@@ -174,14 +174,14 @@ const Sidebar: React.FC<SidebarProps> = ({
       {!isSidebarCollapsed && (
         <div className="sidebar">
           <div className="sidebar-content">
-            <div className="collections-list">
+            <div className="groups-list">
               <div className="sidebar-header">
-                <h3>Collections</h3>
+                <h3>Groups</h3>
                 <div style={{ position: 'relative', display: 'inline-block' }} ref={addMenuRef}>
                   <button
                     className="add-btn"
                     onClick={() => setAddMenuOpen(v => !v)}
-                    title="Add or import _collection"
+                    title="Add or import _group"
                   >
                     +
                   </button>
@@ -204,14 +204,14 @@ const Sidebar: React.FC<SidebarProps> = ({
                         style={{ padding: '8px 16px', cursor: 'pointer', fontSize: 14 }}
                         onClick={() => {
                           setAddMenuOpen(false);
-                          setIsAddingCollection(true);
+                          setIsAddingGroup(true);
                         }}
                       >
                         Create new
                       </div>
                       <div
                         style={{ padding: '8px 16px', cursor: 'pointer', fontSize: 14 }}
-                        onClick={handleImportCollectionJson}
+                        onClick={handleImportGroupJson}
                       >
                         Import json
                       </div>
@@ -220,97 +220,92 @@ const Sidebar: React.FC<SidebarProps> = ({
                 </div>
               </div>
 
-              {isAddingCollection && (
+              {isAddingGroup && (
                 <div className="add-form">
                   <input
                     type="text"
-                    value={newCollectionName}
-                    onChange={e => setNewCollectionName(e.target.value)}
-                    placeholder="Collection name"
+                    value={newGroupName}
+                    onChange={e => setNewGroupName(e.target.value)}
+                    placeholder="Group name"
                   />
                   <div className="form-buttons">
-                    <button onClick={handleAddCollection}>Add</button>
-                    <button onClick={() => setIsAddingCollection(false)}>Cancel</button>
+                    <button onClick={handleAddGroup}>Add</button>
+                    <button onClick={() => setIsAddingGroup(false)}>Cancel</button>
                   </div>
                 </div>
               )}
 
-              <ul className="collections">
-                {collections.map(_collection => (
-                  <li key={_collection.id} className="_collection-item">
+              <ul className="groups">
+                {groups.map(_group => (
+                  <li key={_group.id} className="_group-item">
                     <div
-                      className="_collection-header"
-                      onClick={() => toggleCollectionExpanded(_collection.id)}
+                      className="_group-header"
+                      onClick={() => toggleGroupExpanded(_group.id)}
                       onContextMenu={e => {
                         e.preventDefault();
-                        setContextMenu({ x: e.clientX, y: e.clientY, _collection });
+                        setContextMenu({ x: e.clientX, y: e.clientY, _group });
                       }}
                       onMouseDown={e => {
                         if (e.button === 0 && e.ctrlKey) {
                           e.preventDefault();
-                          setContextMenu({ x: e.clientX, y: e.clientY, _collection });
+                          setContextMenu({ x: e.clientX, y: e.clientY, _group });
                         }
                       }}
                     >
-                      <span
-                        className={`arrow ${expandedCollections[_collection.id] ? 'expanded' : ''}`}
-                      >
+                      <span className={`arrow ${expandedGroups[_group.id] ? 'expanded' : ''}`}>
                         ▶
                       </span>
-                      {editingCollectionId === _collection.id ? (
+                      {editingGroupId === _group.id ? (
                         <input
-                          className="_collection-edit-input"
+                          className="_group-edit-input"
                           type="text"
-                          value={editingCollectionName}
+                          value={editingGroupName}
                           autoFocus
-                          onChange={e => setEditingCollectionName(e.target.value)}
+                          onChange={e => setEditingGroupName(e.target.value)}
                           onBlur={() => {
-                            if (
-                              editingCollectionName.trim() &&
-                              editingCollectionName !== _collection.name
-                            ) {
-                              // Aggiorna il nome della _collection
-                              _collection.name = editingCollectionName.trim();
+                            if (editingGroupName.trim() && editingGroupName !== _group.name) {
+                              // Aggiorna il nome della _group
+                              _group.name = editingGroupName.trim();
                               // Forza il re-render e la persistenza
                               if (typeof window !== 'undefined')
-                                window.dispatchEvent(new Event('_collectionNameChanged'));
+                                window.dispatchEvent(new Event('_groupNameChanged'));
                             }
-                            setEditingCollectionId(null);
+                            setEditingGroupId(null);
                           }}
                           onKeyDown={e => {
                             if (e.key === 'Enter') {
                               (e.target as HTMLInputElement).blur();
                             } else if (e.key === 'Escape') {
-                              setEditingCollectionId(null);
+                              setEditingGroupId(null);
                             }
                           }}
                         />
                       ) : (
                         <span
-                          className="_collection-name"
+                          className="_group-name"
                           onDoubleClick={e => {
                             e.stopPropagation();
-                            setEditingCollectionId(_collection.id);
-                            setEditingCollectionName(_collection.name);
+                            setEditingGroupId(_group.id);
+                            setEditingGroupName(_group.name);
                           }}
                         >
-                          {_collection.name}
+                          {_group.name}
                         </span>
                       )}
                       <button
-                        className="remove-_collection-btn x-red"
-                        title="Remove _collection"
+                        className="remove-_group-btn x-red"
+                        title="Remove _group"
                         onClick={e => {
                           e.stopPropagation();
-                          onRemoveCollection(_collection.id);
+                          onRemoveGroup(_group.id);
                         }}
                       >
                         ✕
                       </button>
                     </div>
-                    {expandedCollections[_collection.id] && (
+                    {expandedGroups[_group.id] && (
                       <ul className="requests-list">
-                        {_collection.requests.map(request => (
+                        {_group.requests.map(request => (
                           <li key={request.id} className="request-item">
                             <span className={`method ${request.method.toLowerCase()}`}>
                               {request.method}
@@ -334,24 +329,24 @@ const Sidebar: React.FC<SidebarProps> = ({
                             </span>
                             <button
                               className="remove-request-btn"
-                              title="Rimuovi dalla _collection"
+                              title="Rimuovi dalla _group"
                               onClick={e => {
                                 e.stopPropagation();
-                                onRemoveRequestFromCollection(_collection.id, request.id);
+                                onRemoveRequestFromGroup(_group.id, request.id);
                               }}
                             >
                               ✕
                             </button>
                           </li>
                         ))}
-                        {_collection.requests.length === 0 && (
-                          <li className="no-items">No requests in this _collection</li>
+                        {_group.requests.length === 0 && (
+                          <li className="no-items">No requests in this _group</li>
                         )}
                       </ul>
                     )}
                   </li>
                 ))}
-                {collections.length === 0 && <li className="no-items">No collections</li>}
+                {groups.length === 0 && <li className="no-items">No groups</li>}
               </ul>
             </div>
           </div>

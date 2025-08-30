@@ -13,7 +13,7 @@ import { ErrorNotification } from '../components/ErrorNotification';
 import { ApiService, ApiResponseData } from '../services/ApiService';
 import { StorageService } from '../services/StorageService';
 import { SettingsService } from '../services/SettingsService';
-import { Collection } from '../models/Collection';
+import { Group } from '../models/Group';
 import { Environment } from '../models/Environment';
 import { Request } from '../models/Request';
 import { importCurlCommand } from '../utils/curlImporter';
@@ -39,8 +39,8 @@ interface Tab {
 }
 
 const App: React.FC = () => {
-  // State for collections and environments
-  const [collections, setCollections] = useState<Collection[]>([]);
+  // State for groups and environments
+  const [groups, setGroups] = useState<Group[]>([]);
   const [environments, setEnvironments] = useState<Environment[]>([]);
   const [activeEnvironment, setActiveEnvironment] = useState<Environment | undefined>();
 
@@ -58,7 +58,7 @@ const App: React.FC = () => {
 
   // State for theme
   const [darkTheme, setDarkTheme] = useState<boolean>(false);
-  const [collectionsLoaded, setCollectionsLoaded] = useState(false);
+  const [groupsLoaded, setGroupsLoaded] = useState(false);
   const [environmentsLoaded, setEnvironmentsLoaded] = useState(false);
 
   // Stato per larghezza pannello request
@@ -66,12 +66,12 @@ const App: React.FC = () => {
 
   // Load data on mount
   useEffect(() => {
-    // Load collections and environments from storage
-    const savedCollections = storageService.loadCollections();
-    logger.debug('Collections loaded at startup', {
+    // Load groups and environments from storage
+    const savedGroups = storageService.loadGroups();
+    logger.debug('Groups loaded at startup', {
       component: 'App',
-      action: 'loadCollections',
-      count: savedCollections.length,
+      action: 'loadGroups',
+      count: savedGroups.length,
     });
     const savedEnvironments = storageService.loadEnvironments();
     const activeEnvId = storageService.loadActiveEnvironmentId();
@@ -81,9 +81,9 @@ const App: React.FC = () => {
     setDarkTheme(settings.theme.isDark);
     settingsService.applyCurrentTheme();
 
-    setCollections(savedCollections);
+    setGroups(savedGroups);
     setEnvironments(savedEnvironments);
-    setCollectionsLoaded(true);
+    setGroupsLoaded(true);
     setEnvironmentsLoaded(true);
 
     if (activeEnvId) {
@@ -95,8 +95,8 @@ const App: React.FC = () => {
     }
 
     // Create a default tab if none exists
-    if (savedCollections.length > 0 && savedCollections[0].requests.length > 0) {
-      const firstRequest = savedCollections[0].requests[0];
+    if (savedGroups.length > 0 && savedGroups[0].requests.length > 0) {
+      const firstRequest = savedGroups[0].requests[0];
       createNewTab(firstRequest);
     } else {
       // Create an empty request
@@ -105,17 +105,17 @@ const App: React.FC = () => {
     }
   }, []);
 
-  // Save collections ONLY after first load
+  // Save groups ONLY after first load
   useEffect(() => {
-    if (collectionsLoaded) {
-      logger.debug('Collections updated', {
+    if (groupsLoaded) {
+      logger.debug('Groups updated', {
         component: 'App',
-        action: 'updateCollections',
-        count: collections.length,
+        action: 'updateGroups',
+        count: groups.length,
       });
-      storageService.saveCollections(collections);
+      storageService.saveGroups(groups);
     }
-  }, [collections, collectionsLoaded]);
+  }, [groups, groupsLoaded]);
 
   // Save environments ONLY after first load
   useEffect(() => {
@@ -340,13 +340,13 @@ const App: React.FC = () => {
     );
   };
 
-  // Gestione evento custom per forzare la persistenza e il re-render dopo rinomina collection
+  // Gestione evento custom per forzare la persistenza e il re-render dopo rinomina group
   useEffect(() => {
     const handler = () => {
-      setCollections(collections => [...collections]); // forza re-render e triggera useEffect di persistenza
+      setGroups(groups => [...groups]); // forza re-render e triggera useEffect di persistenza
     };
-    window.addEventListener('collectionNameChanged', handler);
-    return () => window.removeEventListener('collectionNameChanged', handler);
+    window.addEventListener('groupNameChanged', handler);
+    return () => window.removeEventListener('groupNameChanged', handler);
   }, []);
 
   // Gestione evento custom per forzare la persistenza e il re-render dopo rinomina environment
@@ -407,10 +407,10 @@ const App: React.FC = () => {
                   <RequestPanel
                     request={activeRequest}
                     onSendRequest={handleSendRequest}
-                    onSaveToCollection={collectionId => {
-                      setCollections(prev =>
+                    onSaveToGroup={groupId => {
+                      setGroups(prev =>
                         prev.map(col => {
-                          if (col.id === collectionId) {
+                          if (col.id === groupId) {
                             col.addRequest(activeRequest);
                           }
                           return col;
@@ -422,7 +422,7 @@ const App: React.FC = () => {
                       createNewTab(importedRequest);
                     }}
                     onRequestNameChange={handleRequestNameChange}
-                    collections={collections}
+                    groups={groups}
                     activeEnvironment={activeEnvironment}
                   />
                 ) : (
@@ -457,7 +457,7 @@ const App: React.FC = () => {
         <div className="main-content">
           <ErrorBoundary>
             <Sidebar
-              collections={collections}
+              groups={groups}
               environments={environments}
               activeEnvironment={activeEnvironment}
               onEnvironmentChange={handleEnvironmentChange}
@@ -465,21 +465,21 @@ const App: React.FC = () => {
                 createNewTab(request);
                 setActiveView('builder');
               }}
-              onNewCollection={name => {
-                const newCollection = new Collection('col-' + generateUUID(), name);
-                setCollections([...collections, newCollection]);
+              onNewGroup={name => {
+                const newGroup = new Group('col-' + generateUUID(), name);
+                setGroups([...groups, newGroup]);
               }}
               onNewEnvironment={name => {
                 const newEnvironment = new Environment('env-' + generateUUID(), name);
                 setEnvironments([...environments, newEnvironment]);
               }}
-              onRemoveCollection={collectionId => {
-                setCollections(collections.filter(col => col.id !== collectionId));
+              onRemoveGroup={groupId => {
+                setGroups(groups.filter(col => col.id !== groupId));
               }}
-              onRemoveRequestFromCollection={(collectionId, requestId) => {
-                setCollections(
-                  collections.map(col => {
-                    if (col.id === collectionId) {
+              onRemoveRequestFromGroup={(groupId, requestId) => {
+                setGroups(
+                  groups.map(col => {
+                    if (col.id === groupId) {
                       col.removeRequest(requestId);
                     }
                     return col;
@@ -492,8 +492,8 @@ const App: React.FC = () => {
                   setActiveEnvironment(undefined);
                 }
               }}
-              onImportCollections={imported => {
-                setCollections([...collections, ...imported]);
+              onImportGroups={imported => {
+                setGroups([...groups, ...imported]);
               }}
               onUpdateEnvironment={handleUpdateEnvironment}
             />

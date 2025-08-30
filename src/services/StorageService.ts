@@ -1,5 +1,5 @@
 // filepath: /Users/manuel/curlino/src/services/StorageService.ts
-import { Collection, CollectionInterface } from '../models/Collection';
+import { Group, GroupInterface } from '../models/Group';
 import { Environment, EnvironmentInterface } from '../models/Environment';
 import { Request, RequestInterface } from '../models/Request';
 import { logger } from '../utils/BrowserLogger';
@@ -16,7 +16,7 @@ declare global {
 }
 
 export class StorageService {
-  private readonly COLLECTIONS_KEY = 'cUrlino_collections';
+  private readonly GROUPS_KEY = 'cUrlino_groups';
   private readonly ENVIRONMENTS_KEY = 'cUrlino_environments';
   private readonly ACTIVE_ENV_KEY = 'cUrlino_active_environment';
   private readonly RECENT_REQUESTS_KEY = 'cUrlino_recent_requests';
@@ -92,29 +92,29 @@ export class StorageService {
     }
   }
 
-  // Collections
-  saveCollections(collections: Collection[]): void {
-    const collectionsData = collections.map(collection => collection.toJSON());
-    logger.debug('Saving collections', {
+  // Groups
+  saveGroups(groups: Group[]): void {
+    const groupsData = groups.map(group => group.toJSON());
+    logger.debug('Saving groups', {
       component: 'StorageService',
-      action: 'saveCollections',
-      count: collectionsData.length,
+      action: 'saveGroups',
+      count: groupsData.length,
     });
-    this.setItem(this.COLLECTIONS_KEY, collectionsData);
+    this.setItem(this.GROUPS_KEY, groupsData);
   }
 
-  loadCollections(): Collection[] {
-    const collectionsData = this.getItem<CollectionInterface[]>(this.COLLECTIONS_KEY);
-    logger.debug('Loading collections', {
+  loadGroups(): Group[] {
+    const groupsData = this.getItem<GroupInterface[]>(this.GROUPS_KEY);
+    logger.debug('Loading groups', {
       component: 'StorageService',
-      action: 'loadCollections',
-      found: !!collectionsData,
-      count: collectionsData ? collectionsData.length : 0,
+      action: 'loadGroups',
+      found: !!groupsData,
+      count: groupsData ? groupsData.length : 0,
     });
-    if (!collectionsData) return [];
+    if (!groupsData) return [];
     try {
-      return collectionsData.map(data => {
-        const collection = new Collection(data.id, data.name, data.description);
+      return groupsData.map(data => {
+        const group = new Group(data.id, data.name, data.description);
 
         // Convert the saved request data back to Request objects
         const requests = data.requests.map(
@@ -130,17 +130,17 @@ export class StorageService {
             )
         );
 
-        // Add the requests to the collection
-        requests.forEach(req => collection.addRequest(req));
+        // Add the requests to the group
+        requests.forEach(req => group.addRequest(req));
 
-        return collection;
+        return group;
       });
     } catch (e) {
-      logger.error('Error parsing collections', {
+      logger.error('Error parsing groups', {
         component: 'StorageService',
-        action: 'loadCollections',
+        action: 'loadGroups',
         error: (e as Error).message,
-        data: collectionsData,
+        data: groupsData,
       });
       return [];
     }
@@ -223,16 +223,16 @@ export class StorageService {
       component: 'StorageService',
       action: 'clearAll',
     });
-    this.removeItem(this.COLLECTIONS_KEY);
+    this.removeItem(this.GROUPS_KEY);
     this.removeItem(this.ENVIRONMENTS_KEY);
     this.removeItem(this.ACTIVE_ENV_KEY);
     this.removeItem(this.RECENT_REQUESTS_KEY);
 
     // Cancella anche le vecchie chiavi
-    this.removeItem('postman_clone_collections');
-    this.removeItem('postman_clone_environments');
-    this.removeItem('postman_clone_active_environment');
-    this.removeItem('postman_clone_recent_requests');
+    this.removeItem('legacy_groups');
+    this.removeItem('legacy_environments');
+    this.removeItem('legacy_active_environment');
+    this.removeItem('legacy_recent_requests');
   }
 
   // Metodo per migrare i dati dalle vecchie chiavi alle nuove
@@ -244,17 +244,17 @@ export class StorageService {
 
     try {
       // Check if there's data in the old keys
-      const oldCollections = this.getItem<CollectionInterface[]>('postman_clone_collections');
-      const oldEnvironments = this.getItem<EnvironmentInterface[]>('postman_clone_environments');
-      const oldActiveEnv = this.getItem<string>('postman_clone_active_environment');
+      const oldGroups = this.getItem<GroupInterface[]>('legacy_groups');
+      const oldEnvironments = this.getItem<EnvironmentInterface[]>('legacy_environments');
+      const oldActiveEnv = this.getItem<string>('legacy_active_environment');
 
-      if (oldCollections && oldCollections.length > 0) {
-        logger.info('Found legacy collections, migrating', {
+      if (oldGroups && oldGroups.length > 0) {
+        logger.info('Found legacy data, migrating to groups', {
           component: 'StorageService',
-          action: 'migrateCollections',
+          action: 'migrateGroups',
         });
-        this.setItem(this.COLLECTIONS_KEY, oldCollections);
-        this.removeItem('postman_clone_collections');
+        this.setItem(this.GROUPS_KEY, oldGroups);
+        this.removeItem('legacy_groups');
       }
 
       if (oldEnvironments && oldEnvironments.length > 0) {
@@ -263,7 +263,7 @@ export class StorageService {
           action: 'migrateEnvironments',
         });
         this.setItem(this.ENVIRONMENTS_KEY, oldEnvironments);
-        this.removeItem('postman_clone_environments');
+        this.removeItem('legacy_environments');
       }
 
       if (oldActiveEnv) {
@@ -272,7 +272,7 @@ export class StorageService {
           action: 'migrateActiveEnvironment',
         });
         this.setItem(this.ACTIVE_ENV_KEY, oldActiveEnv);
-        this.removeItem('postman_clone_active_environment');
+        this.removeItem('legacy_active_environment');
       }
     } catch (e) {
       logger.error('Error during data migration', {

@@ -5,7 +5,7 @@ Curlino is a modern desktop application for creating, managing, and testing API 
 ## Features
 
 - Create and manage API requests with various HTTP methods.
-- Organize requests into collections.
+- Organize requests into groups.
 - Use environments to manage variables for different setups.
 - View API responses, including status codes, headers, and body content.
 - Navigate through different sections using a sidebar.
@@ -37,7 +37,7 @@ The application supports various customization options through its settings pane
 
 ### General Settings
 
-- **Auto Save**: Enable/disable automatic saving of collections and environments
+- **Auto Save**: Enable/disable automatic saving of groups and environments
 - **Usage Data**: Opt-in/out of sending anonymous usage data
 - **History Items**: Configure the maximum number of items to keep in history
 
@@ -115,7 +115,7 @@ Logs are categorized by component:
 2025-07-31T14:39:44.173Z [INFO] [ApiService]: API Request {"method":"GET","url":"https://api.example.com/data","statusCode":200,"responseTime":145}
 
 // Storage operation log
-2025-07-31T14:39:44.186Z [DEBUG] [StorageService]: Saving collections {"action":"saveCollections","count":3}
+2025-07-31T14:39:44.186Z [DEBUG] [StorageService]: Saving groups {"action":"saveGroups","count":3}
 
 // Error log
 2025-07-31T14:39:44.204Z [ERROR] [ErrorHandler]: Network request failed {"errorType":"NETWORK_ERROR","url":"https://api.example.com/data"}
@@ -200,7 +200,7 @@ You can generate a native `.app` file for macOS using [electron-builder](https:/
 
 Once the application is running, you can:
 
-- Use the sidebar to navigate between collections and environments.
+- Use the sidebar to navigate between groups and environments.
 - Create new requests in the Request Panel.
 - View responses in the Response Panel.
 - Switch between requests using the Tab System.

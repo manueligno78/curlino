@@ -5,10 +5,10 @@ import App from '../../src/renderer/App';
 // Mock services to prevent actual storage/API calls during tests
 jest.mock('../../src/services/StorageService', () => ({
   StorageService: jest.fn().mockImplementation(() => ({
-    loadCollections: jest.fn(() => []),
+    loadGroups: jest.fn(() => []),
     loadEnvironments: jest.fn(() => []),
     loadActiveEnvironmentId: jest.fn(() => null),
-    saveCollections: jest.fn(),
+    saveGroups: jest.fn(),
     saveEnvironments: jest.fn(),
     saveActiveEnvironment: jest.fn(),
   })),
