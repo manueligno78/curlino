@@ -11,11 +11,19 @@ jobs:
 
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [windows-latest, macos-latest]
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Extract version from tag
+        id: version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+
+      - name: Update package.json version
+        run: |
+          npm version ${{ steps.version.outputs.VERSION }} --no-git-tag-version
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -44,9 +52,19 @@ jobs:
           files: |
             dist/*.dmg
             dist/*.exe
-            dist/*.AppImage
-            dist/*.deb
-            dist/*.rpm
-            dist/*.snap
+          name: Curlino v${{ steps.version.outputs.VERSION }}
+          body: |
+            ## Curlino v${{ steps.version.outputs.VERSION }}
+            
+            ### 📥 Downloads
+            - **Windows**: `Curlino Setup ${{ steps.version.outputs.VERSION }}.exe`
+            - **macOS**: `Curlino-${{ steps.version.outputs.VERSION }}.dmg`
+            
+            ### 🚀 Changes
+            See commit history for detailed changes in this release.
+            
+            ### 🔧 Installation
+            - **Windows**: Download and run the `.exe` installer
+            - **macOS**: Download the `.dmg` file, open it, and drag Curlino to Applications
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -30,7 +30,11 @@
     "electron": "electron .",
     "pack": "npm run build && electron-builder --dir",
     "dist": "npm run build && electron-builder",
-    "build-prod": "npm run build"
+    "build-prod": "npm run build",
+    "quality": "npm run lint && npm run format:check && npm run test",
+    "release:patch": "npm version patch && git push && git push --tags",
+    "release:minor": "npm version minor && git push && git push --tags",
+    "release:major": "npm version major && git push && git push --tags"
   },
   "keywords": [
     "curlino",
@@ -109,11 +113,9 @@
       "!**/*.{iml,o,hprof,orig,pyc,pyo,rbc,swp,csproj,sln,xproj}"
     ],
     "mac": {
-      "icon": "icon.icns",
       "category": "public.app-category.developer-tools"
     },
     "win": {
-      "icon": "icon.ico",
       "target": [
         {
           "target": "nsis",
@@ -124,7 +126,6 @@
       ]
     },
     "linux": {
-      "icon": "icon.png",
       "target": [
         {
           "target": "AppImage",
