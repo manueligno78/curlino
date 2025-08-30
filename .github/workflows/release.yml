@@ -11,7 +11,7 @@ jobs:
 
     strategy:
       matrix:
-        os: [windows-latest, macos-latest]
+        os: [windows-latest]
 
     steps:
       - name: Checkout code
@@ -58,21 +58,21 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         with:
           files: |
-            dist/*.dmg
             dist/*.exe
-          name: Curlino v${{ steps.version.outputs.VERSION }}
+          name: Curlino v${{ steps.version.outputs.VERSION }} (Windows)
           body: |
-            ## Curlino v${{ steps.version.outputs.VERSION }}
+            ## Curlino v${{ steps.version.outputs.VERSION }} - Windows Release
             
             ### 📥 Downloads
             - **Windows**: `Curlino Setup ${{ steps.version.outputs.VERSION }}.exe`
-            - **macOS**: `Curlino-${{ steps.version.outputs.VERSION }}.dmg`
             
             ### 🚀 Changes
             See commit history for detailed changes in this release.
             
             ### 🔧 Installation
             - **Windows**: Download and run the `.exe` installer
-            - **macOS**: Download the `.dmg` file, open it, and drag Curlino to Applications
+            
+            ### 📋 Note
+            This release includes only the Windows version. macOS support will be added in a future release.
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
