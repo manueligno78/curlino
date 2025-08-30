@@ -5,10 +5,10 @@ import App from '../../src/renderer/App';
 // Mock services to prevent actual storage/API calls during tests
 jest.mock('../../src/services/StorageService', () => ({
   StorageService: jest.fn().mockImplementation(() => ({
-    loadCollections: jest.fn(() => []),
+    loadGroups: jest.fn(() => []),
     loadEnvironments: jest.fn(() => []),
     loadActiveEnvironmentId: jest.fn(() => null),
-    saveCollections: jest.fn(),
+    saveGroups: jest.fn(),
     saveEnvironments: jest.fn(),
     saveActiveEnvironment: jest.fn(),
   })),
@@ -64,7 +64,7 @@ jest.mock('../../src/components/Sidebar', () => {
   return function Sidebar() {
     return (
       <aside>
-        <h3>Collections</h3>
+        <h3>Groups</h3>
         <h3>Environments</h3>
       </aside>
     );
@@ -153,8 +153,8 @@ describe('App Startup', () => {
 
     // Wait for the component to fully render
     await waitFor(() => {
-      // Check for Collections section
-      expect(screen.getByText(/collections/i)).toBeInTheDocument();
+      // Check for Groups section
+      expect(screen.getByText(/groups/i)).toBeInTheDocument();
 
       // Check for Environments section
       expect(screen.getByText(/environments/i)).toBeInTheDocument();
@@ -200,11 +200,11 @@ describe('App Startup', () => {
     });
   });
 
-  it('should handle empty collections and environments on startup', async () => {
+  it('should handle empty groups and environments on startup', async () => {
     render(<App />);
 
     await waitFor(() => {
-      // Should show "No collections" or similar message in sidebar
+      // Should show "No groups" or similar message in sidebar
       // The app should still render properly with empty data
       expect(screen.getByText('Curlino')).toBeInTheDocument();
     });

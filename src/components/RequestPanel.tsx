@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { Request } from '../models/Request';
 import { importCurlCommand } from '../utils/curlImporter';
 import { generateCurlCommand } from '../utils/curlGenerator';
-import { Collection } from '../models/Collection';
+import { Group } from '../models/Group';
 import { Environment } from '../models/Environment';
 import { logger } from '../utils/BrowserLogger';
 import { validateAndCorrectUrl } from '../utils/urlValidation';
@@ -18,20 +18,20 @@ interface RequestPanelProps {
     headers: Record<string, string>,
     body: string
   ) => void;
-  onSaveToCollection: (collectionId: string) => void;
+  onSaveToGroup: (groupId: string) => void;
   onImportCurl?: (request: Request) => void;
   onRequestNameChange?: (newName: string) => void;
-  collections?: Collection[];
+  groups?: Group[];
   activeEnvironment?: Environment;
 }
 
 const RequestPanel: React.FC<RequestPanelProps> = ({
   request,
   onSendRequest,
-  onSaveToCollection,
+  onSaveToGroup,
   onImportCurl,
   onRequestNameChange,
-  collections = [],
+  groups = [],
   activeEnvironment,
 }) => {
   // State management
@@ -41,8 +41,8 @@ const RequestPanel: React.FC<RequestPanelProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [headers, setHeaders] = useState<{ key: string; value: string; enabled: boolean }[]>([]);
-  const [showSaveToCollection, setShowSaveToCollection] = useState(false);
-  const [selectedCollection, setSelectedCollection] = useState<string>('');
+  const [showSaveToGroup, setShowSaveToGroup] = useState(false);
+  const [selectedGroup, setSelectedGroup] = useState<string>('');
   const [bodyType, setBodyType] = useState<'json' | 'text' | 'form' | 'none'>('json');
   const [headersCollapsed, setHeadersCollapsed] = useState<boolean>(true);
   const [queryParams, setQueryParams] = useState<
@@ -539,18 +539,18 @@ const RequestPanel: React.FC<RequestPanelProps> = ({
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (savePopupRef.current && !savePopupRef.current.contains(event.target as Node)) {
-        setShowSaveToCollection(false);
+        setShowSaveToGroup(false);
       }
     };
 
-    if (showSaveToCollection) {
+    if (showSaveToGroup) {
       document.addEventListener('mousedown', handleClickOutside);
       return () => document.removeEventListener('mousedown', handleClickOutside);
     }
-  }, [showSaveToCollection]);
+  }, [showSaveToGroup]);
 
   const canSend = url.trim() && !isLoading;
-  const canSave = url.trim() && collections.length > 0;
+  const canSave = url.trim() && groups.length > 0;
 
   return (
     <div className="request-panel">
@@ -644,23 +644,23 @@ const RequestPanel: React.FC<RequestPanelProps> = ({
             {canSave && (
               <div className="save-dropdown" style={{ position: 'relative' }}>
                 <button
-                  onClick={() => setShowSaveToCollection(!showSaveToCollection)}
+                  onClick={() => setShowSaveToGroup(!showSaveToGroup)}
                   className="btn btn-secondary"
-                  title="Save to collection"
+                  title="Save to group"
                 >
                   💾
                 </button>
 
-                {showSaveToCollection && (
+                {showSaveToGroup && (
                   <div ref={savePopupRef} className="dropdown-menu">
-                    <div className="dropdown-header">Save to Collection</div>
+                    <div className="dropdown-header">Save to Group</div>
                     <select
-                      value={selectedCollection}
-                      onChange={e => setSelectedCollection(e.target.value)}
+                      value={selectedGroup}
+                      onChange={e => setSelectedGroup(e.target.value)}
                       className="select"
                     >
-                      <option value="">Select collection...</option>
-                      {collections.map(col => (
+                      <option value="">Select group...</option>
+                      {groups.map(col => (
                         <option key={col.id} value={col.id}>
                           {col.name}
                         </option>
@@ -669,19 +669,19 @@ const RequestPanel: React.FC<RequestPanelProps> = ({
                     <div className="dropdown-actions">
                       <button
                         onClick={() => {
-                          if (selectedCollection) {
-                            onSaveToCollection(selectedCollection);
-                            setShowSaveToCollection(false);
-                            setSelectedCollection('');
+                          if (selectedGroup) {
+                            onSaveToGroup(selectedGroup);
+                            setShowSaveToGroup(false);
+                            setSelectedGroup('');
                           }
                         }}
-                        disabled={!selectedCollection}
+                        disabled={!selectedGroup}
                         className="btn btn-primary btn-sm"
                       >
                         Save
                       </button>
                       <button
-                        onClick={() => setShowSaveToCollection(false)}
+                        onClick={() => setShowSaveToGroup(false)}
                         className="btn btn-ghost btn-sm"
                       >
                         Cancel

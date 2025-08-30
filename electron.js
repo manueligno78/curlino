@@ -1,6 +1,7 @@
 import { app, BrowserWindow, session, ipcMain } from 'electron';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { readFileSync } from 'fs';
 import https from 'https';
 import http from 'http';
 import zlib from 'zlib';
@@ -8,6 +9,12 @@ import zlib from 'zlib';
 let mainWindow = null;
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
+
+// Get app version from package.json
+const currentFilename = fileURLToPath(import.meta.url);
+const currentDirname = path.dirname(currentFilename);
+const packageJson = JSON.parse(readFileSync(path.join(currentDirname, 'package.json'), 'utf8'));
+const APP_VERSION = packageJson.version;
 
 // HTTP request handler to bypass CORS
 function makeHttpRequest(url, options = {}) {
@@ -18,10 +25,10 @@ function makeHttpRequest(url, options = {}) {
     // Parse URL
     const urlObj = new URL(url);
     
-    // Setup standard HTTP headers like Postman
+    // Setup standard HTTP headers
     const standardHeaders = {
       'Host': urlObj.host,
-      'User-Agent': 'Curlino/1.0.0 (compatible; HTTP client)',
+      'User-Agent': `Curlino/${APP_VERSION} (compatible; HTTP client)`,
       'Accept': '*/*',
       'Accept-Encoding': 'gzip, deflate, br',
       'Connection': 'keep-alive',
@@ -183,9 +190,9 @@ async function createWindow() {
   mainWindow = new BrowserWindow({
     width: 1200,
     height: 800,
-    title: 'cUrlino',
+    title: `Curlino v${APP_VERSION}`,
     webPreferences: {
-      preload: path.resolve(__dirname, 'preload-simple.js'),
+      preload: path.resolve(currentDirname, 'preload-simple.js'),
       contextIsolation: true,
       enableRemoteModule: false,
       nodeIntegration: false,
@@ -223,12 +230,9 @@ async function createWindow() {
     mainWindow.loadURL('http://localhost:5173');
   } else {
     // Load files directly - much faster and more reliable
-    const __filename = fileURLToPath(import.meta.url);
-    const __dirname = path.dirname(__filename);
-    
     const possiblePaths = [
-      path.join(__dirname, '../renderer/index.html'),
-      path.join(__dirname, '../../out/renderer/index.html'),
+      path.join(currentDirname, '../renderer/index.html'),
+      path.join(currentDirname, '../../out/renderer/index.html'),
       path.join(process.resourcesPath, 'app/out/renderer/index.html'),
       path.join(process.resourcesPath, 'app.asar/out/renderer/index.html')
     ];

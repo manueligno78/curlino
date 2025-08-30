@@ -16,12 +16,12 @@ The `ApiService` handles HTTP requests and responses for API testing.
 
 ### StorageService
 
-Manages persistent storage for collections, environments, and settings.
+Manages persistent storage for groups, environments, and settings.
 
 #### Methods
 
-- `saveCollections(collections: Collection[]): void`
-- `loadCollections(): Collection[]`
+- `saveGroups(groups: Group[]): void`
+- `loadGroups(): Group[]`
 - `saveEnvironments(environments: Environment[]): void`
 - `loadEnvironments(): Environment[]`
 - `saveSettings(settings: AppSettings): void`
@@ -37,17 +37,17 @@ Handles authentication for API requests.
 - `refreshToken(token: AuthToken): Promise<AuthToken>`
 - `validateToken(token: AuthToken): boolean`
 
-### CollectionService
+### GroupService
 
-Manages collection operations and organization.
+Manages group operations and organization.
 
 #### Methods
 
-- `createCollection(name: string): Collection`
-- `updateCollection(id: string, updates: Partial<Collection>): void`
-- `deleteCollection(id: string): void`
-- `importCollection(data: any): Collection`
-- `exportCollection(id: string): any`
+- `createGroup(name: string): Group`
+- `updateGroup(id: string, updates: Partial<Group>): void`
+- `deleteGroup(id: string): void`
+- `importGroup(data: any): Group`
+- `exportGroup(id: string): any`
 
 ## Data Models
 
@@ -79,10 +79,10 @@ interface ApiResponse {
 }
 ```
 
-### Collection
+### Group
 
 ```typescript
-interface Collection {
+interface Group {
   id: string;
   name: string;
   description?: string;
@@ -167,8 +167,8 @@ The application uses an event-driven architecture with the following events:
 
 - `request:sent`: Fired when an API request is sent
 - `request:completed`: Fired when an API request completes
-- `collection:created`: Fired when a new collection is created
-- `collection:updated`: Fired when a collection is modified
+- `group:created`: Fired when a new group is created
+- `group:updated`: Fired when a group is modified
 - `environment:changed`: Fired when the active environment changes
 - `settings:updated`: Fired when application settings are changed
 
@@ -191,12 +191,12 @@ const response = await ApiService.makeRequest(request);
 console.log(response.status, response.body);
 ```
 
-### Creating a Collection
+### Creating a Group
 
 ```typescript
-const collection = CollectionService.createCollection('My API Collection');
-collection.requests.push(request);
-StorageService.saveCollections([collection]);
+const group = GroupService.createGroup('My API Group');
+group.requests.push(request);
+StorageService.saveGroups([group]);
 ```
 
 ### Managing Environments

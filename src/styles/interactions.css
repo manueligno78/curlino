@@ -223,7 +223,7 @@
     transform var(--transition-normal) var(--transition-fast);
 }
 
-/* Collection/Environment item hover */
+/* Group/Environment item hover */
 .sidebar-item {
   transition: all var(--transition-fast);
 }

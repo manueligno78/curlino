@@ -5,17 +5,36 @@ on:
     tags:
       - 'v*'
 
+permissions:
+  contents: write
+
 jobs:
   release:
     runs-on: ${{ matrix.os }}
 
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [windows-latest, macos-latest]
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Extract version from tag
+        id: version
+        shell: bash
+        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+
+      - name: Update package.json version
+        shell: bash
+        run: |
+          CURRENT_VERSION=$(node -p "require('./package.json').version")
+          if [ "$CURRENT_VERSION" != "${{ steps.version.outputs.VERSION }}" ]; then
+            echo "Updating version from $CURRENT_VERSION to ${{ steps.version.outputs.VERSION }}"
+            npm version ${{ steps.version.outputs.VERSION }} --no-git-tag-version
+          else
+            echo "Version is already correct: $CURRENT_VERSION"
+          fi
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -32,21 +51,70 @@ jobs:
       - name: Build production
         run: npm run build-prod
 
-      - name: Build Electron app
-        run: npm run dist
+      - name: Build Electron app (Windows)
+        if: matrix.os == 'windows-latest'
+        run: |
+          npm run build
+          npx electron-builder --win --publish never
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Release
+      - name: Build Electron app (macOS)
+        if: matrix.os == 'macos-latest'
+        run: |
+          npm run build
+          npx electron-builder --mac --publish never
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Release (Windows)
         uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
+        if: startsWith(github.ref, 'refs/tags/') && matrix.os == 'windows-latest'
+        with:
+          files: |
+            dist/*.exe
+          name: Curlino v${{ steps.version.outputs.VERSION }}
+          body: |
+            ## Curlino v${{ steps.version.outputs.VERSION }} - Cross-Platform Release
+            
+            ### 📥 Downloads
+            - **Windows**: `Curlino Setup ${{ steps.version.outputs.VERSION }}.exe`
+            - **macOS**: `Curlino-${{ steps.version.outputs.VERSION }}.dmg`
+            
+            ### 🚀 Changes
+            See commit history for detailed changes in this release.
+            
+            ### 🔧 Installation
+            - **Windows**: Download and run the `.exe` installer
+            - **macOS**: Download the `.dmg` file and drag Curlino to Applications
+            
+            ### 🎯 Platform Support
+            This release includes binaries for both Windows and macOS platforms.
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Release (macOS)
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/') && matrix.os == 'macos-latest'
         with:
           files: |
             dist/*.dmg
-            dist/*.exe
-            dist/*.AppImage
-            dist/*.deb
-            dist/*.rpm
-            dist/*.snap
+          name: Curlino v${{ steps.version.outputs.VERSION }}
+          body: |
+            ## Curlino v${{ steps.version.outputs.VERSION }} - Cross-Platform Release
+            
+            ### 📥 Downloads
+            - **Windows**: `Curlino Setup ${{ steps.version.outputs.VERSION }}.exe`
+            - **macOS**: `Curlino-${{ steps.version.outputs.VERSION }}.dmg`
+            
+            ### 🚀 Changes
+            See commit history for detailed changes in this release.
+            
+            ### 🔧 Installation
+            - **Windows**: Download and run the `.exe` installer
+            - **macOS**: Download the `.dmg` file and drag Curlino to Applications
+            
+            ### 🎯 Platform Support
+            This release includes binaries for both Windows and macOS platforms.
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -13,7 +13,7 @@ jest.mock('../../src/utils/BrowserLogger', () => ({
 
 describe('JSON Formatting Feature', () => {
   const mockOnSendRequest = jest.fn();
-  const mockOnSaveToCollection = jest.fn();
+  const mockOnSaveToGroup = jest.fn();
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -27,8 +27,8 @@ describe('JSON Formatting Feature', () => {
       <RequestPanel
         request={request}
         onSendRequest={mockOnSendRequest}
-        onSaveToCollection={mockOnSaveToCollection}
-        collections={[]}
+        onSaveToGroup={mockOnSaveToGroup}
+        groups={[]}
       />
     );
 
@@ -69,8 +69,8 @@ describe('JSON Formatting Feature', () => {
       <RequestPanel
         request={request}
         onSendRequest={mockOnSendRequest}
-        onSaveToCollection={mockOnSaveToCollection}
-        collections={[]}
+        onSaveToGroup={mockOnSaveToGroup}
+        groups={[]}
       />
     );
 
@@ -111,8 +111,8 @@ describe('JSON Formatting Feature', () => {
       <RequestPanel
         request={request}
         onSendRequest={mockOnSendRequest}
-        onSaveToCollection={mockOnSaveToCollection}
-        collections={[]}
+        onSaveToGroup={mockOnSaveToGroup}
+        groups={[]}
       />
     );
 
@@ -143,8 +143,8 @@ describe('JSON Formatting Feature', () => {
       <RequestPanel
         request={request}
         onSendRequest={mockOnSendRequest}
-        onSaveToCollection={mockOnSaveToCollection}
-        collections={[]}
+        onSaveToGroup={mockOnSaveToGroup}
+        groups={[]}
       />
     );
 
@@ -173,8 +173,8 @@ describe('JSON Formatting Feature', () => {
       <RequestPanel
         request={request}
         onSendRequest={mockOnSendRequest}
-        onSaveToCollection={mockOnSaveToCollection}
-        collections={[]}
+        onSaveToGroup={mockOnSaveToGroup}
+        groups={[]}
       />
     );
 

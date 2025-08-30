@@ -1,5 +1,5 @@
 import { StorageService } from '../../src/services/StorageService';
-import { Collection } from '../../src/models/Collection';
+import { Group } from '../../src/models/Group';
 import { Environment } from '../../src/models/Environment';
 import { Request } from '../../src/models/Request';
 
@@ -38,24 +38,24 @@ describe('StorageService', () => {
     jest.clearAllMocks();
   });
 
-  describe('Collections', () => {
-    it('should save collections to localStorage', () => {
-      const collection = new Collection('test-id', 'Test Collection');
-      const collections = [collection];
+  describe('Groups', () => {
+    it('should save groups to localStorage', () => {
+      const group = new Group('test-id', 'Test Group');
+      const groups = [group];
 
-      storageService.saveCollections(collections);
+      storageService.saveGroups(groups);
 
       expect(mockLocalStorage.setItem).toHaveBeenCalledWith(
-        'cUrlino_collections',
-        expect.stringContaining('"name":"Test Collection"')
+        'cUrlino_groups',
+        expect.stringContaining('"name":"Test Group"')
       );
     });
 
-    it('should load collections from localStorage', () => {
+    it('should load groups from localStorage', () => {
       const mockData = JSON.stringify([
         {
           id: 'test-id',
-          name: 'Test Collection',
+          name: 'Test Group',
           description: 'Test description',
           requests: [],
         },
@@ -63,27 +63,27 @@ describe('StorageService', () => {
 
       mockLocalStorage.getItem.mockReturnValue(mockData);
 
-      const collections = storageService.loadCollections();
+      const groups = storageService.loadGroups();
 
-      expect(collections).toHaveLength(1);
-      expect(collections[0].name).toBe('Test Collection');
-      expect(collections[0].id).toBe('test-id');
+      expect(groups).toHaveLength(1);
+      expect(groups[0].name).toBe('Test Group');
+      expect(groups[0].id).toBe('test-id');
     });
 
-    it('should return empty array when no collections in localStorage', () => {
+    it('should return empty array when no groups in localStorage', () => {
       mockLocalStorage.getItem.mockReturnValue(null);
 
-      const collections = storageService.loadCollections();
+      const groups = storageService.loadGroups();
 
-      expect(collections).toEqual([]);
+      expect(groups).toEqual([]);
     });
 
-    it('should handle corrupted collections data', () => {
+    it('should handle corrupted groups data', () => {
       mockLocalStorage.getItem.mockReturnValue('invalid json');
 
-      const collections = storageService.loadCollections();
+      const groups = storageService.loadGroups();
 
-      expect(collections).toEqual([]);
+      expect(groups).toEqual([]);
     });
   });
 

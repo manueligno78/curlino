@@ -1,6 +1,6 @@
 /* 
  * Curlino App Styles - Modern Design System
- * Lightweight, browser-ready, Postman-inspired
+ * Lightweight, browser-ready, modern API client
  */
 
 /* Import design tokens and interactions */
@@ -415,20 +415,20 @@ body {
   transform: translateY(0);
 }
 
-/* ===== COLLECTIONS ===== */
+/* ===== GROUPS ===== */
 
-.collections,
+.groups,
 .environments {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-.collection-item {
+.group-item {
   margin-bottom: var(--space-2);
 }
 
-.collection-header {
+.group-header {
   padding: var(--space-3);
   background-color: var(--surface-primary);
   border: 1px solid var(--border-secondary);
@@ -440,7 +440,7 @@ body {
   transition: all var(--transition-fast);
 }
 
-.collection-header:hover {
+.group-header:hover {
   background-color: var(--bg-hover);
   border-color: var(--border-primary);
 }
@@ -457,7 +457,7 @@ body {
   transform: rotate(90deg);
 }
 
-.collection-name {
+.group-name {
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-medium);
   color: var(--text-primary);
@@ -741,7 +741,7 @@ body {
   text-align: center;
 }
 
-.remove-collection-btn,
+.remove-group-btn,
 .remove-request-btn {
   background: none;
   border: none;
@@ -758,7 +758,7 @@ body {
   justify-content: center;
 }
 
-.remove-collection-btn:hover,
+.remove-group-btn:hover,
 .remove-request-btn:hover {
   background-color: var(--color-error-50);
   color: var(--color-error-600);

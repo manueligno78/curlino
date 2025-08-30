@@ -1,9 +1,17 @@
 {
   "name": "curlino",
-  "version": "1.0.0",
-  "description": "A modern REST API client built with Electron and React",
+  "version": "1.3.8",
+  "description": "Modern cross-platform desktop app to import, manage and execute curl commands with a beautiful graphical interface. Built with Electron, React, and TypeScript.",
   "main": "out/main/electron.js",
   "type": "module",
+  "homepage": "https://github.com/manueligno78/curlino#readme",
+  "bugs": {
+    "url": "https://github.com/manueligno78/curlino/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/manueligno78/curlino.git"
+  },
   "scripts": {
     "start": "npm run build && electron .",
     "dev": "electron-vite dev",
@@ -22,18 +30,41 @@
     "electron": "electron .",
     "pack": "npm run build && electron-builder --dir",
     "dist": "npm run build && electron-builder",
-    "build-prod": "npm run build"
+    "build-prod": "npm run build",
+    "quality": "npm run lint && npm run format:check && npm run test",
+    "release:patch": "npm version patch && git push && git push --tags",
+    "release:minor": "npm version minor && git push && git push --tags",
+    "release:major": "npm version major && git push && git push --tags"
   },
   "keywords": [
-    "rest",
-    "api",
-    "client",
+    "curlino",
+    "curl-import",
+    "curl-gui",
+    "curl-manager",
+    "curl-to-gui",
+    "rest-api-client",
+    "api-testing",
+    "http-client",
+    "desktop-app",
     "electron",
     "react",
-    "http",
-    "curl"
+    "typescript",
+    "curl",
+    "curl-converter",
+    "postman-alternative",
+    "cross-platform",
+    "api-development",
+    "rest-client",
+    "http-requests",
+    "api-management",
+    "developer-tools",
+    "testing-tools",
+    "insomnia-alternative"
   ],
-  "author": "Manuel",
+  "author": {
+    "name": "Curlino Project",
+    "url": "https://github.com/manueligno78/curlino"
+  },
   "license": "MIT",
   "devDependencies": {
     "@playwright/test": "^1.55.0",
@@ -82,25 +113,21 @@
       "!**/*.{iml,o,hprof,orig,pyc,pyo,rbc,swp,csproj,sln,xproj}"
     ],
     "mac": {
-      "icon": "icon.icns",
-      "category": "public.app-category.developer-tools"
-    },
-    "win": {
-      "icon": "icon.ico",
+      "category": "public.app-category.developer-tools",
       "target": [
         {
-          "target": "nsis",
+          "target": "dmg",
           "arch": [
-            "x64"
+            "x64",
+            "arm64"
           ]
         }
       ]
     },
-    "linux": {
-      "icon": "icon.png",
+    "win": {
       "target": [
         {
-          "target": "AppImage",
+          "target": "nsis",
           "arch": [
             "x64"
           ]

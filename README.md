@@ -1,23 +1,107 @@
-# Curlino
+# Curlino - Modern Desktop REST API Client
 
-Curlino is a modern desktop application for creating, managing, and testing API requests. It is built using TypeScript and React, and it leverages Electron for cross-platform compatibility.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/manueligno78/curlino/ci.yml?branch=main)](https://github.com/manueligno78/curlino/actions)
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/manueligno78/curlino)](https://github.com/manueligno78/curlino/releases)
+[![GitHub stars](https://img.shields.io/github/stars/manueligno78/curlino)](https://github.com/manueligno78/curlino/stargazers)
+[![npm audit](https://img.shields.io/badge/npm%20audit-0%20vulnerabilities-green)](https://docs.npmjs.com/cli/v8/commands/npm-audit)
+[![Dependabot Status](https://img.shields.io/badge/dependabot-enabled-brightgreen.svg)](https://github.com/manueligno78/curlino/network/dependencies)
+[![Security Policy](https://img.shields.io/badge/security-policy-blue)](SECURITY.md)
+[![Privacy Policy](https://img.shields.io/badge/privacy-zero%20data%20collection-green)](PRIVACY.md)
+[![TypeScript](https://img.shields.io/badge/%3C%2F%3E-TypeScript-%230074c1.svg)](http://www.typescriptlang.org/)
+[![Electron](https://img.shields.io/badge/Electron-191970?style=flat&logo=Electron&logoColor=white)](https://electronjs.org/)
+[![React](https://img.shields.io/badge/react-%2320232a.svg?style=flat&logo=react&logoColor=%2361DAFB)](https://reactjs.org/)
 
-## Features
+**Curlino** is a modern, cross-platform **desktop app to import, manage and execute curl** commands with a beautiful graphical interface. Built with **Electron**, **React**, and **TypeScript**, it transforms your curl commands into an organized, visual REST API client experience.
 
-- Create and manage API requests with various HTTP methods.
-- Organize requests into collections.
-- Use environments to manage variables for different setups.
-- View API responses, including status codes, headers, and body content.
-- Navigate through different sections using a sidebar.
-- Manage multiple requests using a tabbed interface.
-- **Settings Management**: Customize application behavior including themes, request defaults, and more.
+🚀 **Key Features**: **Native curl command import**, cross-platform compatibility, modern UI design, advanced request management, environment variables, response visualization, and comprehensive testing capabilities.
 
-## Technologies Used
+## ✨ Features
 
-- **TypeScript**: For type safety and better development experience.
-- **React**: For building the user interface.
-- **Electron**: For creating a cross-platform desktop application.
-- **Node.js**: For backend services and API calls.
+### 🔧 cURL Integration & Request Management
+- **🎯 Native cURL Import**: Paste any curl command and automatically parse it into a visual request
+- **⚡ cURL Export**: Convert any request back to curl command for command-line usage  
+- **🔄 cURL Command Execution**: Execute imported curl commands with full parameter support
+- **HTTP Methods Support**: GET, POST, PUT, DELETE, PATCH, HEAD, OPTIONS
+- **Request Builder**: Intuitive graphical interface for crafting API requests
+- **Headers & Parameters**: Full control over request headers and query parameters
+- **Request Body**: Support for JSON, XML, form data, and raw text
+
+### 📁 Organization & Workflow
+- **Group Organization**: Organize requests into logical groups and collections
+- **Environment Variables**: Manage different environments (dev, staging, prod) with variable substitution
+- **Tabbed Interface**: Work with multiple requests simultaneously
+- **Request History**: Track and revisit previously executed requests
+- **Auto-save**: Automatic saving of groups and environments
+
+### 📊 Response Analysis
+- **Response Viewer**: Beautiful syntax highlighting for JSON, XML, HTML
+- **Headers Inspection**: Detailed view of response headers and status codes
+- **Response Time Tracking**: Monitor API performance
+- **Status Code Analysis**: Visual indicators for HTTP status codes
+- **Response Export**: Save responses for documentation or debugging
+
+### 🎨 Modern UI & UX
+- **Cross-platform**: Native desktop app for macOS, Windows, and Linux
+- **Dark/Light Theme**: Customizable themes with system preference support
+- **Responsive Design**: Optimized interface that adapts to different screen sizes
+- **Keyboard Shortcuts**: Efficient workflow with customizable shortcuts
+- **Settings Panel**: Comprehensive configuration options
+
+## 🚀 Quick Start
+
+### 📋 Using with cURL Commands
+```bash
+# Simply copy any curl command like this:
+curl -X POST https://api.example.com/users \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer token123" \
+  -d '{"name": "John", "email": "john@example.com"}'
+
+# Paste it directly into Curlino's import dialog
+# → Curlino automatically parses and creates a visual request
+# → Execute, modify, and manage it through the GUI
+# → Export back to curl when needed
+```
+
+### 📥 Download & Install
+1. **Download** the latest release from [GitHub Releases](https://github.com/manueligno78/curlino/releases)
+2. **Install** the appropriate package for your operating system:
+   - **macOS**: Download `.dmg` file
+   - **Windows**: Download `.exe` installer
+   - **Linux**: Download `.AppImage` file
+
+### Development Setup
+```bash
+# Clone the repository
+git clone https://github.com/manueligno78/curlino.git
+cd curlino
+
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+```
+
+## 💻 Technologies & Stack
+
+### Core Framework
+- **[Electron](https://electronjs.org/)** - Cross-platform desktop app framework
+- **[React 18](https://reactjs.org/)** - Modern UI library with hooks
+- **[TypeScript](https://www.typescriptlang.org/)** - Type-safe JavaScript development
+- **[Node.js](https://nodejs.org/)** - Runtime for API calls and system integration
+
+### Development Tools
+- **[Webpack](https://webpack.js.org/)** - Module bundling and optimization
+- **[ESLint](https://eslint.org/)** & **[Prettier](https://prettier.io/)** - Code quality and formatting
+- **[Jest](https://jestjs.io/)** - Testing framework with React Testing Library
+- **[GitHub Actions](https://github.com/features/actions)** - CI/CD pipeline
+
+### Key Libraries
+- **[Axios](https://axios-http.com/)** - HTTP client for API requests
+- **[UUID](https://www.npmjs.com/package/uuid)** - Unique identifier generation
+- **[HTTP Status Messages](https://www.npmjs.com/package/http-status-message)** - Status code utilities
 
 ## Settings
 
@@ -37,7 +121,7 @@ The application supports various customization options through its settings pane
 
 ### General Settings
 
-- **Auto Save**: Enable/disable automatic saving of collections and environments
+- **Auto Save**: Enable/disable automatic saving of groups and environments
 - **Usage Data**: Opt-in/out of sending anonymous usage data
 - **History Items**: Configure the maximum number of items to keep in history
 
@@ -115,7 +199,7 @@ Logs are categorized by component:
 2025-07-31T14:39:44.173Z [INFO] [ApiService]: API Request {"method":"GET","url":"https://api.example.com/data","statusCode":200,"responseTime":145}
 
 // Storage operation log
-2025-07-31T14:39:44.186Z [DEBUG] [StorageService]: Saving collections {"action":"saveCollections","count":3}
+2025-07-31T14:39:44.186Z [DEBUG] [StorageService]: Saving groups {"action":"saveGroups","count":3}
 
 // Error log
 2025-07-31T14:39:44.204Z [ERROR] [ErrorHandler]: Network request failed {"errorType":"NETWORK_ERROR","url":"https://api.example.com/data"}
@@ -200,7 +284,7 @@ You can generate a native `.app` file for macOS using [electron-builder](https:/
 
 Once the application is running, you can:
 
-- Use the sidebar to navigate between collections and environments.
+- Use the sidebar to navigate between groups and environments.
 - Create new requests in the Request Panel.
 - View responses in the Response Panel.
 - Switch between requests using the Tab System.
