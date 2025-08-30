@@ -1,9 +1,17 @@
 {
   "name": "curlino",
   "version": "1.0.0",
-  "description": "A modern REST API client built with Electron and React",
+  "description": "Modern cross-platform desktop app to import, manage and execute curl commands with a beautiful graphical interface. Built with Electron, React, and TypeScript.",
   "main": "out/main/electron.js",
   "type": "module",
+  "homepage": "https://github.com/manueligno78/curlino#readme",
+  "bugs": {
+    "url": "https://github.com/manueligno78/curlino/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/manueligno78/curlino.git"
+  },
   "scripts": {
     "start": "npm run build && electron .",
     "dev": "electron-vite dev",
@@ -25,15 +33,34 @@
     "build-prod": "npm run build"
   },
   "keywords": [
-    "rest",
-    "api",
-    "client",
+    "curlino",
+    "curl-import",
+    "curl-gui",
+    "curl-manager",
+    "curl-to-gui",
+    "rest-api-client",
+    "api-testing",
+    "http-client",
+    "desktop-app",
     "electron",
     "react",
-    "http",
-    "curl"
+    "typescript",
+    "curl",
+    "curl-converter",
+    "postman-alternative",
+    "cross-platform",
+    "api-development",
+    "rest-client",
+    "http-requests",
+    "api-management",
+    "developer-tools",
+    "testing-tools",
+    "insomnia-alternative"
   ],
-  "author": "Manuel",
+  "author": {
+    "name": "Manuel",
+    "url": "https://github.com/manueligno78"
+  },
   "license": "MIT",
   "devDependencies": {
     "@playwright/test": "^1.55.0",
