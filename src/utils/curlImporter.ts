@@ -20,6 +20,7 @@
 import { Request } from '../models/Request';
 import { generateUUID } from './formatters';
 import { logger } from './BrowserLogger';
+import { validateAndCorrectUrl } from './urlValidation';
 
 interface ParsedCurl {
   url: string;
@@ -114,7 +115,31 @@ export function parseCurlCommand(curlCommand: string): ParsedCurl | null {
     }
     // Extract URL: from the URL token we found
     if (urlToken) {
-      result.url = urlToken.replace(/^['"]|['"]$/g, '');
+      const rawUrl = urlToken.replace(/^['"]|['"]$/g, '');
+
+      // Validate and correct the URL
+      const validation = validateAndCorrectUrl(rawUrl);
+      if (!validation.isValid) {
+        logger.error('Invalid URL in cURL command', {
+          component: 'curlImporter',
+          action: 'parseCurlCommand',
+          rawUrl: rawUrl,
+          error: validation.error,
+        });
+        return null;
+      }
+
+      result.url = validation.correctedUrl || rawUrl;
+    }
+
+    // Ensure we have a valid URL
+    if (!result.url) {
+      logger.error('No URL found in cURL command', {
+        component: 'curlImporter',
+        action: 'parseCurlCommand',
+        curlCommand: curlCommand.substring(0, 100) + '...',
+      });
+      return null;
     }
 
     logger.debug('Parsed cURL result', {
