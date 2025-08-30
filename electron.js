@@ -11,9 +11,9 @@ let mainWindow = null;
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
 // Get app version from package.json
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const packageJson = JSON.parse(readFileSync(path.join(__dirname, 'package.json'), 'utf8'));
+const currentFilename = fileURLToPath(import.meta.url);
+const currentDirname = path.dirname(currentFilename);
+const packageJson = JSON.parse(readFileSync(path.join(currentDirname, 'package.json'), 'utf8'));
 const APP_VERSION = packageJson.version;
 
 // HTTP request handler to bypass CORS
@@ -192,7 +192,7 @@ async function createWindow() {
     height: 800,
     title: `Curlino v${APP_VERSION}`,
     webPreferences: {
-      preload: path.resolve(__dirname, 'preload-simple.js'),
+      preload: path.resolve(currentDirname, 'preload-simple.js'),
       contextIsolation: true,
       enableRemoteModule: false,
       nodeIntegration: false,
@@ -231,8 +231,8 @@ async function createWindow() {
   } else {
     // Load files directly - much faster and more reliable
     const possiblePaths = [
-      path.join(__dirname, '../renderer/index.html'),
-      path.join(__dirname, '../../out/renderer/index.html'),
+      path.join(currentDirname, '../renderer/index.html'),
+      path.join(currentDirname, '../../out/renderer/index.html'),
       path.join(process.resourcesPath, 'app/out/renderer/index.html'),
       path.join(process.resourcesPath, 'app.asar/out/renderer/index.html')
     ];
