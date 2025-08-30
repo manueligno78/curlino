@@ -4,7 +4,6 @@
 [![Build Status](https://img.shields.io/github/actions/workflow/status/manueligno78/curlino/ci.yml?branch=main)](https://github.com/manueligno78/curlino/actions)
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/manueligno78/curlino)](https://github.com/manueligno78/curlino/releases)
 [![GitHub stars](https://img.shields.io/github/stars/manueligno78/curlino)](https://github.com/manueligno78/curlino/stargazers)
-[![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/manueligno78/curlino/badge)](https://securityscorecards.dev/viewer/?uri=github.com/manueligno78/curlino)
 [![npm audit](https://img.shields.io/badge/npm%20audit-0%20vulnerabilities-green)](https://docs.npmjs.com/cli/v8/commands/npm-audit)
 [![Dependabot Status](https://img.shields.io/badge/dependabot-enabled-brightgreen.svg)](https://github.com/manueligno78/curlino/network/dependencies)
 [![Security Policy](https://img.shields.io/badge/security-policy-blue)](SECURITY.md)
