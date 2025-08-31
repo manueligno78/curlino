@@ -228,41 +228,41 @@
     width: 95%;
     margin: 1rem;
   }
-  
+
   .detail-row {
     flex-direction: column;
     align-items: flex-start;
     gap: 0.25rem;
   }
-  
+
   .detail-label {
     min-width: auto;
     font-size: 0.875rem;
   }
-  
+
   .update-actions {
     flex-direction: column;
   }
-  
+
   .update-actions .btn {
     width: 100%;
   }
 }
 
 /* Dark theme adjustments */
-[data-theme="dark"] .status-message.available {
+[data-theme='dark'] .status-message.available {
   background: var(--success-bg, #1b2f1b);
   color: var(--success-text, #81c784);
   border-color: var(--success-border, #4caf50);
 }
 
-[data-theme="dark"] .status-message.downloaded {
+[data-theme='dark'] .status-message.downloaded {
   background: var(--info-bg, #1a237e);
   color: var(--info-text, #64b5f6);
   border-color: var(--info-border, #2196f3);
 }
 
-[data-theme="dark"] .status-message.error {
+[data-theme='dark'] .status-message.error {
   background: var(--error-bg, #2f1b1b);
   color: var(--error-text, #e57373);
   border-color: var(--error-border, #f44336);
