@@ -28,7 +28,7 @@ const AppInfoModal: React.FC<AppInfoModalProps> = ({ isOpen, onClose }) => {
       logger.error('Error loading app version', {
         component: 'AppInfoModal',
         action: 'loadAppVersion',
-        error: error instanceof Error ? error.message : String(error)
+        error: error instanceof Error ? error.message : String(error),
       });
     }
   }, [updateService]);
@@ -95,7 +95,7 @@ const AppInfoModal: React.FC<AppInfoModalProps> = ({ isOpen, onClose }) => {
       logger.error('Error checking for updates', {
         component: 'AppInfoModal',
         action: 'handleCheckForUpdates',
-        error: error instanceof Error ? error.message : String(error)
+        error: error instanceof Error ? error.message : String(error),
       });
       setUpdateError(error instanceof Error ? error.message : 'Unknown error');
       setUpdateStatus('error');
@@ -118,7 +118,7 @@ const AppInfoModal: React.FC<AppInfoModalProps> = ({ isOpen, onClose }) => {
       logger.error('Error downloading update', {
         component: 'AppInfoModal',
         action: 'handleDownloadUpdate',
-        error: error instanceof Error ? error.message : String(error)
+        error: error instanceof Error ? error.message : String(error),
       });
       setUpdateError(error instanceof Error ? error.message : 'Unknown error');
       setUpdateStatus('error');
@@ -130,7 +130,11 @@ const AppInfoModal: React.FC<AppInfoModalProps> = ({ isOpen, onClose }) => {
     try {
       await updateService.installUpdate();
     } catch (error) {
-      logger.error('Error installing update', error as Error);
+      logger.error('Error installing update', {
+        component: 'AppInfoModal',
+        action: 'handleInstallUpdate',
+        error: error instanceof Error ? error.message : String(error),
+      });
       setUpdateError(error instanceof Error ? error.message : 'Unknown error');
       setUpdateStatus('error');
     }

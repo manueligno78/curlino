@@ -64,27 +64,41 @@ export class UpdateService {
     if (electron) {
       // Setup event listeners
       electron.onUpdateAvailable((info: UpdateInfo) => {
-        logger.info('Update available', info);
+        logger.info('Update available', { component: 'UpdateService', action: 'updateAvailable' });
         this.updateAvailableCallbacks.forEach(callback => callback(info));
       });
 
       electron.onUpdateNotAvailable((info: UpdateInfo) => {
-        logger.info('Update not available', info);
+        logger.info('Update not available', {
+          component: 'UpdateService',
+          action: 'updateNotAvailable',
+        });
         this.updateNotAvailableCallbacks.forEach(callback => callback(info));
       });
 
       electron.onUpdateError((error: Error) => {
-        logger.error('Update error', error);
+        logger.error('Update error', {
+          component: 'UpdateService',
+          action: 'updateError',
+          error: error.message,
+        });
         this.updateErrorCallbacks.forEach(callback => callback(error));
       });
 
       electron.onUpdateDownloadProgress((progress: UpdateProgress) => {
-        logger.debug('Update download progress', progress);
+        logger.debug('Update download progress', {
+          component: 'UpdateService',
+          action: 'updateDownloadProgress',
+          progress: `${Math.round(progress.percent)}%`,
+        });
         this.updateDownloadProgressCallbacks.forEach(callback => callback(progress));
       });
 
       electron.onUpdateDownloaded((info: UpdateInfo) => {
-        logger.info('Update downloaded', info);
+        logger.info('Update downloaded', {
+          component: 'UpdateService',
+          action: 'updateDownloaded',
+        });
         this.updateDownloadedCallbacks.forEach(callback => callback(info));
       });
     }
@@ -107,7 +121,11 @@ export class UpdateService {
       logger.info('Check for updates result', result);
       return result || { success: false, error: 'Electron API not available' };
     } catch (error) {
-      logger.error('Error checking for updates', error);
+      logger.error('Error checking for updates', {
+        component: 'UpdateService',
+        action: 'checkForUpdates',
+        error: error instanceof Error ? error.message : String(error),
+      });
       return { success: false, error: error instanceof Error ? error.message : 'Unknown error' };
     }
   }
@@ -129,7 +147,11 @@ export class UpdateService {
       logger.info('Download update result', result);
       return result || { success: false, error: 'Electron API not available' };
     } catch (error) {
-      logger.error('Error downloading update', error);
+      logger.error('Error downloading update', {
+        component: 'UpdateService',
+        action: 'downloadUpdate',
+        error: error instanceof Error ? error.message : String(error),
+      });
       return { success: false, error: error instanceof Error ? error.message : 'Unknown error' };
     }
   }
@@ -151,7 +173,11 @@ export class UpdateService {
       logger.info('Install update result', result);
       return result || { success: false, error: 'Electron API not available' };
     } catch (error) {
-      logger.error('Error installing update', error);
+      logger.error('Error installing update', {
+        component: 'UpdateService',
+        action: 'installUpdate',
+        error: error instanceof Error ? error.message : String(error),
+      });
       return { success: false, error: error instanceof Error ? error.message : 'Unknown error' };
     }
   }
@@ -172,7 +198,11 @@ export class UpdateService {
       const version = await electron?.getVersion();
       return version || '1.0.0';
     } catch (error) {
-      logger.error('Error getting app version', error);
+      logger.error('Error getting app version', {
+        component: 'UpdateService',
+        action: 'getAppVersion',
+        error: error instanceof Error ? error.message : String(error),
+      });
       return '1.0.0';
     }
   }
