@@ -55,13 +55,17 @@
   resize: none;
   min-height: 200px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .curl-textarea:focus {
   outline: none;
   border-color: var(--primary-color);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 0 0 3px rgba(59, 130, 246, 0.1);
+  box-shadow:
+    0 1px 3px rgba(0, 0, 0, 0.1),
+    0 0 0 3px rgba(59, 130, 246, 0.1);
 }
 
 .import-error {
