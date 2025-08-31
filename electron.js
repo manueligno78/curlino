@@ -8,7 +8,7 @@ import zlib from 'zlib';
 
 let mainWindow = null;
 
-const isDevelopment = process.env.NODE_ENV !== 'production';
+const isDevelopment = process.env.NODE_ENV !== 'production' || process.defaultApp || /node_modules[\\/]electron[\\/]/.test(process.execPath);
 
 // Get app version from Electron's built-in method
 const APP_VERSION = app.getVersion();
@@ -205,11 +205,15 @@ ipcMain.handle('app:http-request', async (event, requestData) => {
 
 // Auto-updater IPC handlers
 ipcMain.handle('app:check-for-updates', async () => {
-  if (!isDevelopment) {
+  // Allow auto-update testing with environment variable
+  const allowDevUpdates = process.env.CURLINO_ALLOW_DEV_UPDATES === 'true';
+  
+  if (!isDevelopment || allowDevUpdates) {
     try {
       const result = await autoUpdater.checkForUpdates();
       return { success: true, data: result };
     } catch (error) {
+      console.error('Auto-updater error:', error);
       return { success: false, error: error.message };
     }
   } else {
@@ -218,11 +222,14 @@ ipcMain.handle('app:check-for-updates', async () => {
 });
 
 ipcMain.handle('app:download-update', async () => {
-  if (!isDevelopment) {
+  const allowDevUpdates = process.env.CURLINO_ALLOW_DEV_UPDATES === 'true';
+  
+  if (!isDevelopment || allowDevUpdates) {
     try {
       await autoUpdater.downloadUpdate();
       return { success: true };
     } catch (error) {
+      console.error('Auto-updater download error:', error);
       return { success: false, error: error.message };
     }
   } else {
@@ -231,11 +238,14 @@ ipcMain.handle('app:download-update', async () => {
 });
 
 ipcMain.handle('app:install-update', async () => {
-  if (!isDevelopment) {
+  const allowDevUpdates = process.env.CURLINO_ALLOW_DEV_UPDATES === 'true';
+  
+  if (!isDevelopment || allowDevUpdates) {
     try {
       autoUpdater.quitAndInstall();
       return { success: true };
     } catch (error) {
+      console.error('Auto-updater install error:', error);
       return { success: false, error: error.message };
     }
   } else {
