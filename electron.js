@@ -8,7 +8,18 @@ import zlib from 'zlib';
 
 let mainWindow = null;
 
-const isDevelopment = process.env.NODE_ENV !== 'production' || process.defaultApp || /node_modules[\\/]electron[\\/]/.test(process.execPath);
+// Fixed isDevelopment detection to properly identify packaged apps
+// The previous regex-based approach could incorrectly flag packaged apps as development
+const isDevelopment = (() => {
+  // If NODE_ENV is explicitly set to production, only consider it development
+  // if defaultApp is true (which happens when running with electron CLI)
+  if (process.env.NODE_ENV === 'production') {
+    return !!process.defaultApp;
+  }
+  
+  // If NODE_ENV is not production, it's development
+  return true;
+})();
 
 // Get app version from Electron's built-in method
 const APP_VERSION = app.getVersion();
