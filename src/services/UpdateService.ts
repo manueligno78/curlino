@@ -27,7 +27,8 @@ export class UpdateService {
   private updateDownloadedCallbacks: UpdateEventCallback[] = [];
 
   constructor() {
-    this.isElectron = typeof window !== 'undefined' && !!(window as any).electron;
+    this.isElectron =
+      typeof window !== 'undefined' && !!(window as unknown as { electron?: unknown }).electron;
 
     if (this.isElectron) {
       this.setupElectronUpdater();
@@ -44,7 +45,17 @@ export class UpdateService {
   }
 
   private setupElectronUpdater(): void {
-    const electron = (window as any).electron;
+    const electron = (
+      window as unknown as {
+        electron?: {
+          onUpdateAvailable: (callback: (info: UpdateInfo) => void) => void;
+          onUpdateNotAvailable: (callback: (info: UpdateInfo) => void) => void;
+          onUpdateError: (callback: (error: Error) => void) => void;
+          onUpdateDownloadProgress: (callback: (progress: UpdateProgress) => void) => void;
+          onUpdateDownloaded: (callback: (info: UpdateInfo) => void) => void;
+        };
+      }
+    ).electron;
 
     if (electron) {
       // Setup event listeners
@@ -81,10 +92,16 @@ export class UpdateService {
     }
 
     try {
-      const electron = (window as any).electron;
-      const result = await electron.checkForUpdates();
+      const electron = (
+        window as unknown as {
+          electron?: {
+            checkForUpdates: () => Promise<{ success: boolean; error?: string }>;
+          };
+        }
+      ).electron;
+      const result = await electron?.checkForUpdates();
       logger.info('Check for updates result', result);
-      return result;
+      return result || { success: false, error: 'Electron API not available' };
     } catch (error) {
       logger.error('Error checking for updates', error);
       return { success: false, error: error instanceof Error ? error.message : 'Unknown error' };
@@ -97,10 +114,16 @@ export class UpdateService {
     }
 
     try {
-      const electron = (window as any).electron;
-      const result = await electron.downloadUpdate();
+      const electron = (
+        window as unknown as {
+          electron?: {
+            downloadUpdate: () => Promise<{ success: boolean; error?: string }>;
+          };
+        }
+      ).electron;
+      const result = await electron?.downloadUpdate();
       logger.info('Download update result', result);
-      return result;
+      return result || { success: false, error: 'Electron API not available' };
     } catch (error) {
       logger.error('Error downloading update', error);
       return { success: false, error: error instanceof Error ? error.message : 'Unknown error' };
@@ -113,10 +136,16 @@ export class UpdateService {
     }
 
     try {
-      const electron = (window as any).electron;
-      const result = await electron.installUpdate();
+      const electron = (
+        window as unknown as {
+          electron?: {
+            installUpdate: () => Promise<{ success: boolean; error?: string }>;
+          };
+        }
+      ).electron;
+      const result = await electron?.installUpdate();
       logger.info('Install update result', result);
-      return result;
+      return result || { success: false, error: 'Electron API not available' };
     } catch (error) {
       logger.error('Error installing update', error);
       return { success: false, error: error instanceof Error ? error.message : 'Unknown error' };
@@ -129,9 +158,15 @@ export class UpdateService {
     }
 
     try {
-      const electron = (window as any).electron;
-      const version = await electron.getVersion();
-      return version;
+      const electron = (
+        window as unknown as {
+          electron?: {
+            getVersion: () => Promise<string>;
+          };
+        }
+      ).electron;
+      const version = await electron?.getVersion();
+      return version || '1.0.0';
     } catch (error) {
       logger.error('Error getting app version', error);
       return '1.0.0';

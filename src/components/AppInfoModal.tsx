@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { UpdateService, UpdateInfo, UpdateProgress } from '../services/UpdateService';
 import { logger } from '../utils/BrowserLogger';
 import '../styles/AppInfoModal.css';
@@ -20,26 +20,16 @@ const AppInfoModal: React.FC<AppInfoModalProps> = ({ isOpen, onClose }) => {
   const [downloadProgress, setDownloadProgress] = useState<UpdateProgress | null>(null);
   const [isDownloading, setIsDownloading] = useState(false);
 
-  useEffect(() => {
-    if (isOpen) {
-      loadAppVersion();
-      setupUpdateListeners();
-    }
-    return () => {
-      removeUpdateListeners();
-    };
-  }, [isOpen]);
-
-  const loadAppVersion = async () => {
+  const loadAppVersion = useCallback(async () => {
     try {
       const version = await updateService.getAppVersion();
       setAppVersion(version);
     } catch (error) {
       logger.error('Error loading app version', error);
     }
-  };
+  }, [updateService]);
 
-  const setupUpdateListeners = () => {
+  const setupUpdateListeners = useCallback(() => {
     updateService.onUpdateAvailable((info: UpdateInfo) => {
       setUpdateInfo(info);
       setUpdateStatus('available');
@@ -68,12 +58,22 @@ const AppInfoModal: React.FC<AppInfoModalProps> = ({ isOpen, onClose }) => {
       setIsDownloading(false);
       setDownloadProgress(null);
     });
-  };
+  }, [updateService]);
 
   const removeUpdateListeners = () => {
     // In a real implementation, you'd want to properly clean up listeners
     // For now, we'll rely on the component unmounting
   };
+
+  useEffect(() => {
+    if (isOpen) {
+      loadAppVersion();
+      setupUpdateListeners();
+    }
+    return () => {
+      removeUpdateListeners();
+    };
+  }, [isOpen, loadAppVersion, setupUpdateListeners]);
 
   const handleCheckForUpdates = async () => {
     setIsCheckingUpdates(true);
