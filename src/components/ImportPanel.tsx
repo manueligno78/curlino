@@ -49,7 +49,7 @@ const ImportPanel: React.FC<ImportPanelProps> = ({ onImport }) => {
   return (
     <div className="import-panel">
       <div className="import-panel-header">
-        <h2>Import Request</h2>
+        <h2>Import CURL</h2>
       </div>
 
       <div className="import-panel-content">
