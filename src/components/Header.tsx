@@ -8,6 +8,7 @@ interface HeaderProps {
   onActivateBuilder?: () => void;
   onThemeToggle?: () => void;
   onSettingsToggle?: () => void;
+  onHelpToggle?: () => void;
   activeView: 'import' | 'builder' | 'history' | 'settings';
   darkTheme?: boolean;
 }
@@ -18,6 +19,7 @@ const Header: React.FC<HeaderProps> = ({
   onActivateBuilder,
   onThemeToggle,
   onSettingsToggle,
+  onHelpToggle,
   activeView,
   darkTheme: _darkTheme = false,
 }) => {
@@ -90,7 +92,7 @@ const Header: React.FC<HeaderProps> = ({
         >
           ⚙️
         </button>
-        <button className="help-button" title="Help">
+        <button className="help-button" onClick={onHelpToggle} title="About Curlino">
           ?
         </button>
       </div>
