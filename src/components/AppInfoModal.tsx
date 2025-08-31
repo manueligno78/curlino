@@ -25,7 +25,11 @@ const AppInfoModal: React.FC<AppInfoModalProps> = ({ isOpen, onClose }) => {
       const version = await updateService.getAppVersion();
       setAppVersion(version);
     } catch (error) {
-      logger.error('Error loading app version', error);
+      logger.error('Error loading app version', {
+        component: 'AppInfoModal',
+        action: 'loadAppVersion',
+        error: error instanceof Error ? error.message : String(error)
+      });
     }
   }, [updateService]);
 
@@ -88,7 +92,11 @@ const AppInfoModal: React.FC<AppInfoModalProps> = ({ isOpen, onClose }) => {
         setIsCheckingUpdates(false);
       }
     } catch (error) {
-      logger.error('Error checking for updates', error);
+      logger.error('Error checking for updates', {
+        component: 'AppInfoModal',
+        action: 'handleCheckForUpdates',
+        error: error instanceof Error ? error.message : String(error)
+      });
       setUpdateError(error instanceof Error ? error.message : 'Unknown error');
       setUpdateStatus('error');
       setIsCheckingUpdates(false);
@@ -107,7 +115,11 @@ const AppInfoModal: React.FC<AppInfoModalProps> = ({ isOpen, onClose }) => {
         setIsDownloading(false);
       }
     } catch (error) {
-      logger.error('Error downloading update', error);
+      logger.error('Error downloading update', {
+        component: 'AppInfoModal',
+        action: 'handleDownloadUpdate',
+        error: error instanceof Error ? error.message : String(error)
+      });
       setUpdateError(error instanceof Error ? error.message : 'Unknown error');
       setUpdateStatus('error');
       setIsDownloading(false);
@@ -118,7 +130,7 @@ const AppInfoModal: React.FC<AppInfoModalProps> = ({ isOpen, onClose }) => {
     try {
       await updateService.installUpdate();
     } catch (error) {
-      logger.error('Error installing update', error);
+      logger.error('Error installing update', error as Error);
       setUpdateError(error instanceof Error ? error.message : 'Unknown error');
       setUpdateStatus('error');
     }

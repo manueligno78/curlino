@@ -15,16 +15,20 @@ export interface UpdateProgress {
   total: number;
 }
 
-type UpdateEventCallback = (info?: UpdateInfo | UpdateProgress | Error) => void;
+type UpdateAvailableCallback = (info: UpdateInfo) => void;
+type UpdateNotAvailableCallback = (info: UpdateInfo) => void;
+type UpdateErrorCallback = (error: Error) => void;
+type UpdateProgressCallback = (progress: UpdateProgress) => void;
+type UpdateDownloadedCallback = (info: UpdateInfo) => void;
 
 export class UpdateService {
   private static instance: UpdateService | null = null;
   private isElectron: boolean;
-  private updateAvailableCallbacks: UpdateEventCallback[] = [];
-  private updateNotAvailableCallbacks: UpdateEventCallback[] = [];
-  private updateErrorCallbacks: UpdateEventCallback[] = [];
-  private updateDownloadProgressCallbacks: UpdateEventCallback[] = [];
-  private updateDownloadedCallbacks: UpdateEventCallback[] = [];
+  private updateAvailableCallbacks: UpdateAvailableCallback[] = [];
+  private updateNotAvailableCallbacks: UpdateNotAvailableCallback[] = [];
+  private updateErrorCallbacks: UpdateErrorCallback[] = [];
+  private updateDownloadProgressCallbacks: UpdateProgressCallback[] = [];
+  private updateDownloadedCallbacks: UpdateDownloadedCallback[] = [];
 
   constructor() {
     this.isElectron =
@@ -174,56 +178,56 @@ export class UpdateService {
   }
 
   // Event handlers
-  public onUpdateAvailable(callback: UpdateEventCallback): void {
+  public onUpdateAvailable(callback: UpdateAvailableCallback): void {
     this.updateAvailableCallbacks.push(callback);
   }
 
-  public onUpdateNotAvailable(callback: UpdateEventCallback): void {
+  public onUpdateNotAvailable(callback: UpdateNotAvailableCallback): void {
     this.updateNotAvailableCallbacks.push(callback);
   }
 
-  public onUpdateError(callback: UpdateEventCallback): void {
+  public onUpdateError(callback: UpdateErrorCallback): void {
     this.updateErrorCallbacks.push(callback);
   }
 
-  public onUpdateDownloadProgress(callback: UpdateEventCallback): void {
+  public onUpdateDownloadProgress(callback: UpdateProgressCallback): void {
     this.updateDownloadProgressCallbacks.push(callback);
   }
 
-  public onUpdateDownloaded(callback: UpdateEventCallback): void {
+  public onUpdateDownloaded(callback: UpdateDownloadedCallback): void {
     this.updateDownloadedCallbacks.push(callback);
   }
 
   // Remove event handlers
-  public removeUpdateAvailableListener(callback: UpdateEventCallback): void {
+  public removeUpdateAvailableListener(callback: UpdateAvailableCallback): void {
     const index = this.updateAvailableCallbacks.indexOf(callback);
     if (index > -1) {
       this.updateAvailableCallbacks.splice(index, 1);
     }
   }
 
-  public removeUpdateNotAvailableListener(callback: UpdateEventCallback): void {
+  public removeUpdateNotAvailableListener(callback: UpdateNotAvailableCallback): void {
     const index = this.updateNotAvailableCallbacks.indexOf(callback);
     if (index > -1) {
       this.updateNotAvailableCallbacks.splice(index, 1);
     }
   }
 
-  public removeUpdateErrorListener(callback: UpdateEventCallback): void {
+  public removeUpdateErrorListener(callback: UpdateErrorCallback): void {
     const index = this.updateErrorCallbacks.indexOf(callback);
     if (index > -1) {
       this.updateErrorCallbacks.splice(index, 1);
     }
   }
 
-  public removeUpdateDownloadProgressListener(callback: UpdateEventCallback): void {
+  public removeUpdateDownloadProgressListener(callback: UpdateProgressCallback): void {
     const index = this.updateDownloadProgressCallbacks.indexOf(callback);
     if (index > -1) {
       this.updateDownloadProgressCallbacks.splice(index, 1);
     }
   }
 
-  public removeUpdateDownloadedListener(callback: UpdateEventCallback): void {
+  public removeUpdateDownloadedListener(callback: UpdateDownloadedCallback): void {
     const index = this.updateDownloadedCallbacks.indexOf(callback);
     if (index > -1) {
       this.updateDownloadedCallbacks.splice(index, 1);
