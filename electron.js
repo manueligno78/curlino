@@ -1,5 +1,6 @@
-import { app, BrowserWindow, session, ipcMain, dialog } from 'electron';
-import { autoUpdater } from 'electron-updater';
+import { app, BrowserWindow, session, ipcMain } from 'electron';
+import updaterPkg from 'electron-updater';
+const { autoUpdater } = updaterPkg;
 import path from 'path';
 import https from 'https';
 import http from 'http';
