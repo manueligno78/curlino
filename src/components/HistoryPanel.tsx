@@ -45,14 +45,19 @@ const HistoryPanel: React.FC<HistoryPanelProps> = ({ onSelectRequest }) => {
     loadHistory();
   }, [loadHistory]);
 
-  const handleSearch = () => {
+  const handleSearch = useCallback(() => {
     if (searchQuery.trim() === '') {
       loadHistory();
     } else {
       const filteredEntries = historyService.searchHistory(searchQuery);
       setHistoryEntries(filteredEntries);
     }
-  };
+  }, [searchQuery, loadHistory, historyService]);
+
+  // Auto-search effect when searchQuery changes
+  useEffect(() => {
+    handleSearch();
+  }, [handleSearch]);
 
   const handleMethodFilterChange = (method: string) => {
     setMethodFilter(method);
@@ -118,9 +123,7 @@ const HistoryPanel: React.FC<HistoryPanelProps> = ({ onSelectRequest }) => {
               placeholder="Search history..."
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
-              onKeyPress={e => e.key === 'Enter' && handleSearch()}
             />
-            <button onClick={handleSearch}>Search</button>
           </div>
           <button className="clear-button" onClick={handleClearHistory}>
             Clear history
