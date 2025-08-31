@@ -1,6 +1,6 @@
 {
   "name": "curlino",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Modern cross-platform desktop app to import, manage and execute curl commands with a beautiful graphical interface. Built with Electron, React, and TypeScript.",
   "main": "out/main/electron.js",
   "type": "module",
