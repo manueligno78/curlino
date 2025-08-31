@@ -97,6 +97,7 @@
   },
   "dependencies": {
     "axios": "^1.11.0",
+    "electron-updater": "^6.6.2",
     "http-status-message": "^1.2.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -114,6 +115,11 @@
       "node_modules/**/*",
       "!**/*.{iml,o,hprof,orig,pyc,pyo,rbc,swp,csproj,sln,xproj}"
     ],
+    "publish": {
+      "provider": "github",
+      "owner": "manueligno78",
+      "repo": "curlino"
+    },
     "mac": {
       "category": "public.app-category.developer-tools",
       "hardenedRuntime": true,
@@ -134,6 +140,16 @@
       "target": [
         {
           "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "linux": {
+      "target": [
+        {
+          "target": "AppImage",
           "arch": [
             "x64"
           ]

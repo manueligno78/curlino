@@ -34,6 +34,8 @@ export interface RequestSettings {
 export interface AdvancedSettings {
   enableDevtools?: boolean;
   verboseLogging?: boolean;
+  autoUpdateEnabled?: boolean;
+  autoUpdateNotifications?: boolean;
 }
 
 export interface PerformanceSettings {

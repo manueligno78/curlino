@@ -15,6 +15,35 @@ contextBridge.exposeInMainWorld('electron', {
   httpRequest: (requestData) => {
     return ipcRenderer.invoke('app:http-request', requestData);
   },
+  // Auto-updater API
+  checkForUpdates: () => {
+    return ipcRenderer.invoke('app:check-for-updates');
+  },
+  downloadUpdate: () => {
+    return ipcRenderer.invoke('app:download-update');
+  },
+  installUpdate: () => {
+    return ipcRenderer.invoke('app:install-update');
+  },
+  getVersion: () => {
+    return ipcRenderer.invoke('app:get-version');
+  },
+  // Update event listeners
+  onUpdateAvailable: (callback) => {
+    ipcRenderer.on('update-available', (event, info) => callback(info));
+  },
+  onUpdateNotAvailable: (callback) => {
+    ipcRenderer.on('update-not-available', (event, info) => callback(info));
+  },
+  onUpdateError: (callback) => {
+    ipcRenderer.on('update-error', (event, error) => callback(error));
+  },
+  onUpdateDownloadProgress: (callback) => {
+    ipcRenderer.on('update-download-progress', (event, progress) => callback(progress));
+  },
+  onUpdateDownloaded: (callback) => {
+    ipcRenderer.on('update-downloaded', (event, info) => callback(info));
+  },
   path: {
     join: (...args) => {
       const path = require('path');

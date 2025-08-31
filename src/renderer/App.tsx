@@ -8,6 +8,7 @@ import TabSystem from '../components/TabSystem';
 import HistoryPanel from '../components/HistoryPanel';
 import { SettingsModal } from '../components/SettingsModal';
 import ImportPanel from '../components/ImportPanel';
+import AppInfoModal from '../components/AppInfoModal';
 import { ErrorBoundary } from '../components/ErrorBoundary';
 import { ErrorNotification } from '../components/ErrorNotification';
 import { ApiService, ApiResponseData } from '../services/ApiService';
@@ -55,6 +56,7 @@ const App: React.FC = () => {
   const [activeView, setActiveView] = useState<'import' | 'builder' | 'history' | 'settings'>(
     'import'
   );
+  const [isAppInfoOpen, setIsAppInfoOpen] = useState(false);
 
   // State for theme
   const [darkTheme, setDarkTheme] = useState<boolean>(false);
@@ -452,6 +454,7 @@ const App: React.FC = () => {
           onThemeToggle={handleThemeToggle}
           darkTheme={darkTheme}
           onSettingsToggle={toggleSettingsView}
+          onHelpToggle={() => setIsAppInfoOpen(true)}
           activeView={activeView}
         />
         <div className="main-content">
@@ -520,6 +523,7 @@ const App: React.FC = () => {
           }}
           onUpdateEnvironment={handleUpdateEnvironment}
         />
+        <AppInfoModal isOpen={isAppInfoOpen} onClose={() => setIsAppInfoOpen(false)} />
       </div>
     </ErrorBoundary>
   );

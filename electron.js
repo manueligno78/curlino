@@ -1,4 +1,6 @@
 import { app, BrowserWindow, session, ipcMain } from 'electron';
+import updaterPkg from 'electron-updater';
+const { autoUpdater } = updaterPkg;
 import path from 'path';
 import https from 'https';
 import http from 'http';
@@ -10,6 +12,51 @@ const isDevelopment = process.env.NODE_ENV !== 'production';
 
 // Get app version from Electron's built-in method
 const APP_VERSION = app.getVersion();
+
+// Auto-updater configuration
+autoUpdater.checkForUpdatesAndNotify = false; // We'll handle this manually
+autoUpdater.autoDownload = false; // Ask user before downloading
+autoUpdater.logger = console;
+
+// Auto-updater event handlers
+autoUpdater.on('checking-for-update', () => {
+  console.log('Checking for update...');
+});
+
+autoUpdater.on('update-available', (info) => {
+  console.log('Update available:', info);
+  if (mainWindow) {
+    mainWindow.webContents.send('update-available', info);
+  }
+});
+
+autoUpdater.on('update-not-available', (info) => {
+  console.log('Update not available:', info);
+  if (mainWindow) {
+    mainWindow.webContents.send('update-not-available', info);
+  }
+});
+
+autoUpdater.on('error', (err) => {
+  console.log('Error in auto-updater:', err);
+  if (mainWindow) {
+    mainWindow.webContents.send('update-error', err);
+  }
+});
+
+autoUpdater.on('download-progress', (progressObj) => {
+  console.log('Download progress:', progressObj);
+  if (mainWindow) {
+    mainWindow.webContents.send('update-download-progress', progressObj);
+  }
+});
+
+autoUpdater.on('update-downloaded', (info) => {
+  console.log('Update downloaded:', info);
+  if (mainWindow) {
+    mainWindow.webContents.send('update-downloaded', info);
+  }
+});
 
 // HTTP request handler to bypass CORS
 function makeHttpRequest(url, options = {}) {
@@ -156,6 +203,50 @@ ipcMain.handle('app:http-request', async (event, requestData) => {
   }
 });
 
+// Auto-updater IPC handlers
+ipcMain.handle('app:check-for-updates', async () => {
+  if (!isDevelopment) {
+    try {
+      const result = await autoUpdater.checkForUpdates();
+      return { success: true, data: result };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  } else {
+    return { success: false, error: 'Updates not available in development mode' };
+  }
+});
+
+ipcMain.handle('app:download-update', async () => {
+  if (!isDevelopment) {
+    try {
+      await autoUpdater.downloadUpdate();
+      return { success: true };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  } else {
+    return { success: false, error: 'Updates not available in development mode' };
+  }
+});
+
+ipcMain.handle('app:install-update', async () => {
+  if (!isDevelopment) {
+    try {
+      autoUpdater.quitAndInstall();
+      return { success: true };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  } else {
+    return { success: false, error: 'Updates not available in development mode' };
+  }
+});
+
+ipcMain.handle('app:get-version', () => {
+  return APP_VERSION;
+});
+
 // Function to check if dev server is running
 async function isDevServerRunning() {
   if (!isDevelopment) return false;
@@ -268,7 +359,16 @@ async function createWindow() {
   });
 }
 
-app.on('ready', createWindow);
+app.on('ready', () => {
+  createWindow();
+  
+  // Check for updates when app is ready (but not in development)
+  if (!isDevelopment) {
+    setTimeout(() => {
+      autoUpdater.checkForUpdatesAndNotify();
+    }, 3000); // Wait 3 seconds after startup
+  }
+});
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {

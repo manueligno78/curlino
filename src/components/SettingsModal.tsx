@@ -484,6 +484,50 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                   </div>
                 </div>
 
+                <h3>Updates</h3>
+
+                <div className="setting-group">
+                  <div className="checkbox-group">
+                    <label className="checkbox-label">
+                      <input
+                        type="checkbox"
+                        checked={settings.advanced?.autoUpdateEnabled ?? true}
+                        onChange={e =>
+                          updateSetting('advanced', {
+                            ...settings.advanced,
+                            autoUpdateEnabled: e.target.checked,
+                          })
+                        }
+                      />
+                      <span className="checkbox-text">Enable automatic updates</span>
+                    </label>
+                    <span className="checkbox-description">
+                      Automatically check for and download updates when available
+                    </span>
+                  </div>
+                </div>
+
+                <div className="setting-group">
+                  <div className="checkbox-group">
+                    <label className="checkbox-label">
+                      <input
+                        type="checkbox"
+                        checked={settings.advanced?.autoUpdateNotifications ?? true}
+                        onChange={e =>
+                          updateSetting('advanced', {
+                            ...settings.advanced,
+                            autoUpdateNotifications: e.target.checked,
+                          })
+                        }
+                      />
+                      <span className="checkbox-text">Show update notifications</span>
+                    </label>
+                    <span className="checkbox-description">
+                      Show notifications when updates are available or downloaded
+                    </span>
+                  </div>
+                </div>
+
                 <h3>Performance</h3>
 
                 <div className="setting-group">
