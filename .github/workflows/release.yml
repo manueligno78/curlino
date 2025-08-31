@@ -55,7 +55,7 @@ jobs:
         if: matrix.os == 'windows-latest'
         run: |
           npm run build
-          npx electron-builder --win --publish never
+          npx electron-builder --win --publish always
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -63,58 +63,8 @@ jobs:
         if: matrix.os == 'macos-latest'
         run: |
           npm run build
-          npx electron-builder --mac --publish never
+          npx electron-builder --mac --publish always
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Release (Windows)
-        uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/') && matrix.os == 'windows-latest'
-        with:
-          files: |
-            dist/*.exe
-          name: Curlino v${{ steps.version.outputs.VERSION }}
-          body: |
-            ## Curlino v${{ steps.version.outputs.VERSION }} - Cross-Platform Release
-            
-            ### 📥 Downloads
-            - **Windows**: `Curlino Setup ${{ steps.version.outputs.VERSION }}.exe`
-            - **macOS**: `Curlino-${{ steps.version.outputs.VERSION }}.dmg`
-            
-            ### 🚀 Changes
-            See commit history for detailed changes in this release.
-            
-            ### 🔧 Installation
-            - **Windows**: Download and run the `.exe` installer
-            - **macOS**: Download the `.dmg` file and drag Curlino to Applications
-            
-            ### 🎯 Platform Support
-            This release includes binaries for both Windows and macOS platforms.
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Release (macOS)
-        uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/') && matrix.os == 'macos-latest'
-        with:
-          files: |
-            dist/*.dmg
-          name: Curlino v${{ steps.version.outputs.VERSION }}
-          body: |
-            ## Curlino v${{ steps.version.outputs.VERSION }} - Cross-Platform Release
-            
-            ### 📥 Downloads
-            - **Windows**: `Curlino Setup ${{ steps.version.outputs.VERSION }}.exe`
-            - **macOS**: `Curlino-${{ steps.version.outputs.VERSION }}.dmg`
-            
-            ### 🚀 Changes
-            See commit history for detailed changes in this release.
-            
-            ### 🔧 Installation
-            - **Windows**: Download and run the `.exe` installer
-            - **macOS**: Download the `.dmg` file and drag Curlino to Applications
-            
-            ### 🎯 Platform Support
-            This release includes binaries for both Windows and macOS platforms.
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # Note: electron-builder with --publish always will handle the GitHub release automatically
