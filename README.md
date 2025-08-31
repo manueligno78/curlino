@@ -1,4 +1,4 @@
-# Curlino - Modern Desktop REST API Client
+# Curlino - Modern Desktop Curl Client
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Build Status](https://img.shields.io/github/actions/workflow/status/manueligno78/curlino/ci.yml?branch=main)](https://github.com/manueligno78/curlino/actions)
