@@ -21,25 +21,36 @@
 
 .history-actions {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  gap: 12px;
   margin-top: 8px;
 }
 
 .search-container {
   display: flex;
-  flex: 1;
-  margin-right: 10px;
+  width: 100%;
 }
 
 .search-container input {
-  flex: 1;
-  padding: 6px 10px;
-  border: 1px solid var(--border-color);
-  border-radius: 4px;
+  width: 100%;
+  padding: 10px 14px;
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
   background-color: var(--input-bg);
   color: var(--text-color);
   font-size: 14px;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.search-container input:focus {
+  outline: none;
+  border-color: var(--accent-color);
+  box-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.15),
+    0 0 0 3px rgba(var(--accent-color-rgb), 0.1);
 }
 
 .search-container button {
@@ -53,13 +64,14 @@
 }
 
 .clear-button {
-  padding: 6px 12px;
+  padding: 8px 16px;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
   background-color: var(--danger-color);
   color: white;
   font-size: 14px;
   cursor: pointer;
+  align-self: flex-start;
 }
 
 .history-list {
