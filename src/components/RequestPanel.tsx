@@ -611,12 +611,8 @@ const RequestPanel: React.FC<RequestPanelProps> = ({
           )}
         </div>
 
-        {/* Keyboard shortcut hint and actions on same row */}
+        {/* URL actions row */}
         <div className="hint-actions-row">
-          <div className="hint">
-            💡 Press <kbd>⌘</kbd> + <kbd>Enter</kbd> to send
-          </div>
-
           <div className="url-actions">
             <button
               onClick={handleSendRequest}
