@@ -8,18 +8,9 @@ import zlib from 'zlib';
 
 let mainWindow = null;
 
-// Fixed isDevelopment detection to properly identify packaged apps
-// The previous regex-based approach could incorrectly flag packaged apps as development
-const isDevelopment = (() => {
-  // If NODE_ENV is explicitly set to production, only consider it development
-  // if defaultApp is true (which happens when running with electron CLI)
-  if (process.env.NODE_ENV === 'production') {
-    return !!process.defaultApp;
-  }
-  
-  // If NODE_ENV is not production, it's development
-  return true;
-})();
+// Improved detection logic to properly distinguish between development and packaged apps
+const isDevelopment = process.env.NODE_ENV !== 'production' || !!process.defaultApp;
+const isPackaged = app.isPackaged; // Electron's built-in method to detect packaged apps
 
 // Get app version from Electron's built-in method
 const APP_VERSION = app.getVersion();
@@ -219,7 +210,7 @@ ipcMain.handle('app:check-for-updates', async () => {
   // Allow auto-update testing with environment variable
   const allowDevUpdates = process.env.CURLINO_ALLOW_DEV_UPDATES === 'true';
   
-  if (!isDevelopment || allowDevUpdates) {
+  if (isPackaged || allowDevUpdates) {
     try {
       const result = await autoUpdater.checkForUpdates();
       return { success: true, data: result };
@@ -235,7 +226,7 @@ ipcMain.handle('app:check-for-updates', async () => {
 ipcMain.handle('app:download-update', async () => {
   const allowDevUpdates = process.env.CURLINO_ALLOW_DEV_UPDATES === 'true';
   
-  if (!isDevelopment || allowDevUpdates) {
+  if (isPackaged || allowDevUpdates) {
     try {
       await autoUpdater.downloadUpdate();
       return { success: true };
@@ -251,7 +242,7 @@ ipcMain.handle('app:download-update', async () => {
 ipcMain.handle('app:install-update', async () => {
   const allowDevUpdates = process.env.CURLINO_ALLOW_DEV_UPDATES === 'true';
   
-  if (!isDevelopment || allowDevUpdates) {
+  if (isPackaged || allowDevUpdates) {
     try {
       autoUpdater.quitAndInstall();
       return { success: true };
@@ -383,8 +374,8 @@ async function createWindow() {
 app.on('ready', () => {
   createWindow();
   
-  // Check for updates when app is ready (but not in development)
-  if (!isDevelopment) {
+  // Check for updates when app is ready (only for packaged apps)
+  if (isPackaged) {
     setTimeout(() => {
       autoUpdater.checkForUpdatesAndNotify();
     }, 3000); // Wait 3 seconds after startup

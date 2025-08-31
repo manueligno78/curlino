@@ -1,9 +1,9 @@
 /**
  * Tests for autoupdate functionality
- * This test reproduces issue #52 where development mode detection is faulty
+ * This test verifies issue #52 fix using app.isPackaged instead of faulty regex detection
  */
 
-describe('Autoupdate Development Mode Detection', () => {
+describe('Autoupdate Detection Logic', () => {
   // Mock process environment
   const originalEnv = process.env;
   const originalDefaultApp = (process as any).defaultApp;
@@ -160,59 +160,69 @@ describe('Autoupdate Development Mode Detection', () => {
     });
   });
 
-  describe('Fixed isDevelopment detection', () => {
-    // This is what the correct implementation should look like
-    const fixedIsDevelopmentCheck = () => {
-      // Check if NODE_ENV is explicitly set to production
-      if (process.env.NODE_ENV === 'production') {
-        // In production, only consider it development if defaultApp is true
-        // (which happens when running with electron CLI even with NODE_ENV=production)
-        return !!(process as any).defaultApp;
-      }
+  describe('Fixed detection using app.isPackaged', () => {
+    // Mock app.isPackaged for testing
+    let mockIsPackaged = false;
+    const mockApp = {
+      isPackaged: false
+    };
+    
+    beforeEach(() => {
+      (global as any).app = mockApp;
+    });
+    
+    // This is the new improved logic
+    const newDetectionLogic = () => {
+      const isDevelopment = process.env.NODE_ENV !== 'production' || !!(process as any).defaultApp;
+      const isPackaged = (global as any).app?.isPackaged || false;
       
-      // If NODE_ENV is not production, it's development
-      return true;
+      return { isDevelopment, isPackaged };
     };
 
-    it('should correctly identify production mode when packaged (fixed)', () => {
+    it('should enable autoupdate for packaged apps', () => {
       process.env.NODE_ENV = 'production';
       Object.defineProperty(process, 'defaultApp', {
         value: undefined,
         writable: true,
         configurable: true
       });
-      Object.defineProperty(process, 'execPath', {
-        value: '/Applications/Curlino.app/Contents/MacOS/Curlino',
-        writable: true,
-        configurable: true
-      });
+      mockApp.isPackaged = true;
 
-      const isDevelopment = fixedIsDevelopmentCheck();
-      expect(isDevelopment).toBe(false); // Should correctly identify as production
+      const { isDevelopment, isPackaged } = newDetectionLogic();
+      
+      // For autoupdate purposes, we care about isPackaged
+      expect(isPackaged).toBe(true); // App is packaged, autoupdate should work
+      expect(isDevelopment).toBe(false); // Not in development mode
     });
 
-    it('should correctly identify development mode when using electron CLI (fixed)', () => {
-      process.env.NODE_ENV = 'production';
-      Object.defineProperty(process, 'defaultApp', {
-        value: true, // This is set when using electron CLI
-        writable: true,
-        configurable: true
-      });
-
-      const isDevelopment = fixedIsDevelopmentCheck();
-      expect(isDevelopment).toBe(true); // Should correctly identify as development
-    });
-
-    it('should correctly identify development mode when NODE_ENV is not production (fixed)', () => {
+    it('should disable autoupdate for development (not packaged)', () => {
       process.env.NODE_ENV = 'development';
       Object.defineProperty(process, 'defaultApp', {
-        value: undefined,
+        value: true,
         writable: true,
         configurable: true
       });
+      mockApp.isPackaged = false;
 
-      const isDevelopment = fixedIsDevelopmentCheck();
-      expect(isDevelopment).toBe(true);
+      const { isDevelopment, isPackaged } = newDetectionLogic();
+      
+      expect(isPackaged).toBe(false); // Not packaged, autoupdate disabled
+      expect(isDevelopment).toBe(true); // In development mode
+    });
+
+    it('should handle electron CLI in production environment', () => {
+      process.env.NODE_ENV = 'production';
+      Object.defineProperty(process, 'defaultApp', {
+        value: true, // Using electron CLI
+        writable: true,
+        configurable: true
+      });
+      mockApp.isPackaged = false;
+
+      const { isDevelopment, isPackaged } = newDetectionLogic();
+      
+      expect(isPackaged).toBe(false); // Not packaged, autoupdate disabled
+      expect(isDevelopment).toBe(true); // Still development due to defaultApp
     });
   });
 });
