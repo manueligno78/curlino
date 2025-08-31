@@ -16,6 +16,16 @@
 
 🚀 **Key Features**: **Native curl command import**, cross-platform compatibility, modern UI design, advanced request management, environment variables, response visualization, and comprehensive testing capabilities.
 
+## 📸 Screenshots
+
+Get a visual preview of Curlino's modern desktop interface:
+
+<img width="1179" height="734" alt="Curlino Main Interface - Request Management" src="https://github.com/user-attachments/assets/f344c9b9-e8c2-465b-8e1f-7b326c2b498b" />
+
+<img width="1177" height="736" alt="Curlino Request Builder - cURL Import and Response Viewer" src="https://github.com/user-attachments/assets/e0b3e95c-1312-4a3b-b1da-63b28faa70bb" />
+
+<img width="1178" height="738" alt="Curlino Advanced Features - Environment Variables and Settings" src="https://github.com/user-attachments/assets/e5e69623-338c-432d-aaee-8c2a2a653dec" />
+
 ## ✨ Features
 
 ### 🔧 cURL Integration & Request Management
