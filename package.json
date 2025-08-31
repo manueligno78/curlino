@@ -110,6 +110,7 @@
       "output": "dist",
       "buildResources": "build"
     },
+    "electronUpdaterCompatibility": ">=2.16.0",
     "files": [
       "out/**/*",
       "node_modules/**/*",
@@ -118,7 +119,8 @@
     "publish": {
       "provider": "github",
       "owner": "manueligno78",
-      "repo": "curlino"
+      "repo": "curlino",
+      "releaseType": "release"
     },
     "mac": {
       "category": "public.app-category.developer-tools",

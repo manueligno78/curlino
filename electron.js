@@ -16,7 +16,6 @@ const isPackaged = app.isPackaged; // Electron's built-in method to detect packa
 const APP_VERSION = app.getVersion();
 
 // Auto-updater configuration
-autoUpdater.checkForUpdatesAndNotify = false; // We'll handle this manually
 autoUpdater.autoDownload = false; // Ask user before downloading
 autoUpdater.logger = console;
 
@@ -42,7 +41,12 @@ autoUpdater.on('update-not-available', (info) => {
 autoUpdater.on('error', (err) => {
   console.log('Error in auto-updater:', err);
   if (mainWindow) {
-    mainWindow.webContents.send('update-error', err);
+    // Provide more user-friendly error messages
+    let userMessage = err.message;
+    if (err.message && err.message.includes('latest.yml')) {
+      userMessage = 'No updates available. The latest version metadata is not yet published.';
+    }
+    mainWindow.webContents.send('update-error', { message: userMessage, originalError: err });
   }
 });
 
