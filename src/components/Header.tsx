@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ThemeManager } from '../utils/ThemeManager';
+import { UpdateService } from '../services/UpdateService';
 import curlinoLogo from '@/assets/images/curlino-logo.svg';
 
 interface HeaderProps {
@@ -24,16 +25,28 @@ const Header: React.FC<HeaderProps> = ({
   darkTheme: _darkTheme = false,
 }) => {
   const [themeManager] = useState(() => ThemeManager.getInstance());
+  const [updateService] = useState(() => UpdateService.getInstance());
   const [themeIcon, setThemeIcon] = useState(themeManager.getThemeIcon());
+  const [appVersion, setAppVersion] = useState('1.0.0');
 
   useEffect(() => {
     const handleThemeChange = () => {
       setThemeIcon(themeManager.getThemeIcon());
     };
 
+    const loadAppVersion = async () => {
+      try {
+        const version = await updateService.getAppVersion();
+        setAppVersion(version);
+      } catch (error) {
+        console.error('Error loading app version in header:', error);
+      }
+    };
+
+    loadAppVersion();
     window.addEventListener('themechange', handleThemeChange);
     return () => window.removeEventListener('themechange', handleThemeChange);
-  }, [themeManager]);
+  }, [themeManager, updateService]);
 
   const handleThemeClick = () => {
     themeManager.toggleTheme();
@@ -45,7 +58,7 @@ const Header: React.FC<HeaderProps> = ({
       <div className="logo-container">
         <img src={curlinoLogo} alt="Curlino logo" className="app-logo" />
         <h1>Curlino</h1>
-        <span className="version">v1.0.0</span>
+        <span className="version">v{appVersion}</span>
       </div>
       <nav className="main-nav">
         <ul>
