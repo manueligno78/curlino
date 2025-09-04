@@ -1,5 +1,9 @@
 # Curlino - Modern Desktop Curl Client
 
+<p align="left">
+   <img alt="Curlino logo" width="96" src="public/images/logos_generated/084b9f5e-931b-4b5a-8daa-d7f77f8d28c8.png" />
+</p>
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Build Status](https://img.shields.io/github/actions/workflow/status/manueligno78/curlino/ci.yml?branch=main)](https://github.com/manueligno78/curlino/actions)
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/manueligno78/curlino)](https://github.com/manueligno78/curlino/releases)
@@ -241,6 +245,20 @@ Logs are categorized by component:
    ```
    npm install
    ```
+
+   ## 🖼️ Generated assets
+
+   The following logo proposals were collected from the discussion in issue #45 and placed in the repository under `public/images/logos_generated` and `src/assets/images/logos_generated`:
+
+   - `084b9f5e-931b-4b5a-8daa-d7f77f8d28c8.png` (1024x1024)
+   - `3b80bebc-cefe-468d-9bfa-f6bd0c8f9a81.png` (512x512)
+   - `f0a6e405-121a-41b4-9834-7007d413fe15.png` (256x256)
+   - `376a519d-804c-4dfc-bcac-b80736a781e6.png` (64x64)
+   - `9345316e-f91c-40f3-b769-3377ccf10b61.png` (32x32)
+   - `cd6bd9d2-358b-4a54-9197-9761d961e342.png` (48x48)
+   - `5abeccda-6d0b-4571-a128-162ac492551c.png` (16x16)
+
+   If you want different sizes or formats (SVG, ICO, ICNS), I can generate them and add here.
 
 ### Running the Application
 
